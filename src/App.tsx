@@ -1,12 +1,12 @@
 import React from "react";
 import FilterRow from "./components/FilterRow";
 
-function App() {
+const App = () => {
   return (
     <div>
       <FilterRow />
     </div>
   );
-}
+};
 
 export default App;

@@ -1,7 +1,6 @@
 import React from "react";
 import { Select } from "@mui/material";
-
-const myArray: string[] = ["apple", "banana", "cherry"];
+import { myArray } from "../utils/constants";
 
 function Filter() {
   return <Select>{}</Select>;
