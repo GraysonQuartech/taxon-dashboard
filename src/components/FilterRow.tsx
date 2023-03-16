@@ -4,7 +4,7 @@ import Filter from "./Filter";
 //Constants + Data
 import { testArray } from "../utils/constants";
 
-function FilterRow() {
+const FilterRow = (): JSX.Element => {
   return (
     <div>
       <Filter classificationLevel={"Kingdom"} dropDownTaxons={testArray} />
@@ -17,6 +17,6 @@ function FilterRow() {
       <Filter classificationLevel={"Sub-Species"} dropDownTaxons={testArray} />
     </div>
   );
-}
+};
 
 export default FilterRow;

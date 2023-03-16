@@ -22,15 +22,15 @@ interface filterProps {
  * This component is a basic MUI select
  * It receives an array of taxons for the user to select from
  */
-const Filter = (props: filterProps) => {
+const Filter = (props: filterProps): JSX.Element => {
   const [taxon, setTaxon] = React.useState("");
 
-  const handleChange = (event: SelectChangeEvent) => {
+  const handleChange = (event: SelectChangeEvent): void => {
     setTaxon(event.target.value as string);
   };
 
   return (
-    <Box sx={{ minWidth: 120 }}>
+    <Box>
       <FormControl fullWidth>
         <InputLabel id="select-label">{props.classificationLevel}</InputLabel>
         <Select
