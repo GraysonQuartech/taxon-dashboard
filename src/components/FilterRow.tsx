@@ -3,6 +3,7 @@ import React from "react";
 import Filter from "./Filter";
 //IMPORT MUI packages
 import { makeStyles } from "@mui/styles";
+import { Grid } from "@mui/material";
 //IMPORT Constants + Data
 import { testArray } from "../utils/constants";
 
@@ -12,9 +13,8 @@ import { testArray } from "../utils/constants";
 const useStyles = makeStyles({
   grid: {
     backgroundColor: "grey",
-    display: "grid",
-    gridTemplateColumns: "repeat(8, 1fr)",
     gridGap: "5px",
+    justifyContent: "space-between",
   },
 });
 
@@ -31,7 +31,7 @@ interface FilterRowProps {
 
 /*
  * Main component Function.
- * This component maps data to 8 MUI select components.
+ * This component maps data to MUI select components.
  */
 const FilterRow = (props: FilterRowProps): JSX.Element => {
   //HOOKS here
@@ -42,50 +42,31 @@ const FilterRow = (props: FilterRowProps): JSX.Element => {
     props.onTaxonSelected(taxon);
   };
 
+  //DATA here
+  const filters = [
+    { classificationLevel: "Kingdom", dropDownTaxons: testArray },
+    { classificationLevel: "Phylum", dropDownTaxons: testArray },
+    { classificationLevel: "Class", dropDownTaxons: testArray },
+    { classificationLevel: "Order", dropDownTaxons: testArray },
+    { classificationLevel: "Family", dropDownTaxons: testArray },
+    { classificationLevel: "Genus", dropDownTaxons: testArray },
+    { classificationLevel: "Species", dropDownTaxons: testArray },
+    { classificationLevel: "Sub-Species", dropDownTaxons: testArray },
+  ];
+
   //RETURN ELEMENT HERE
   return (
-    <div className={classes.grid}>
-      <Filter
-        classificationLevel={"Kingdom"}
-        dropDownTaxons={testArray}
-        onSelectedChange={handleTaxonSelected}
-      />
-      <Filter
-        classificationLevel={"Phylum"}
-        dropDownTaxons={testArray}
-        onSelectedChange={handleTaxonSelected}
-      />
-      <Filter
-        classificationLevel={"Class"}
-        dropDownTaxons={testArray}
-        onSelectedChange={handleTaxonSelected}
-      />
-      <Filter
-        classificationLevel={"Order"}
-        dropDownTaxons={testArray}
-        onSelectedChange={handleTaxonSelected}
-      />
-      <Filter
-        classificationLevel={"Family"}
-        dropDownTaxons={testArray}
-        onSelectedChange={handleTaxonSelected}
-      />
-      <Filter
-        classificationLevel={"Genus"}
-        dropDownTaxons={testArray}
-        onSelectedChange={handleTaxonSelected}
-      />
-      <Filter
-        classificationLevel={"Species"}
-        dropDownTaxons={testArray}
-        onSelectedChange={handleTaxonSelected}
-      />
-      <Filter
-        classificationLevel={"Sub-Species"}
-        dropDownTaxons={testArray}
-        onSelectedChange={handleTaxonSelected}
-      />
-    </div>
+    <Grid container spacing={2} className={classes.grid}>
+      {filters.map((filter, index) => (
+        <Grid item xs={1} key={index}>
+          <Filter
+            classificationLevel={filter.classificationLevel}
+            dropDownTaxons={filter.dropDownTaxons}
+            onSelectedChange={handleTaxonSelected}
+          />
+        </Grid>
+      ))}
+    </Grid>
   );
 };
 
