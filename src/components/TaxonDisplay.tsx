@@ -1,6 +1,7 @@
 //IMPORT REACT packages
 import React from "react";
 //IMPORT MUI packages
+import { Card, CardContent, Typography } from "@mui/material";
 
 /*
  * PARENT COMPONENT: App.tsx
@@ -16,11 +17,19 @@ interface TaxonDisplayProps {
  * Main component Function.
  */
 const TaxonDisplay = (props: TaxonDisplayProps): JSX.Element => {
+  const { currentTaxon, taxonID } = props;
+
   return (
-    <div>
-      <p>Current Taxon: {props.currentTaxon}</p>
-      <p>Taxon ID: {props.taxonID}</p>
-    </div>
+    <Card>
+      <CardContent>
+        <Typography variant="h5" component="h2">
+          Current Taxon: {currentTaxon}
+        </Typography>
+        <Typography color="textSecondary" gutterBottom>
+          Taxon ID: {taxonID}
+        </Typography>
+      </CardContent>
+    </Card>
   );
 };
 
