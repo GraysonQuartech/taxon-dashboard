@@ -17,7 +17,7 @@ const App = () => {
    */
   return (
     <div>
-      <TaxonDisplay currentTaxon={selectedTaxon} />
+      <TaxonDisplay currentTaxon={selectedTaxon} taxonID={123456} />
       <FilterRow onTaxonSelected={handleTaxonFromFilterRow} />
     </div>
   );

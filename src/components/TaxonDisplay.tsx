@@ -9,13 +9,19 @@ import React from "react";
  */
 interface TaxonDisplayProps {
   currentTaxon: string;
+  taxonID: number;
 }
 
 /*
  * Main component Function.
  */
 const TaxonDisplay = (props: TaxonDisplayProps): JSX.Element => {
-  return <div>{props.currentTaxon}</div>;
+  return (
+    <div>
+      <p>Current Taxon: {props.currentTaxon}</p>
+      <p>Taxon ID: {props.taxonID}</p>
+    </div>
+  );
 };
 
 export default TaxonDisplay;
