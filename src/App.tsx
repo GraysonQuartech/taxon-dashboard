@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import FilterRow from "./components/FilterRow";
 import TaxonDisplay from "./components/TaxonDisplay";
 
-const App = () => {
+const App = (): JSX.Element => {
   //HOOKS here
   const [selectedTaxon, setSelectedTaxon] = useState("");
 
