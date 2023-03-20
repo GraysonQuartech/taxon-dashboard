@@ -13,7 +13,7 @@ import { testArray } from "../utils/constants";
 const useStyles = makeStyles({
   grid: {
     backgroundColor: "grey",
-    gridGap: "5px",
+    gridGap: "2px",
     justifyContent: "space-between",
   },
 });
