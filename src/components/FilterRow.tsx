@@ -4,19 +4,19 @@ import Filter from "./Filter";
 //IMPORT MUI packages
 import { makeStyles } from "@mui/styles";
 import { Grid } from "@mui/material";
+import { Theme } from "@mui/material";
 //IMPORT Constants + Data
 import { testArray } from "../utils/constants";
 
 /*
  * STYLE definitions for useStyles hook
  */
-const useStyles = makeStyles({
-  grid: {
-    backgroundColor: "grey",
-    gridGap: "2px",
-    justifyContent: "space-between",
+const useStyles = makeStyles((globalTheme: Theme) => ({
+  gridClass: {
+    backgroundColor: globalTheme.palette.primary.light,
+    padding: globalTheme.spacing(1),
   },
-});
+}));
 
 /*
  * PARENT COMPONENT: App.tsx
@@ -56,7 +56,7 @@ const FilterRow = (props: FilterRowProps): JSX.Element => {
 
   //RETURN ELEMENT HERE
   return (
-    <Grid container spacing={2} className={classes.grid}>
+    <Grid container columns={8} spacing={2} className={classes.gridClass}>
       {filters.map((filter, index) => (
         <Grid item xs={1} key={index}>
           <Filter

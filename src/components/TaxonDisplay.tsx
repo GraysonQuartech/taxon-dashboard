@@ -1,7 +1,20 @@
 //IMPORT REACT packages
 import React from "react";
 //IMPORT MUI packages
-import { Card, CardContent, Typography } from "@mui/material";
+import { Card, CardContent, Typography, Theme } from "@mui/material";
+import { makeStyles } from "@mui/styles";
+
+/*
+ * STYLE definitions for useStyles hook
+ */
+const useStyles = makeStyles((globalTheme: Theme) => ({
+  taxonNameClass: {
+    color: globalTheme.palette.secondary.main,
+  },
+  taxonIdClass: {
+    color: globalTheme.palette.secondary.main,
+  },
+}));
 
 /*
  * PARENT COMPONENT: App.tsx
@@ -14,18 +27,26 @@ interface TaxonDisplayProps {
 }
 
 /*
- * Main component Function.
+ * Main component Function. displays taxon ID and name
  */
 const TaxonDisplay = (props: TaxonDisplayProps): JSX.Element => {
   const { currentTaxon, taxonID } = props;
 
+  //HOOKS here
+  const classes = useStyles();
+
+  //RETURN ELEMENT HERE
   return (
     <Card>
       <CardContent>
-        <Typography variant="h5" component="h2">
+        <Typography
+          className={classes.taxonNameClass}
+          variant="h5"
+          component="h2"
+        >
           Current Taxon: {currentTaxon}
         </Typography>
-        <Typography color="textSecondary" gutterBottom>
+        <Typography className={classes.taxonIdClass} gutterBottom>
           Taxon ID: {taxonID}
         </Typography>
       </CardContent>
