@@ -4,7 +4,7 @@ import FilterRow from "./FilterRow";
 import TaxonDisplay from "./TaxonDisplay";
 //IMPORT MUI packages
 import { createTheme, ThemeProvider } from "@mui/material";
-import { blue, blueGrey, pink } from "@mui/material/colors";
+import { blue, blueGrey } from "@mui/material/colors";
 
 const globalTheme = createTheme({
   palette: {

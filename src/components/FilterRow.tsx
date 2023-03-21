@@ -14,8 +14,7 @@ import { testArray } from "../utils/constants";
 const useStyles = makeStyles((globalTheme: Theme) => ({
   gridClass: {
     backgroundColor: globalTheme.palette.primary.light,
-    padding: globalTheme.spacing(2),
-    justifyContent: "space-between",
+    padding: globalTheme.spacing(1),
   },
 }));
 
@@ -57,7 +56,7 @@ const FilterRow = (props: FilterRowProps): JSX.Element => {
 
   //RETURN ELEMENT HERE
   return (
-    <Grid container className={classes.gridClass}>
+    <Grid container columns={8} spacing={2} className={classes.gridClass}>
       {filters.map((filter, index) => (
         <Grid item xs={1} key={index}>
           <Filter
