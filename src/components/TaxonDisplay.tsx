@@ -8,7 +8,6 @@ import { makeStyles } from "@mui/styles";
  * STYLE definitions for useStyles hook
  */
 const useStyles = makeStyles((globalTheme: Theme) => ({
-  containerClass: {},
   taxonNameClass: {
     color: globalTheme.palette.secondary.main,
   },
@@ -39,7 +38,7 @@ const TaxonDisplay = (props: TaxonDisplayProps): JSX.Element => {
   //RETURN ELEMENT HERE
   return (
     <Card>
-      <CardContent className={classes.containerClass}>
+      <CardContent>
         <Typography
           className={classes.taxonNameClass}
           variant="h5"
