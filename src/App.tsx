@@ -1,12 +1,8 @@
-import React from "react";
-import FilterRow from "./components/FilterRow";
+import React, { useState } from "react";
+import Main from "./components/Main";
 
-const App = () => {
-  return (
-    <div>
-      <FilterRow />
-    </div>
-  );
+const App = (): JSX.Element => {
+  return <Main />;
 };
 
 export default App;

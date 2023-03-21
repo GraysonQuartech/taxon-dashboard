@@ -1,8 +1,10 @@
 //IMPORT React and Child Components
-import * as React from "react";
+import React, { useState } from "react";
 //IMPORT MUI packages
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { Box, FormControl, InputLabel, MenuItem } from "@mui/material";
+import Autocomplete from "@mui/material/Autocomplete";
+import FormControl from "@mui/material/FormControl";
+import TextField from "@mui/material/TextField";
+import { makeStyles } from "@mui/styles";
 
 /*
  * PARENT COMPONENT: FilterRows.tsx
@@ -11,43 +13,63 @@ import { Box, FormControl, InputLabel, MenuItem } from "@mui/material";
  *      The taxon classification... kingdown, phylum etc
  *   dropDownTaxons:
  *      The taxon options corresponding to the classificationLevel
+ * onSelectedChange:
+ *      When a filters value is changed, the value is passed up to
+ *      the parent component.
  */
-interface filterProps {
+interface FilterProps {
   classificationLevel: string;
   dropDownTaxons: string[];
+  onSelectedChange: (selectedTaxon: string) => void;
 }
+
+/*
+ * STYLE definitions for useStyles hook
+ */
+const useStyles = makeStyles({
+  formControl: {
+    width: "130%", // increased width from 100% to 80%
+  },
+  selectBox: {
+    backgroundColor: "white",
+  },
+});
 
 /*
  * Main component Function.
  * This component is a basic MUI select
  * It receives an array of taxons for the user to select from
  */
-const Filter = (props: filterProps): JSX.Element => {
-  const [taxon, setTaxon] = React.useState("");
+const Filter = (props: FilterProps) => {
+  //HOOKS here
+  const [taxon, setTaxon] = useState<string | null>(null);
+  const classes = useStyles();
 
-  const handleChange = (event: SelectChangeEvent): void => {
-    setTaxon(event.target.value as string);
+  //HOOK CALL BACKS here
+  const handleChange = (newValue: string | null): void => {
+    setTaxon(newValue);
+    if (newValue) {
+      props.onSelectedChange(newValue);
+    }
   };
 
+  //RETURN ELEMENT HERE
   return (
-    <Box>
-      <FormControl fullWidth>
-        <InputLabel id="select-label">{props.classificationLevel}</InputLabel>
-        <Select
-          labelId="select-label"
-          id="select"
-          value={taxon}
-          label={props.classificationLevel}
-          onChange={handleChange}
-        >
-          {props.dropDownTaxons.map((taxonOption) => (
-            <MenuItem value={taxonOption} key={taxonOption}>
-              {taxonOption}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-    </Box>
+    <FormControl className={classes.formControl}>
+      <Autocomplete
+        className={classes.selectBox}
+        options={props.dropDownTaxons}
+        value={taxon}
+        onChange={(event, newValue) => handleChange(newValue)}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label={props.classificationLevel}
+            variant="outlined"
+          />
+        )}
+      />
+    </FormControl>
   );
 };
 
