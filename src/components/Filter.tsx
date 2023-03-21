@@ -5,6 +5,20 @@ import Autocomplete from "@mui/material/Autocomplete";
 import FormControl from "@mui/material/FormControl";
 import TextField from "@mui/material/TextField";
 import { makeStyles } from "@mui/styles";
+import { Theme } from "@mui/material";
+
+/*
+ * STYLE definitions for useStyles hook
+ * and global theme
+ */
+const useStyles = makeStyles((globalTheme: Theme) => ({
+  formControl: {
+    width: "100%", // increased width from 100% to 80%
+  },
+  selectBox: {
+    backgroundColor: globalTheme.palette.secondary.light,
+  },
+}));
 
 /*
  * PARENT COMPONENT: FilterRows.tsx
@@ -22,18 +36,6 @@ interface FilterProps {
   dropDownTaxons: string[];
   onSelectedChange: (selectedTaxon: string) => void;
 }
-
-/*
- * STYLE definitions for useStyles hook
- */
-const useStyles = makeStyles({
-  formControl: {
-    width: "130%", // increased width from 100% to 80%
-  },
-  selectBox: {
-    backgroundColor: "white",
-  },
-});
 
 /*
  * Main component Function.
