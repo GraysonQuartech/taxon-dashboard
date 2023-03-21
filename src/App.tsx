@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+//IMPORT React packages and components
+import React from "react";
 import Main from "./components/Main";
 
 const App = (): JSX.Element => {

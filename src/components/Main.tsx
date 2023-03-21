@@ -1,6 +1,17 @@
+//IMPORT React packages and components
 import React, { useState } from "react";
 import FilterRow from "./FilterRow";
 import TaxonDisplay from "./TaxonDisplay";
+//IMPORT MUI packages
+import { createTheme, ThemeProvider } from "@material-ui/core";
+import { blue, blueGrey } from "@material-ui/core/colors";
+
+const theme = createTheme({
+  palette: {
+    primary: blue,
+    secondary: blueGrey,
+  },
+});
 
 const Main = (): JSX.Element => {
   //HOOKS here
@@ -16,10 +27,10 @@ const Main = (): JSX.Element => {
    * This is the parent component. contains all other components
    */
   return (
-    <div>
+    <ThemeProvider theme={theme}>
       <TaxonDisplay currentTaxon={selectedTaxon} taxonID={123456} />
       <FilterRow onTaxonSelected={handleTaxonFromFilterRow} />
-    </div>
+    </ThemeProvider>
   );
 };
 
