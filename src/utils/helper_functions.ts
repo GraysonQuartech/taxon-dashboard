@@ -2,25 +2,18 @@
  *This file contains helper functions, called across various componenets
  */
 
-export const tempFunction = () => {
-  let testNum = 0;
-};
-
-export const filterDataForDropDown = () => {
-  let x = 1;
-};
+import dataSet from "../datasets/taxon_data.json";
+import { taxonInterface } from "./datagrab";
 
 /*
- * Accepts a Taxon ID and retrevies its display name
+ *to be generalized for id's
+ * returns an array of taxon names associated to kingdom
  */
-export const getTaxonNameFromID = (): number => {
-  return 1;
-};
+export const helperGetLatinNames = (): string[] => {
+  const myData: taxonInterface = dataSet;
+  const latinNames: string[] = myData.lk_taxon
+    .filter((item) => item.kingdom_id === null)
+    .map((item) => item.taxon_name_latin);
 
-/*
- * Checks whether or not the taxon has a value.
- * returns false if null. truen if it has a value
- */
-export const taxonHasValue = (): boolean => {
-  return false;
+  return latinNames;
 };

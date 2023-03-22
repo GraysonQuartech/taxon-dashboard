@@ -5,46 +5,8 @@ import Filter from "./Filter";
 import { makeStyles } from "@mui/styles";
 import { Grid } from "@mui/material";
 import { Theme } from "@mui/material";
-//IMPORT Constants + Data
-import { testArray } from "../utils/constants";
-import data from "../datasets/taxon_data.json";
-
-interface taxonInterface {
-  lk_taxon: {
-    taxon_id: string;
-    kingdom_id: string | null;
-    phylum_id: string | null;
-    class_id: string | null;
-    order_id: string | null;
-    family_id: string | null;
-    genus_id: string | null;
-    species_id: string | null;
-    sub_species_id: string | null;
-    taxon_name_common: string | null;
-    taxon_name_latin: string;
-    spi_taxonomy_id: number;
-    taxon_description: string | null;
-    create_user: string;
-    update_user: string;
-    create_timestamp: string;
-    update_timestamp: string;
-  }[];
-}
-
-const myData: taxonInterface = data;
-const lkTaxon = myData.lk_taxon;
-
-function getLatinNamesWithNullKingdom(data: taxonInterface): string[] {
-  const latinNames: string[] = data.lk_taxon
-    .filter((item) => item.kingdom_id === null)
-    .map((item) => item.taxon_name_latin);
-
-  return latinNames;
-}
-//const myData: taxonInterface = data;
-const latinNamesWithNullKingdom = getLatinNamesWithNullKingdom(myData);
-
-console.log(latinNamesWithNullKingdom);
+//IMPORT Constants + Data + Helper Functions
+import { helperGetLatinNames } from "../utils/helper_functions";
 
 /*
  * STYLE definitions for useStyles hook
@@ -82,14 +44,17 @@ const FilterRow = (props: FilterRowProps): JSX.Element => {
 
   //DATA here
   const filters = [
-    { classificationLevel: "Kingdom", dropDownTaxons: testArray },
-    { classificationLevel: "Phylum", dropDownTaxons: testArray },
-    { classificationLevel: "Class", dropDownTaxons: testArray },
-    { classificationLevel: "Order", dropDownTaxons: testArray },
-    { classificationLevel: "Family", dropDownTaxons: testArray },
-    { classificationLevel: "Genus", dropDownTaxons: testArray },
-    { classificationLevel: "Species", dropDownTaxons: testArray },
-    { classificationLevel: "Sub-Species", dropDownTaxons: testArray },
+    { classificationLevel: "Kingdom", dropDownTaxons: helperGetLatinNames() },
+    { classificationLevel: "Phylum", dropDownTaxons: helperGetLatinNames() },
+    { classificationLevel: "Class", dropDownTaxons: helperGetLatinNames() },
+    { classificationLevel: "Order", dropDownTaxons: helperGetLatinNames() },
+    { classificationLevel: "Family", dropDownTaxons: helperGetLatinNames() },
+    { classificationLevel: "Genus", dropDownTaxons: helperGetLatinNames() },
+    { classificationLevel: "Species", dropDownTaxons: helperGetLatinNames() },
+    {
+      classificationLevel: "Sub-Species",
+      dropDownTaxons: helperGetLatinNames(),
+    },
   ];
 
   //RETURN ELEMENT HERE
