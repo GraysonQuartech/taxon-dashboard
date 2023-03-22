@@ -7,6 +7,44 @@ import { Grid } from "@mui/material";
 import { Theme } from "@mui/material";
 //IMPORT Constants + Data
 import { testArray } from "../utils/constants";
+import data from "../datasets/taxon_data.json";
+
+interface taxonInterface {
+  lk_taxon: {
+    taxon_id: string;
+    kingdom_id: string | null;
+    phylum_id: string | null;
+    class_id: string | null;
+    order_id: string | null;
+    family_id: string | null;
+    genus_id: string | null;
+    species_id: string | null;
+    sub_species_id: string | null;
+    taxon_name_common: string | null;
+    taxon_name_latin: string;
+    spi_taxonomy_id: number;
+    taxon_description: string | null;
+    create_user: string;
+    update_user: string;
+    create_timestamp: string;
+    update_timestamp: string;
+  }[];
+}
+
+const myData: taxonInterface = data;
+const lkTaxon = myData.lk_taxon;
+
+function getLatinNamesWithNullKingdom(data: taxonInterface): string[] {
+  const latinNames: string[] = data.lk_taxon
+    .filter((item) => item.kingdom_id === null)
+    .map((item) => item.taxon_name_latin);
+
+  return latinNames;
+}
+//const myData: taxonInterface = data;
+const latinNamesWithNullKingdom = getLatinNamesWithNullKingdom(myData);
+
+console.log(latinNamesWithNullKingdom);
 
 /*
  * STYLE definitions for useStyles hook
