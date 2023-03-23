@@ -5,8 +5,15 @@
 import dataSet from "../datasets/taxon_data.json";
 import { taxonInterface, taxonInterfaceArray } from "./datagrab";
 
-const getKeyFromName = (keyName: string, currTaxon: taxonInterface) => {
-  switch (keyName) {
+/*
+ * This function takes the classification level as a string
+ * And returns the associated ID
+ */
+const getKeyFromName = (
+  classificationLevel: string,
+  currTaxon: taxonInterface
+) => {
+  switch (classificationLevel) {
     case "Kingdom":
       return currTaxon.kingdom_id;
     case "Phylum":
@@ -29,15 +36,14 @@ const getKeyFromName = (keyName: string, currTaxon: taxonInterface) => {
 };
 
 /*
- *to be generalized for id's
  * Accepts a keyname string. which is the classification level
  * returns an array of taxon names associated to kingdom
  */
-export const helperGetLatinNames = (keyName: string): string[] => {
-  //const myData: taxonInterfaceArray = dataSet;
+export const helperGetLatinNames = (classificationLevel: string): string[] => {
   const latinNames: string[] = dataSet.lk_taxon
     .filter(
-      (currTaxon: taxonInterface) => getKeyFromName(keyName, currTaxon) === null
+      (currTaxon: taxonInterface) =>
+        getKeyFromName(classificationLevel, currTaxon) === null
     )
     .map((currTaxon) => currTaxon.taxon_name_latin);
 
