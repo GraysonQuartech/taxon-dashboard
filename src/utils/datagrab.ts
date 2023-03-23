@@ -5,9 +5,9 @@
 import data from "../datasets/taxon_data.json";
 
 export interface taxonInterfaceArray {
-  lk_taxon: ILkTaxon[];
+  lk_taxon: taxonInterface[];
 }
-export interface ILkTaxon {
+export interface taxonInterface {
   taxon_id: string;
   kingdom_id: string | null;
   phylum_id: string | null;

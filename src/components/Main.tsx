@@ -5,7 +5,6 @@ import TaxonDisplay from "./TaxonDisplay";
 //IMPORT MUI packages
 import { createTheme, ThemeProvider } from "@mui/material";
 import { blue, blueGrey } from "@mui/material/colors";
-//IMPORT Constants + Data
 
 const globalTheme = createTheme({
   palette: {

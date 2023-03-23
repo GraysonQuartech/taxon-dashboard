@@ -3,26 +3,26 @@
  */
 
 import dataSet from "../datasets/taxon_data.json";
-import { ILkTaxon, taxonInterfaceArray } from "./datagrab";
+import { taxonInterface, taxonInterfaceArray } from "./datagrab";
 
-const getKeyFromName = (keyName: string, myData: ILkTaxon) => {
+const getKeyFromName = (keyName: string, currTaxon: taxonInterface) => {
   switch (keyName) {
     case "Kingdom":
-      return myData.kingdom_id;
+      return currTaxon.kingdom_id;
     case "Phylum":
-      return myData.phylum_id;
+      return currTaxon.phylum_id;
     case "Class":
-      return myData.class_id;
+      return currTaxon.class_id;
     case "Order":
-      return myData.order_id;
+      return currTaxon.order_id;
     case "Family":
-      return myData.family_id;
+      return currTaxon.family_id;
     case "Genus":
-      return myData.genus_id;
+      return currTaxon.genus_id;
     case "Species":
-      return myData.species_id;
+      return currTaxon.species_id;
     case "Sub_Species":
-      return myData.sub_species_id;
+      return currTaxon.sub_species_id;
     default:
       return null;
   }
@@ -34,10 +34,12 @@ const getKeyFromName = (keyName: string, myData: ILkTaxon) => {
  * returns an array of taxon names associated to kingdom
  */
 export const helperGetLatinNames = (keyName: string): string[] => {
-  const myData: taxonInterfaceArray = dataSet;
-  const latinNames: string[] = myData.lk_taxon
-    .filter((item: ILkTaxon) => getKeyFromName(keyName, item) === null)
-    .map((item) => item.taxon_name_latin);
+  //const myData: taxonInterfaceArray = dataSet;
+  const latinNames: string[] = dataSet.lk_taxon
+    .filter(
+      (currTaxon: taxonInterface) => getKeyFromName(keyName, currTaxon) === null
+    )
+    .map((currTaxon) => currTaxon.taxon_name_latin);
 
   return latinNames;
 };
