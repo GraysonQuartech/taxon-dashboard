@@ -3,7 +3,30 @@
  */
 
 import dataSet from "../datasets/taxon_data.json";
+import { classificationLevelArray } from "./constants";
 import { taxonInterface, taxonInterfaceArray } from "./datagrab";
+
+/*
+ * Accepts a single lk_taxon element, which is
+ * an array containing the current taxon levels and values
+ * returns the current taxon_id value.
+ */
+export const getCurrentTaxonID = (currTaxonArray: taxonInterface): string => {
+  return currTaxonArray.taxon_id;
+};
+
+/*
+ * Accepts a taxon ID, and returns the latin name associated to it
+ */
+export const helperGetLatinNameFromID = (taxonId: string): string | null => {
+  for (let i = 0; i < dataSet.lk_taxon.length; i++) {
+    const taxon = dataSet.lk_taxon[i];
+    if (taxon.taxon_id === taxonId) {
+      return taxon.taxon_name_latin;
+    }
+  }
+  return null;
+};
 
 /*
  * This function takes the classification level as a string
@@ -11,25 +34,25 @@ import { taxonInterface, taxonInterfaceArray } from "./datagrab";
  */
 const getKeyFromName = (
   classificationLevel: string,
-  currTaxon: taxonInterface
+  currTaxonArray: taxonInterface
 ) => {
   switch (classificationLevel) {
     case "Kingdom":
-      return currTaxon.kingdom_id;
+      return currTaxonArray.kingdom_id;
     case "Phylum":
-      return currTaxon.phylum_id;
+      return currTaxonArray.phylum_id;
     case "Class":
-      return currTaxon.class_id;
+      return currTaxonArray.class_id;
     case "Order":
-      return currTaxon.order_id;
+      return currTaxonArray.order_id;
     case "Family":
-      return currTaxon.family_id;
+      return currTaxonArray.family_id;
     case "Genus":
-      return currTaxon.genus_id;
+      return currTaxonArray.genus_id;
     case "Species":
-      return currTaxon.species_id;
+      return currTaxonArray.species_id;
     case "Sub_Species":
-      return currTaxon.sub_species_id;
+      return currTaxonArray.sub_species_id;
     default:
       return null;
   }
@@ -39,13 +62,23 @@ const getKeyFromName = (
  * Accepts a keyname string. which is the classification level
  * returns an array of taxon names associated to kingdom
  */
+
 export const helperGetLatinNames = (classificationLevel: string): string[] => {
-  const latinNames: string[] = dataSet.lk_taxon
-    .filter(
-      (currTaxon: taxonInterface) =>
-        getKeyFromName(classificationLevel, currTaxon) === null
-    )
-    .map((currTaxon) => currTaxon.taxon_name_latin);
+  let latinNames: string[] = [];
+  latinNames = [];
+  const dataSetLength = dataSet.lk_taxon.length;
+
+  //loop entire lk_taxon array
+  for (let i = 0; i < dataSetLength; i++) {
+    const currTaxonArray = dataSet.lk_taxon[i];
+    const key = getKeyFromName(classificationLevel, currTaxonArray);
+
+    if (key === null) {
+      latinNames.push(currTaxonArray.taxon_name_latin);
+    } else {
+      break;
+    }
+  }
 
   return latinNames;
 };
