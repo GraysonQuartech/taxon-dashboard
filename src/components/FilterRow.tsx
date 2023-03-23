@@ -44,16 +44,37 @@ const FilterRow = (props: FilterRowProps): JSX.Element => {
 
   //DATA here
   const filters = [
-    { classificationLevel: "Kingdom", dropDownTaxons: helperGetLatinNames() },
-    { classificationLevel: "Phylum", dropDownTaxons: helperGetLatinNames() },
-    { classificationLevel: "Class", dropDownTaxons: helperGetLatinNames() },
-    { classificationLevel: "Order", dropDownTaxons: helperGetLatinNames() },
-    { classificationLevel: "Family", dropDownTaxons: helperGetLatinNames() },
-    { classificationLevel: "Genus", dropDownTaxons: helperGetLatinNames() },
-    { classificationLevel: "Species", dropDownTaxons: helperGetLatinNames() },
+    {
+      classificationLevel: "Kingdom",
+      dropDownTaxons: helperGetLatinNames("Kingdom"),
+    },
+    {
+      classificationLevel: "Phylum",
+      dropDownTaxons: helperGetLatinNames("Phylum"),
+    },
+    {
+      classificationLevel: "Class",
+      dropDownTaxons: helperGetLatinNames("Class"),
+    },
+    {
+      classificationLevel: "Order",
+      dropDownTaxons: helperGetLatinNames("Order"),
+    },
+    {
+      classificationLevel: "Family",
+      dropDownTaxons: helperGetLatinNames("Family"),
+    },
+    {
+      classificationLevel: "Genus",
+      dropDownTaxons: helperGetLatinNames("Genus"),
+    },
+    {
+      classificationLevel: "Species",
+      dropDownTaxons: helperGetLatinNames("Species"),
+    },
     {
       classificationLevel: "Sub-Species",
-      dropDownTaxons: helperGetLatinNames(),
+      dropDownTaxons: helperGetLatinNames("Sub_Species"),
     },
   ];
 
