@@ -34,7 +34,7 @@ export const helperGetLatinNameFromID = (
  * This function takes the classification level as a string
  * And returns the associated ID
  */
-const getKeyFromName = (
+const helperGetIdValue = (
   classificationLevel: string,
   currTaxonArray: taxonInterface
 ) => {
@@ -72,7 +72,7 @@ export const helperGetLatinNames = (classificationLevel: string): string[] => {
   //loop entire lk_taxon array
   for (let i = 0; i < dataSetLength; i++) {
     const currTaxonArray = dataSet.lk_taxon[i];
-    const idValue = getKeyFromName(classificationLevel, currTaxonArray);
+    const idValue = helperGetIdValue(classificationLevel, currTaxonArray);
 
     const name = helperGetLatinNameFromID(idValue);
     if (name !== null && !latinNames.includes(name)) {
