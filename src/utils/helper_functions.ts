@@ -18,7 +18,9 @@ export const getCurrentTaxonID = (currTaxonArray: taxonInterface): string => {
 /*
  * Accepts a taxon ID, and returns the latin name associated to it
  */
-export const helperGetLatinNameFromID = (taxonId: string): string | null => {
+export const helperGetLatinNameFromID = (
+  taxonId: string | null
+): string | null => {
   for (let i = 0; i < dataSet.lk_taxon.length; i++) {
     const taxon = dataSet.lk_taxon[i];
     if (taxon.taxon_id === taxonId) {
@@ -62,7 +64,6 @@ const getKeyFromName = (
  * Accepts a keyname string. which is the classification level
  * returns an array of taxon names associated to kingdom
  */
-
 export const helperGetLatinNames = (classificationLevel: string): string[] => {
   let latinNames: string[] = [];
   latinNames = [];
@@ -71,12 +72,11 @@ export const helperGetLatinNames = (classificationLevel: string): string[] => {
   //loop entire lk_taxon array
   for (let i = 0; i < dataSetLength; i++) {
     const currTaxonArray = dataSet.lk_taxon[i];
-    const key = getKeyFromName(classificationLevel, currTaxonArray);
+    const idValue = getKeyFromName(classificationLevel, currTaxonArray);
 
-    if (key === null) {
-      latinNames.push(currTaxonArray.taxon_name_latin);
-    } else {
-      break;
+    const name = helperGetLatinNameFromID(idValue);
+    if (name !== null && !latinNames.includes(name)) {
+      latinNames.push(name);
     }
   }
 
