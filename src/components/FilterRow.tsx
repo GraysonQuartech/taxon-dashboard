@@ -7,6 +7,7 @@ import { Grid } from "@mui/material";
 import { Theme } from "@mui/material";
 //IMPORT Constants + Data + Helper Functions
 import { helperGetLatinNames } from "../utils/helper_functions";
+import { classificationLevelArray } from "../utils/constants";
 
 /*
  * STYLE definitions for useStyles hook
@@ -42,50 +43,14 @@ const FilterRow = (props: FilterRowProps): JSX.Element => {
     props.onTaxonSelected(taxon);
   };
 
-  //DATA here
-  const filters = [
-    {
-      classificationLevel: "Kingdom",
-      dropDownTaxons: helperGetLatinNames("Kingdom"),
-    },
-    {
-      classificationLevel: "Phylum",
-      dropDownTaxons: helperGetLatinNames("Phylum"),
-    },
-    {
-      classificationLevel: "Class",
-      dropDownTaxons: helperGetLatinNames("Class"),
-    },
-    {
-      classificationLevel: "Order",
-      dropDownTaxons: helperGetLatinNames("Order"),
-    },
-    {
-      classificationLevel: "Family",
-      dropDownTaxons: helperGetLatinNames("Family"),
-    },
-    {
-      classificationLevel: "Genus",
-      dropDownTaxons: helperGetLatinNames("Genus"),
-    },
-    {
-      classificationLevel: "Species",
-      dropDownTaxons: helperGetLatinNames("Species"),
-    },
-    {
-      classificationLevel: "Sub-Species",
-      dropDownTaxons: helperGetLatinNames("Sub_Species"),
-    },
-  ];
-
   //RETURN ELEMENT HERE
   return (
     <Grid container columns={8} spacing={2} className={classes.gridClass}>
-      {filters.map((filter, index) => (
+      {classificationLevelArray.map((classificationLevel, index) => (
         <Grid item xs={1} key={index}>
           <Filter
-            classificationLevel={filter.classificationLevel}
-            dropDownTaxons={filter.dropDownTaxons}
+            classificationLevel={classificationLevel}
+            dropDownTaxons={helperGetLatinNames(classificationLevel)}
             onSelectedChange={handleTaxonSelected}
           />
         </Grid>

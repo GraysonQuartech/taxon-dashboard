@@ -53,7 +53,7 @@ const helperGetIdValue = (
       return currTaxonArray.genus_id;
     case "Species":
       return currTaxonArray.species_id;
-    case "Sub_Species":
+    case "Sub-Species":
       return currTaxonArray.sub_species_id;
     default:
       return null;
