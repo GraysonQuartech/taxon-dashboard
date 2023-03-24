@@ -65,8 +65,7 @@ const helperGetIdValue = (
  * returns an array of taxon names associated to kingdom
  */
 export const helperGetLatinNames = (classificationLevel: string): string[] => {
-  let latinNames: string[] = [];
-  latinNames = [];
+  const latinNames: string[] = [];
   const dataSetLength = dataSet.lk_taxon.length;
 
   //loop entire lk_taxon array
