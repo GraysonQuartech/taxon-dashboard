@@ -5,6 +5,8 @@ import TaxonDisplay from "./TaxonDisplay";
 //IMPORT MUI packages
 import { createTheme, ThemeProvider } from "@mui/material";
 import { blue, blueGrey } from "@mui/material/colors";
+//IMPORT Constants + Data + Helper Functions
+//import { helperGetID } from "../utils/helper_functions";
 
 const globalTheme = createTheme({
   palette: {
@@ -26,7 +28,7 @@ const globalTheme = createTheme({
  */
 const Main = (): JSX.Element => {
   //HOOKS here
-  const [selectedTaxon, setSelectedTaxon] = useState("");
+  const [selectedTaxonName, setSelectedTaxon] = useState("");
   //HOOK CALL BACKS here
   const handleTaxonFromFilterRow = (taxon: string): void => {
     setSelectedTaxon(taxon);
@@ -35,7 +37,7 @@ const Main = (): JSX.Element => {
   //RETURN ELEMENT HERE
   return (
     <ThemeProvider theme={globalTheme}>
-      <TaxonDisplay currentTaxon={selectedTaxon} taxonID={123456} />
+      <TaxonDisplay currentTaxon={selectedTaxonName} taxonID={123456} />
       <FilterRow onTaxonSelected={handleTaxonFromFilterRow} />
     </ThemeProvider>
   );
