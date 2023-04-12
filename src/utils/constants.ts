@@ -2,7 +2,7 @@
  *This file contains constants definitions
  */
 
-type TaxonLevel =
+export type TaxonLevel =
   | "Kingdom"
   | "Phylum"
   | "Class"
