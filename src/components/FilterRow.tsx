@@ -6,8 +6,12 @@ import { makeStyles } from "@mui/styles";
 import { Grid } from "@mui/material";
 import { Theme } from "@mui/material";
 //IMPORT Constants + Data + Helper Functions
-import { helperGetLatinNames } from "../utils/helper_functions";
+import {
+  helperGetLatinNames,
+  helperGetTaxonsForClassificationLevel,
+} from "../utils/helper_functions";
 import { classificationLevelArray } from "../utils/constants";
+import { taxonInterface } from "../utils/datagrab";
 
 /*
  * STYLE definitions for useStyles hook
@@ -27,7 +31,7 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
  *      this callback is passed to FilterRow.tsx parent
  */
 interface FilterRowProps {
-  onTaxonSelected: (taxon: string) => void;
+  onTaxonSelected: (taxon: taxonInterface | null) => void;
 }
 
 /*
@@ -39,7 +43,7 @@ const FilterRow = (props: FilterRowProps): JSX.Element => {
   const classes = useStyles();
 
   //HOOK CALL BACKS here
-  const handleTaxonSelected = (taxon: string): void => {
+  const handleTaxonSelected = (taxon: taxonInterface | null): void => {
     props.onTaxonSelected(taxon);
   };
 
@@ -50,7 +54,9 @@ const FilterRow = (props: FilterRowProps): JSX.Element => {
         <Grid item xs={1} key={index}>
           <Filter
             classificationLevel={classificationLevel}
-            dropDownTaxons={helperGetLatinNames(classificationLevel)}
+            dropDownTaxons={helperGetTaxonsForClassificationLevel(
+              classificationLevel
+            )}
             onSelectedChange={handleTaxonSelected}
           />
         </Grid>

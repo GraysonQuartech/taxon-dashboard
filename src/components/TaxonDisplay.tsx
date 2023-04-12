@@ -18,19 +18,20 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
 
 /*
  * PARENT COMPONENT: App.tsx
- * Props received from parent:
- *   currentTaxon:
+ * Props received from parent main.tsx:
+ *   taxonName
+ *   taxonID
  */
 interface TaxonDisplayProps {
-  currentTaxon: string;
-  taxonID: number;
+  taxonName: string;
+  taxonID: string;
 }
 
 /*
  * Main component Function. displays taxon ID and name
  */
 const TaxonDisplay = (props: TaxonDisplayProps): JSX.Element => {
-  const { currentTaxon, taxonID } = props;
+  const { taxonName, taxonID } = props;
 
   //HOOKS here
   const classes = useStyles();
@@ -44,7 +45,7 @@ const TaxonDisplay = (props: TaxonDisplayProps): JSX.Element => {
           variant="h5"
           component="h2"
         >
-          Current Taxon: {currentTaxon}
+          Current Taxon: {taxonName}
         </Typography>
         <Typography className={classes.taxonIdClass} gutterBottom>
           Taxon ID: {taxonID}
