@@ -123,3 +123,30 @@ export const helperGetLatinNames = (classificationLevel: string): string[] => {
 
   return latinNames;
 };
+
+/*
+ * Accepts a taxon classification Level Kingdom, phylum etc
+ * Returns an array of taxons associated to that classification level
+ */
+export const helperGetTaxonsForClassificationLevel = (
+  classificationLevel: TaxonLevel | null
+): taxonInterface[] => {
+  //init empty taxon object array
+  const taxonArray: taxonInterface[] = [];
+  const dataSetLength = dataSet.lk_taxon.length;
+
+  //loop entire lk_taxon array
+  for (let i = 0; i < dataSetLength; i++) {
+    const taxon = dataSet.lk_taxon[i];
+    const taxon_id = taxon.taxon_id;
+
+    if (helperGetClassificationLevel(taxon) === classificationLevel) {
+      const name = helperGetLatinNameFromID(taxon_id);
+      if (name !== null) {
+        taxonArray.push(taxon);
+      }
+    }
+  }
+
+  return taxonArray;
+};
