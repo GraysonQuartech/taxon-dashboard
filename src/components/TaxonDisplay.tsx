@@ -23,8 +23,8 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
  *   taxonID
  */
 interface TaxonDisplayProps {
-  taxonName: string;
-  taxonID: string;
+  taxonName?: string;
+  taxonID?: string;
 }
 
 /*
