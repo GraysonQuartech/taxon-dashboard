@@ -8,7 +8,7 @@ import { makeStyles } from "@mui/styles";
 import { Theme } from "@mui/material";
 //IMPORT Datasets+Constants
 import { taxonInterface } from "../utils/datagrab";
-import { TaxonLevel, classificationLevelArray } from "../utils/constants";
+import { TaxonLevel } from "../utils/constants";
 //IMPORT helper functions
 import {
   helperGetClassificationLevel,
@@ -35,14 +35,10 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
  *      The taxon classification... kingdown, phylum etc
  *   dropDownTaxons:
  *      The taxon options corresponding to the classificationLevel
- * onSelectedChange:
- *      When a filters value is changed, the value is passed up to
- *      the parent component.
  */
 interface FilterProps {
   classificationLevel: TaxonLevel;
   dropDownTaxons: taxonInterface[];
-  //onSelectedChange: (selectedTaxon: taxonInterface | null) => void;
 }
 
 /*
@@ -54,13 +50,11 @@ const Filter = (props: FilterProps) => {
   //HOOKS here
   let { selectedTaxon, setSelectedTaxon } = useTaxon();
   const [taxon, setTaxon] = useState<taxonInterface | null>(null);
-
   const classes = useStyles();
 
   //HOOK CALL BACKS here. called when
   const handleTaxonChange = (newTaxonValue: taxonInterface | null): void => {
     setTaxon(newTaxonValue);
-    //props.onSelectedChange(newTaxonValue);
     setSelectedTaxon(newTaxonValue);
 
     //if selectedTaxon not null
@@ -75,10 +69,15 @@ const Filter = (props: FilterProps) => {
           selectedTaxonClassificationLevel
         )
       ) {
+        console.log("Higher taxon selected");
+        //SET FILTER VALUE BLANK/NULL HERE
+        setTaxon(null);
       }
       //else if contextTaxon clasification level lower than current filter, find what this value should be + set this current filter to that value
       else {
+        console.log("Lower taxon selected");
       }
+    } else {
     }
   };
 
