@@ -10,10 +10,7 @@ import { Theme } from "@mui/material";
 import { taxonInterface } from "../utils/datagrab";
 import { TaxonLevel } from "../utils/constants";
 //IMPORT helper functions
-import {
-  helperGetClassificationLevel,
-  helperIsHigherClassificationLevel,
-} from "../utils/helper_functions";
+import { helperGetClassificationLevel, helperIsHigherClassificationLevel } from "../utils/helper_functions";
 
 /*
  * STYLE definitions for useStyles hook
@@ -52,25 +49,23 @@ const Filter = (props: FilterProps) => {
   const [taxon, setTaxon] = useState<taxonInterface | null>(null);
   const classes = useStyles();
 
+  /*
+   * This useEffect is triggered when a taxon at any classification level is selected
+   * It handles auto value update when a higher or lower taxon is selected
+   */
   useEffect(() => {
+    //for higher level taxons, selectedTaxon here should be changed to a function that returns the taxon associated to the lower taxon selected
     setTaxon(selectedTaxon);
-
     //if selectedTaxon not null
     if (selectedTaxon) {
       console.log(selectedTaxon);
-      const selectedTaxonClassificationLevel =
-        helperGetClassificationLevel(selectedTaxon);
+      const selectedTaxonClassificationLevel = helperGetClassificationLevel(selectedTaxon);
       //if contextSelectedTaxon classification level higher than this current filters, set this filter value to null/blank
 
-      if (
-        selectedTaxonClassificationLevel &&
-        helperIsHigherClassificationLevel(
-          selectedTaxonClassificationLevel,
-          props.classificationLevel
-        )
-      ) {
+      if (selectedTaxonClassificationLevel && helperIsHigherClassificationLevel(selectedTaxonClassificationLevel, props.classificationLevel)) {
         console.log("Higher taxon selected");
         //SET FILTER VALUE BLANK/NULL HERE
+
         setTaxon(null);
       }
       //else if contextTaxon clasification level lower than current filter, find what this value should be + set this current filter to that value
@@ -89,13 +84,7 @@ const Filter = (props: FilterProps) => {
       getOptionLabel={(option) => option.taxon_name_latin || ""}
       value={taxon}
       onChange={(event, newTaxonValue) => setSelectedTaxon(newTaxonValue)}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          label={props.classificationLevel}
-          variant="outlined"
-        />
-      )}
+      renderInput={(params) => <TextField {...params} label={props.classificationLevel} variant="outlined" />}
     />
   );
 };

@@ -29,11 +29,7 @@ const TaxonDisplay = (): JSX.Element => {
   return (
     <Card>
       <CardContent>
-        <Typography
-          className={classes.taxonNameClass}
-          variant="h5"
-          component="h2"
-        >
+        <Typography className={classes.taxonNameClass} variant="h5" component="h2">
           Current Taxon: {selectedTaxon?.taxon_name_latin}
         </Typography>
         <Typography className={classes.taxonIdClass} gutterBottom>

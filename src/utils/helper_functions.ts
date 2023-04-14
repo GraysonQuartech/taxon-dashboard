@@ -18,9 +18,7 @@ export const getCurrentTaxonID = (currTaxonArray: taxonInterface): string => {
 /*
  * Accepts a taxon ID, and returns the latin name associated to it
  */
-export const helperGetLatinNameFromID = (
-  taxonId: string | null
-): string | null => {
+export const helperGetLatinNameFromID = (taxonId: string | null): string | null => {
   for (let i = 0; i < dataSet.lk_taxon.length; i++) {
     const taxon = dataSet.lk_taxon[i];
     if (taxon.taxon_id === taxonId) {
@@ -34,10 +32,7 @@ export const helperGetLatinNameFromID = (
  * This function takes the classification level as a string
  * And returns the associated ID
  */
-const helperGetClassificationLevelID = (
-  classificationLevel: string,
-  taxon: taxonInterface
-): string | null => {
+const helperGetClassificationLevelID = (classificationLevel: string, taxon: taxonInterface): string | null => {
   switch (classificationLevel) {
     case "Kingdom":
       return taxon.kingdom_id;
@@ -64,9 +59,7 @@ const helperGetClassificationLevelID = (
  *Accepts a current taxon and its data in an interface,
  * and determines+returns the current classification level of it.
  */
-export const helperGetClassificationLevel = (
-  taxon: taxonInterface
-): TaxonLevel | null => {
+export const helperGetClassificationLevel = (taxon: taxonInterface): TaxonLevel | null => {
   switch (null) {
     case taxon.kingdom_id:
       return "Kingdom";
@@ -128,9 +121,7 @@ export const helperGetLatinNames = (classificationLevel: string): string[] => {
  * Accepts a taxon classification Level Kingdom, phylum etc
  * Returns an array of taxons associated to that classification level
  */
-export const helperGetTaxonsForClassificationLevel = (
-  classificationLevel: TaxonLevel | null
-): taxonInterface[] => {
+export const helperGetTaxonsForClassificationLevel = (classificationLevel: TaxonLevel | null): taxonInterface[] => {
   //init empty taxon object array
   const taxonArray: taxonInterface[] = [];
   const dataSetLength = dataSet.lk_taxon.length;
@@ -155,10 +146,7 @@ export const helperGetTaxonsForClassificationLevel = (
  * Takes two TaxonLevels,
  * returns true if the first one is at a lower index in the array than the second one
  */
-export const helperIsHigherClassificationLevel = (
-  taxonLevel1: TaxonLevel,
-  taxonLevel2: TaxonLevel
-): boolean => {
+export const helperIsHigherClassificationLevel = (taxonLevel1: TaxonLevel, taxonLevel2: TaxonLevel): boolean => {
   const index1 = classificationLevelArray.indexOf(taxonLevel1);
   const index2 = classificationLevelArray.indexOf(taxonLevel2);
   return index1 < index2;

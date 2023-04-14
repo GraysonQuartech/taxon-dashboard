@@ -6,10 +6,7 @@ import { makeStyles } from "@mui/styles";
 import { Grid } from "@mui/material";
 import { Theme } from "@mui/material";
 //IMPORT Constants + Data + Helper Functions
-import {
-  helperGetLatinNames,
-  helperGetTaxonsForClassificationLevel,
-} from "../utils/helper_functions";
+import { helperGetLatinNames, helperGetTaxonsForClassificationLevel } from "../utils/helper_functions";
 import { classificationLevelArray } from "../utils/constants";
 import { taxonInterface } from "../utils/datagrab";
 
@@ -47,12 +44,7 @@ const FilterRow = (props: FilterRowProps): JSX.Element => {
     <Grid container columns={8} spacing={2} className={classes.gridClass}>
       {classificationLevelArray.map((classificationLevel, index) => (
         <Grid item xs={1} key={index}>
-          <Filter
-            classificationLevel={classificationLevel}
-            dropDownTaxons={helperGetTaxonsForClassificationLevel(
-              classificationLevel
-            )}
-          />
+          <Filter classificationLevel={classificationLevel} dropDownTaxons={helperGetTaxonsForClassificationLevel(classificationLevel)} />
         </Grid>
       ))}
     </Grid>

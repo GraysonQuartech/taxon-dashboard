@@ -18,9 +18,7 @@ interface SelectedTaxon {
 
 const Main = (): JSX.Element => {
   // HOOKS here
-  const [selectedTaxon, setSelectedTaxon] = useState<SelectedTaxon | null>(
-    null
-  );
+  const [selectedTaxon, setSelectedTaxon] = useState<SelectedTaxon | null>(null);
 
   // HOOK CALL BACKS here
   const handleTaxonFromFilterRow = (taxon: taxonInterface | null): void => {
