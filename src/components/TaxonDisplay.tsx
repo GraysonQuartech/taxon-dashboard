@@ -23,17 +23,17 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
 const TaxonDisplay = (): JSX.Element => {
   //HOOKS here
   const classes = useStyles();
-  const { selectedTaxon } = useTaxon();
+  const { contextTaxon } = useTaxon();
 
   //RETURN ELEMENT HERE
   return (
     <Card>
       <CardContent>
         <Typography className={classes.taxonNameClass} variant="h5" component="h2">
-          Current Taxon: {selectedTaxon?.taxon_name_latin}
+          Current Taxon: {contextTaxon?.taxon_name_latin}
         </Typography>
         <Typography className={classes.taxonIdClass} gutterBottom>
-          Taxon ID: {selectedTaxon?.taxon_id}
+          Taxon ID: {contextTaxon?.taxon_id}
         </Typography>
       </CardContent>
     </Card>

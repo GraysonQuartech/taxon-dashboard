@@ -45,7 +45,7 @@ interface FilterProps {
  */
 const Filter = (props: FilterProps) => {
   //HOOKS here
-  let { selectedTaxon, setSelectedTaxon } = useTaxon();
+  let { contextTaxon, setContextTaxon } = useTaxon();
   const [taxon, setTaxon] = useState<taxonInterface | null>(null);
   const classes = useStyles();
 
@@ -54,12 +54,12 @@ const Filter = (props: FilterProps) => {
    * It handles auto value update when a higher or lower taxon is selected
    */
   useEffect(() => {
-    //for higher level taxons, selectedTaxon here should be changed to a function that returns the taxon associated to the lower taxon selected
-    setTaxon(selectedTaxon);
-    //if selectedTaxon not null
-    if (selectedTaxon) {
-      console.log(selectedTaxon);
-      const selectedTaxonClassificationLevel = helperGetClassificationLevel(selectedTaxon);
+    //for higher level taxons, contextTaxon here should be changed to a function that returns the taxon associated to the contextTaxon
+    setTaxon(contextTaxon);
+    //if contextTaxon not null
+    if (contextTaxon) {
+      console.log(contextTaxon);
+      const selectedTaxonClassificationLevel = helperGetClassificationLevel(contextTaxon);
       //if contextSelectedTaxon classification level higher than this current filters, set this filter value to null/blank
 
       if (selectedTaxonClassificationLevel && helperIsHigherClassificationLevel(selectedTaxonClassificationLevel, props.classificationLevel)) {
@@ -74,7 +74,7 @@ const Filter = (props: FilterProps) => {
       }
     } else {
     }
-  }, [selectedTaxon]);
+  }, [contextTaxon]);
 
   //RETURN ELEMENT HERE
   return (
@@ -83,7 +83,7 @@ const Filter = (props: FilterProps) => {
       options={props.dropDownTaxons.filter((t) => t.taxon_name_latin !== null)}
       getOptionLabel={(option) => option.taxon_name_latin || ""}
       value={taxon}
-      onChange={(event, newTaxonValue) => setSelectedTaxon(newTaxonValue)}
+      onChange={(event, newTaxonValue) => setContextTaxon(newTaxonValue)}
       renderInput={(params) => <TextField {...params} label={props.classificationLevel} variant="outlined" />}
     />
   );

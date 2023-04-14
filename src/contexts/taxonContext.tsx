@@ -2,23 +2,23 @@ import React, { PropsWithChildren, createContext, useState, Dispatch, SetStateAc
 import { taxonInterface } from "../utils/datagrab";
 
 interface ITaxonContext {
-  selectedTaxon: taxonInterface | null;
-  setSelectedTaxon: React.Dispatch<React.SetStateAction<taxonInterface | null>>;
+  contextTaxon: taxonInterface | null;
+  setContextTaxon: React.Dispatch<React.SetStateAction<taxonInterface | null>>;
 }
 
 const TaxonContext = createContext<ITaxonContext>({
-  selectedTaxon: null,
-  setSelectedTaxon: () => {},
+  contextTaxon: null,
+  setContextTaxon: () => {},
 });
 
 export const useTaxon = () => useContext(TaxonContext);
 
 // Provider, a react component that provides/delivers the context
 export const TaxonContextProvider = (props: PropsWithChildren<{}>) => {
-  const [selectedTaxon, setSelectedTaxon] = useState<taxonInterface | null>(null);
+  const [contextTaxon, setContextTaxon] = useState<taxonInterface | null>(null);
 
   return (
     // Defines the context. available to any component under definition in app.tsx
-    <TaxonContext.Provider value={{ selectedTaxon, setSelectedTaxon }}>{props.children}</TaxonContext.Provider>
+    <TaxonContext.Provider value={{ contextTaxon, setContextTaxon }}>{props.children}</TaxonContext.Provider>
   );
 };
