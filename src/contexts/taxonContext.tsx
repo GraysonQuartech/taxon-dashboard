@@ -26,13 +26,8 @@ export const TaxonContextProvider = (props: PropsWithChildren<{}>) => {
     null
   );
 
-  // Defines the context. available to any component under definition in app.tsx
-  const taxonContext = {
-    selectedTaxon,
-    setSelectedTaxon,
-  };
-
   return (
+    // Defines the context. available to any component under definition in app.tsx
     <TaxonContext.Provider value={{ selectedTaxon, setSelectedTaxon }}>
       {props.children}
     </TaxonContext.Provider>

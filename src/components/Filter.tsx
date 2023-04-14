@@ -1,5 +1,5 @@
 //IMPORT React and Child Components
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTaxon } from "../contexts/taxonContext";
 //IMPORT MUI packages
 import Autocomplete from "@mui/material/Autocomplete";
@@ -52,21 +52,21 @@ const Filter = (props: FilterProps) => {
   const [taxon, setTaxon] = useState<taxonInterface | null>(null);
   const classes = useStyles();
 
-  //HOOK CALL BACKS here. called when
-  const handleTaxonChange = (newTaxonValue: taxonInterface | null): void => {
-    setTaxon(newTaxonValue);
-    setSelectedTaxon(newTaxonValue);
+  useEffect(() => {
+    setTaxon(selectedTaxon);
 
     //if selectedTaxon not null
     if (selectedTaxon) {
+      console.log(selectedTaxon);
       const selectedTaxonClassificationLevel =
         helperGetClassificationLevel(selectedTaxon);
-      //if contextTaxon classification level higher than this current filters, set this filter value to null/blank
+      //if contextSelectedTaxon classification level higher than this current filters, set this filter value to null/blank
+
       if (
         selectedTaxonClassificationLevel &&
         helperIsHigherClassificationLevel(
-          props.classificationLevel,
-          selectedTaxonClassificationLevel
+          selectedTaxonClassificationLevel,
+          props.classificationLevel
         )
       ) {
         console.log("Higher taxon selected");
@@ -79,7 +79,7 @@ const Filter = (props: FilterProps) => {
       }
     } else {
     }
-  };
+  }, [selectedTaxon]);
 
   //RETURN ELEMENT HERE
   return (
@@ -88,7 +88,7 @@ const Filter = (props: FilterProps) => {
       options={props.dropDownTaxons.filter((t) => t.taxon_name_latin !== null)}
       getOptionLabel={(option) => option.taxon_name_latin || ""}
       value={taxon}
-      onChange={(event, newTaxonValue) => handleTaxonChange(newTaxonValue)}
+      onChange={(event, newTaxonValue) => setSelectedTaxon(newTaxonValue)}
       renderInput={(params) => (
         <TextField
           {...params}
