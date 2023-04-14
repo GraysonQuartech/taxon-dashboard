@@ -150,3 +150,16 @@ export const helperGetTaxonsForClassificationLevel = (
 
   return taxonArray;
 };
+
+/*
+ * Takes two TaxonLevels,
+ * returns true if the first one is at a lower index in the array than the second one
+ */
+export const helperIsHigherClassificationLevel = (
+  taxonLevel1: TaxonLevel,
+  taxonLevel2: TaxonLevel
+): boolean => {
+  const index1 = classificationLevelArray.indexOf(taxonLevel1);
+  const index2 = classificationLevelArray.indexOf(taxonLevel2);
+  return index1 < index2;
+};

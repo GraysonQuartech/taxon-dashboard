@@ -42,11 +42,6 @@ const FilterRow = (props: FilterRowProps): JSX.Element => {
   //HOOKS here
   const classes = useStyles();
 
-  //HOOK CALL BACKS here
-  const handleTaxonSelected = (taxon: taxonInterface | null): void => {
-    props.onTaxonSelected(taxon);
-  };
-
   //RETURN ELEMENT HERE
   return (
     <Grid container columns={8} spacing={2} className={classes.gridClass}>
@@ -57,7 +52,6 @@ const FilterRow = (props: FilterRowProps): JSX.Element => {
             dropDownTaxons={helperGetTaxonsForClassificationLevel(
               classificationLevel
             )}
-            onSelectedChange={handleTaxonSelected}
           />
         </Grid>
       ))}

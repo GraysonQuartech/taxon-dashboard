@@ -32,10 +32,7 @@ const Main = (): JSX.Element => {
   // RETURN ELEMENT HERE
   return (
     <div>
-      <TaxonDisplay
-        taxonName={selectedTaxon?.taxon_name_latin}
-        taxonID={selectedTaxon?.taxon_id}
-      />
+      <TaxonDisplay />
       <FilterRow onTaxonSelected={handleTaxonFromFilterRow} />
     </div>
   );

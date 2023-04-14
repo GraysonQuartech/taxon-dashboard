@@ -1,34 +1,39 @@
-/*
- * taxonContext.tsx
- */
-import React, { PropsWithChildren, createContext, useState } from "react";
+import React, {
+  PropsWithChildren,
+  createContext,
+  useState,
+  Dispatch,
+  SetStateAction,
+  useContext,
+} from "react";
 import { taxonInterface } from "../utils/datagrab";
 
-export interface ITaxonContext {
+interface ITaxonContext {
   selectedTaxon: taxonInterface | null;
-  setSelectedTaxon: (newTaxon: taxonInterface) => void;
+  setSelectedTaxon: React.Dispatch<React.SetStateAction<taxonInterface | null>>;
 }
 
-//Create instance of object
-export const TaxonContext = createContext<ITaxonContext>({
+const TaxonContext = createContext<ITaxonContext>({
   selectedTaxon: null,
-  setSelectedTaxon: (newTaxon: taxonInterface | null) => {},
+  setSelectedTaxon: () => {},
 });
 
-//provider, a react component that provides/delivers the context
-export const TaxonContextProvider = (props: PropsWithChildren<any>) => {
+export const useTaxon = () => useContext(TaxonContext);
+
+// Provider, a react component that provides/delivers the context
+export const TaxonContextProvider = (props: PropsWithChildren<{}>) => {
   const [selectedTaxon, setSelectedTaxon] = useState<taxonInterface | null>(
     null
   );
 
-  //defines the context. available to any component under definition in app.tsx
-  const taxonContext: ITaxonContext = {
+  // Defines the context. available to any component under definition in app.tsx
+  const taxonContext = {
     selectedTaxon,
     setSelectedTaxon,
   };
 
   return (
-    <TaxonContext.Provider value={taxonContext}>
+    <TaxonContext.Provider value={{ selectedTaxon, setSelectedTaxon }}>
       {props.children}
     </TaxonContext.Provider>
   );
