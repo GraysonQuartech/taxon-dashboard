@@ -1,7 +1,10 @@
-/*
- *This file is responsible for communicating with the dataset
- *It imports the dataset, and creates interfaces for the data
+/**
+ * This file is responsible for communicating with the dataset
+ * It imports the dataset, and creates interfaces for the data
+ *
+ * @format
  */
+
 import data from "../datasets/taxon_data.json";
 
 export interface taxonInterfaceArray {

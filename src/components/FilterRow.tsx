@@ -1,3 +1,5 @@
+/** @format */
+
 //IMPORT React packages and components
 import React from "react";
 import Filter from "./Filter";
@@ -44,7 +46,10 @@ const FilterRow = (props: FilterRowProps): JSX.Element => {
     <Grid container columns={8} spacing={2} className={classes.gridClass}>
       {classificationLevelArray.map((classificationLevel, index) => (
         <Grid item xs={1} key={index}>
-          <Filter classificationLevel={classificationLevel} dropDownTaxons={helperGetTaxonsForClassificationLevel(classificationLevel)} />
+          <Filter
+            classificationLevel={classificationLevel}
+            dropDownTaxons={helperGetTaxonsForClassificationLevel(classificationLevel)}
+          />
         </Grid>
       ))}
     </Grid>

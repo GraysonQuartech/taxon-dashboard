@@ -1,3 +1,5 @@
+/** @format */
+
 //IMPORT React packages and components
 import React from "react";
 import Main from "./components/Main";

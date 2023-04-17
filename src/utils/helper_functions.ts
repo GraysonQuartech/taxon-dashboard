@@ -1,5 +1,7 @@
-/*
- *This file contains helper functions, called across various componenets
+/**
+ * This file contains helper functions, called across various componenets
+ *
+ * @format
  */
 
 import dataSet from "../datasets/taxon_data.json";

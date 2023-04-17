@@ -1,3 +1,5 @@
+/** @format */
+
 //IMPORT React and Child Components
 import React, { useEffect, useState } from "react";
 import { useTaxon } from "../contexts/taxonContext";
@@ -54,21 +56,27 @@ const Filter = (props: FilterProps) => {
    * It handles auto value update when a higher or lower taxon is selected
    */
   useEffect(() => {
-    //for higher level taxons, contextTaxon here should be changed to a function that returns the taxon associated to the contextTaxon
+    //for higher level taxons, contextTaxon here should be changed
+    //to a function that returns the taxon associated to the contextTaxon
     setTaxon(contextTaxon);
     //if contextTaxon not null
     if (contextTaxon) {
       console.log(contextTaxon);
       const selectedTaxonClassificationLevel = helperGetClassificationLevel(contextTaxon);
-      //if contextSelectedTaxon classification level higher than this current filters, set this filter value to null/blank
 
-      if (selectedTaxonClassificationLevel && helperIsHigherClassificationLevel(selectedTaxonClassificationLevel, props.classificationLevel)) {
+      //if contextSelectedTaxon classification level higher than this
+      // current filters, set this filter value to null/blank
+      if (
+        selectedTaxonClassificationLevel &&
+        helperIsHigherClassificationLevel(selectedTaxonClassificationLevel, props.classificationLevel)
+      ) {
         console.log("Higher taxon selected");
         //SET FILTER VALUE BLANK/NULL HERE
 
         setTaxon(null);
       }
-      //else if contextTaxon clasification level lower than current filter, find what this value should be + set this current filter to that value
+      //else if contextTaxon clasification level lower than current filter,
+      //find what this value should be + set this current filter to that value
       else {
         console.log("Lower taxon selected");
       }

@@ -1,3 +1,5 @@
+/** @format */
+
 // IMPORT React packages and components
 import React, { useState } from "react";
 import FilterRow from "./FilterRow";
