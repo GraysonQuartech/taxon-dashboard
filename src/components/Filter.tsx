@@ -12,7 +12,12 @@ import { Theme } from "@mui/material";
 import { taxonInterface } from "../utils/datagrab";
 import { TaxonLevel } from "../utils/constants";
 //IMPORT helper functions
-import { helperGetClassificationLevel, helperIsHigherClassificationLevel } from "../utils/helper_functions";
+import {
+  helperGetClassificationLevel,
+  helperIsHigherClassificationLevel,
+  helperGetTaxonData,
+  helperGetLatinNameFromID,
+} from "../utils/helper_functions";
 
 /*
  * STYLE definitions for useStyles hook
@@ -59,6 +64,25 @@ const Filter = (props: FilterProps) => {
     //for higher level taxons, contextTaxon here should be changed
     //to a function that returns the taxon associated to the contextTaxon
     setTaxon(contextTaxon);
+
+    if (props.classificationLevel === "Kingdom" && contextTaxon?.kingdom_id) {
+      setTaxon(helperGetTaxonData(contextTaxon.kingdom_id));
+    } else if (props.classificationLevel === "Phylum" && contextTaxon?.phylum_id) {
+      setTaxon(helperGetTaxonData(contextTaxon.phylum_id));
+    } else if (props.classificationLevel === "Class" && contextTaxon?.class_id) {
+      setTaxon(helperGetTaxonData(contextTaxon.class_id));
+    } else if (props.classificationLevel === "Order" && contextTaxon?.order_id) {
+      setTaxon(helperGetTaxonData(contextTaxon.order_id));
+    } else if (props.classificationLevel === "Family" && contextTaxon?.family_id) {
+      setTaxon(helperGetTaxonData(contextTaxon.family_id));
+    } else if (props.classificationLevel === "Genus" && contextTaxon?.genus_id) {
+      setTaxon(helperGetTaxonData(contextTaxon.genus_id));
+    } else if (props.classificationLevel === "Species" && contextTaxon?.species_id) {
+      setTaxon(helperGetTaxonData(contextTaxon.species_id));
+    } else if (props.classificationLevel === "Sub_Species" && contextTaxon?.sub_species_id) {
+      setTaxon(helperGetTaxonData(contextTaxon.sub_species_id));
+    }
+
     //if contextTaxon not null
     if (contextTaxon) {
       console.log(contextTaxon);
@@ -70,17 +94,8 @@ const Filter = (props: FilterProps) => {
         selectedTaxonClassificationLevel &&
         helperIsHigherClassificationLevel(selectedTaxonClassificationLevel, props.classificationLevel)
       ) {
-        console.log("Higher taxon selected");
-        //SET FILTER VALUE BLANK/NULL HERE
-
         setTaxon(null);
       }
-      //else if contextTaxon clasification level lower than current filter,
-      //find what this value should be + set this current filter to that value
-      else {
-        console.log("Lower taxon selected");
-      }
-    } else {
     }
   }, [contextTaxon]);
 

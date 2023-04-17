@@ -87,12 +87,15 @@ export const helperGetClassificationLevel = (taxon: taxonInterface): TaxonLevel 
  * accepts a taxon ID, and returns the Taxon interface associated to it
  * ie accepts "123" and returns an interface with kingdom id, phylum id, etc
  */
-export const helperGetTaxonData = (taxon_id: string) => {
-  for (const taxon of dataSet.lk_taxon) {
-    if (taxon.taxon_id === taxon_id) {
-      return taxon;
+export const helperGetTaxonData = (taxon_id: string | null): taxonInterface | null => {
+  if (taxon_id !== null) {
+    for (const taxon of dataSet.lk_taxon) {
+      if (taxon.taxon_id === taxon_id) {
+        return taxon;
+      }
     }
   }
+  return null;
 };
 
 /*
