@@ -17,6 +17,7 @@ import {
   helperIsHigherClassificationLevel,
   helperGetTaxonData,
   helperGetLatinNameFromID,
+  helperGetNextAvailableTaxon,
 } from "../utils/helper_functions";
 
 /*
@@ -61,41 +62,38 @@ const Filter = (props: FilterProps) => {
    * It handles auto value update when a higher or lower taxon is selected
    */
   useEffect(() => {
-    //for higher level taxons, contextTaxon here should be changed
-    //to a function that returns the taxon associated to the contextTaxon
-    setTaxon(contextTaxon);
-
-    if (props.classificationLevel === "Kingdom" && contextTaxon?.kingdom_id) {
-      setTaxon(helperGetTaxonData(contextTaxon.kingdom_id));
-    } else if (props.classificationLevel === "Phylum" && contextTaxon?.phylum_id) {
-      setTaxon(helperGetTaxonData(contextTaxon.phylum_id));
-    } else if (props.classificationLevel === "Class" && contextTaxon?.class_id) {
-      setTaxon(helperGetTaxonData(contextTaxon.class_id));
-    } else if (props.classificationLevel === "Order" && contextTaxon?.order_id) {
-      setTaxon(helperGetTaxonData(contextTaxon.order_id));
-    } else if (props.classificationLevel === "Family" && contextTaxon?.family_id) {
-      setTaxon(helperGetTaxonData(contextTaxon.family_id));
-    } else if (props.classificationLevel === "Genus" && contextTaxon?.genus_id) {
-      setTaxon(helperGetTaxonData(contextTaxon.genus_id));
-    } else if (props.classificationLevel === "Species" && contextTaxon?.species_id) {
-      setTaxon(helperGetTaxonData(contextTaxon.species_id));
-    } else if (props.classificationLevel === "Sub_Species" && contextTaxon?.sub_species_id) {
-      setTaxon(helperGetTaxonData(contextTaxon.sub_species_id));
-    }
-
-    //if contextTaxon not null
-    if (contextTaxon) {
-      console.log(contextTaxon);
-      const selectedTaxonClassificationLevel = helperGetClassificationLevel(contextTaxon);
-
-      //if contextSelectedTaxon classification level higher than this
-      // current filters, set this filter value to null/blank
-      if (
-        selectedTaxonClassificationLevel &&
-        helperIsHigherClassificationLevel(selectedTaxonClassificationLevel, props.classificationLevel)
-      ) {
+    //if setting contextTaxon to non null
+    if (contextTaxon !== null) {
+      if (props.classificationLevel === "Kingdom" && contextTaxon?.kingdom_id) {
+        setTaxon(helperGetTaxonData(contextTaxon.kingdom_id));
+      } else if (props.classificationLevel === "Phylum" && contextTaxon?.phylum_id) {
+        setTaxon(helperGetTaxonData(contextTaxon.phylum_id));
+      } else if (props.classificationLevel === "Class" && contextTaxon?.class_id) {
+        setTaxon(helperGetTaxonData(contextTaxon.class_id));
+      } else if (props.classificationLevel === "Order" && contextTaxon?.order_id) {
+        setTaxon(helperGetTaxonData(contextTaxon.order_id));
+      } else if (props.classificationLevel === "Family" && contextTaxon?.family_id) {
+        setTaxon(helperGetTaxonData(contextTaxon.family_id));
+      } else if (props.classificationLevel === "Genus" && contextTaxon?.genus_id) {
+        setTaxon(helperGetTaxonData(contextTaxon.genus_id));
+      } else if (props.classificationLevel === "Species" && contextTaxon?.species_id) {
+        setTaxon(helperGetTaxonData(contextTaxon.species_id));
+      } else if (props.classificationLevel === "Sub_Species" && contextTaxon?.sub_species_id) {
+        setTaxon(helperGetTaxonData(contextTaxon.sub_species_id));
+      } else {
         setTaxon(null);
       }
+      //handle contextTaxon level. which will be NULL in the dataset. but have correct taxonID
+      if (contextTaxon?.taxon_id && props.classificationLevel === helperGetClassificationLevel(contextTaxon)) {
+        setTaxon(contextTaxon);
+      }
+    }
+    //if setting a taxon filter to NULL
+    else {
+      //update contextTaxon to next classification level up
+      //contextTaxon = helperGetNextAvailableTaxon(contextTaxon);
+      //only change others to null if lower classification level than the manually changed to null taxon
+      setTaxon(null);
     }
   }, [contextTaxon]);
 

@@ -84,6 +84,15 @@ export const helperGetClassificationLevel = (taxon: taxonInterface): TaxonLevel 
 };
 
 /*
+ *Receives a taxon at classification level X, and returns the taxon at classification
+ * level X-1 - if level X-1 exists. IE if contextTaxon = phylum, it will return the
+ * taxon at kingdom
+ */
+export const helperGetNextAvailableTaxon = (contextTaxon: taxonInterface | null): taxonInterface | null => {
+  return contextTaxon;
+};
+
+/*
  * accepts a taxon ID, and returns the Taxon interface associated to it
  * ie accepts "123" and returns an interface with kingdom id, phylum id, etc
  */
