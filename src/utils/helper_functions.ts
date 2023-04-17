@@ -86,10 +86,14 @@ export const helperGetClassificationLevel = (taxon: taxonInterface): TaxonLevel 
 /*
  *Receives a taxon at classification level X, and returns the taxon at classification
  * level X-1 - if level X-1 exists. IE if contextTaxon = phylum, it will return the
- * taxon at kingdom
+ * taxon at kingdom. if kingom set to null, then currently returns undefined
  */
-export const helperGetNextAvailableTaxon = (contextTaxon: taxonInterface | null): taxonInterface | null => {
-  return contextTaxon;
+export const helperGetNextAvailableTaxon = (
+  prevContextTaxon: taxonInterface,
+  classificationLevelOfSelected: TaxonLevel
+): taxonInterface | null => {
+  const newClassLevel = classificationLevelArray[classificationLevelArray.indexOf(classificationLevelOfSelected) - 1];
+  return helperGetTaxonData(helperGetClassificationLevelID(newClassLevel, prevContextTaxon));
 };
 
 /*

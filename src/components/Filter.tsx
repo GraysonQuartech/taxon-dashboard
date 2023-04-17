@@ -18,6 +18,7 @@ import {
   helperGetTaxonData,
   helperGetLatinNameFromID,
   helperGetNextAvailableTaxon,
+  helperGetTaxonsForClassificationLevel,
 } from "../utils/helper_functions";
 
 /*
@@ -76,7 +77,7 @@ const Filter = (props: FilterProps) => {
         setTaxon(helperGetTaxonData(contextTaxon.family_id));
       } else if (props.classificationLevel === "Genus" && contextTaxon?.genus_id) {
         setTaxon(helperGetTaxonData(contextTaxon.genus_id));
-      } else if (props.classificationLevel === "Species" && contextTaxon?.species_id) {
+      } else if (props.classificationLevel === "Species") {
         setTaxon(helperGetTaxonData(contextTaxon.species_id));
       } else if (props.classificationLevel === "Sub_Species" && contextTaxon?.sub_species_id) {
         setTaxon(helperGetTaxonData(contextTaxon.sub_species_id));
@@ -88,14 +89,31 @@ const Filter = (props: FilterProps) => {
         setTaxon(contextTaxon);
       }
     }
-    //if setting a taxon filter to NULL
+    //setting context taxon null
     else {
+      setContextTaxon(contextTaxon);
+
       //update contextTaxon to next classification level up
       //contextTaxon = helperGetNextAvailableTaxon(contextTaxon);
       //only change others to null if lower classification level than the manually changed to null taxon
       setTaxon(null);
     }
   }, [contextTaxon]);
+
+  /*
+   * Receives the new taxon value selected from the drop downs
+   * gets called when a filter value changed to a different taxon/null
+   */
+  const handleTaxonChange = (selectedTaxon: taxonInterface | null) => {
+    //if setting the current taxon to null, the contextTaxon
+    //become the next classification level up before its info is reset
+    if (selectedTaxon === null && contextTaxon !== null) {
+      //set next level up here before info is gone..
+      selectedTaxon = helperGetNextAvailableTaxon(contextTaxon, props.classificationLevel);
+    }
+
+    setContextTaxon(selectedTaxon);
+  };
 
   //RETURN ELEMENT HERE
   return (
@@ -104,7 +122,7 @@ const Filter = (props: FilterProps) => {
       options={props.dropDownTaxons.filter((t) => t.taxon_name_latin !== null)}
       getOptionLabel={(option) => option.taxon_name_latin || ""}
       value={taxon}
-      onChange={(event, newTaxonValue) => setContextTaxon(newTaxonValue)}
+      onChange={(event, newTaxonValue) => handleTaxonChange(newTaxonValue)}
       renderInput={(params) => <TextField {...params} label={props.classificationLevel} variant="outlined" />}
     />
   );
