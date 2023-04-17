@@ -92,10 +92,6 @@ const Filter = (props: FilterProps) => {
     //setting context taxon null
     else {
       setContextTaxon(contextTaxon);
-
-      //update contextTaxon to next classification level up
-      //contextTaxon = helperGetNextAvailableTaxon(contextTaxon);
-      //only change others to null if lower classification level than the manually changed to null taxon
       setTaxon(null);
     }
   }, [contextTaxon]);
