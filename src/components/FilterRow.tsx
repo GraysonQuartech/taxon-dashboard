@@ -1,3 +1,5 @@
+/** @format */
+
 //IMPORT React packages and components
 import React from "react";
 import Filter from "./Filter";
@@ -6,10 +8,7 @@ import { makeStyles } from "@mui/styles";
 import { Grid } from "@mui/material";
 import { Theme } from "@mui/material";
 //IMPORT Constants + Data + Helper Functions
-import {
-  helperGetLatinNames,
-  helperGetTaxonsForClassificationLevel,
-} from "../utils/helper_functions";
+import { helperGetLatinNames, helperGetTaxonsForClassificationLevel } from "../utils/helper_functions";
 import { classificationLevelArray } from "../utils/constants";
 import { taxonInterface } from "../utils/datagrab";
 
@@ -42,11 +41,6 @@ const FilterRow = (props: FilterRowProps): JSX.Element => {
   //HOOKS here
   const classes = useStyles();
 
-  //HOOK CALL BACKS here
-  const handleTaxonSelected = (taxon: taxonInterface | null): void => {
-    props.onTaxonSelected(taxon);
-  };
-
   //RETURN ELEMENT HERE
   return (
     <Grid container columns={8} spacing={2} className={classes.gridClass}>
@@ -54,10 +48,7 @@ const FilterRow = (props: FilterRowProps): JSX.Element => {
         <Grid item xs={1} key={index}>
           <Filter
             classificationLevel={classificationLevel}
-            dropDownTaxons={helperGetTaxonsForClassificationLevel(
-              classificationLevel
-            )}
-            onSelectedChange={handleTaxonSelected}
+            dropDownTaxons={helperGetTaxonsForClassificationLevel(classificationLevel)}
           />
         </Grid>
       ))}

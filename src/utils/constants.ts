@@ -1,16 +1,10 @@
-/*
- *This file contains constants definitions
+/**
+ * This file contains constants definitions
+ *
+ * @format
  */
 
-export type TaxonLevel =
-  | "Kingdom"
-  | "Phylum"
-  | "Class"
-  | "Order"
-  | "Family"
-  | "Genus"
-  | "Species"
-  | "Sub_Species";
+export type TaxonLevel = "Kingdom" | "Phylum" | "Class" | "Order" | "Family" | "Genus" | "Species" | "Sub_Species";
 
 export const classificationLevelArray: TaxonLevel[] = [
   "Kingdom",

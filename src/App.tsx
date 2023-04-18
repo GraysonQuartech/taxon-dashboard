@@ -1,9 +1,12 @@
+/** @format */
+
 //IMPORT React packages and components
 import React from "react";
 import Main from "./components/Main";
 //IMPORT MUI packages
 import { createTheme, ThemeProvider } from "@mui/material";
 import { blue, blueGrey } from "@mui/material/colors";
+import { TaxonContextProvider } from "./contexts/taxonContext";
 
 const globalTheme = createTheme({
   palette: {
@@ -22,7 +25,9 @@ const globalTheme = createTheme({
 const App = (): JSX.Element => {
   return (
     <ThemeProvider theme={globalTheme}>
-      <Main />
+      <TaxonContextProvider>
+        <Main />
+      </TaxonContextProvider>
     </ThemeProvider>
   );
 };

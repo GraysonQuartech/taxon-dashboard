@@ -1,3 +1,5 @@
+/** @format */
+
 // IMPORT React packages and components
 import React, { useState } from "react";
 import FilterRow from "./FilterRow";
@@ -18,9 +20,7 @@ interface SelectedTaxon {
 
 const Main = (): JSX.Element => {
   // HOOKS here
-  const [selectedTaxon, setSelectedTaxon] = useState<SelectedTaxon | null>(
-    null
-  );
+  const [selectedTaxon, setSelectedTaxon] = useState<SelectedTaxon | null>(null);
 
   // HOOK CALL BACKS here
   const handleTaxonFromFilterRow = (taxon: taxonInterface | null): void => {
@@ -32,10 +32,7 @@ const Main = (): JSX.Element => {
   // RETURN ELEMENT HERE
   return (
     <div>
-      <TaxonDisplay
-        taxonName={selectedTaxon?.taxon_name_latin}
-        taxonID={selectedTaxon?.taxon_id}
-      />
+      <TaxonDisplay />
       <FilterRow onTaxonSelected={handleTaxonFromFilterRow} />
     </div>
   );

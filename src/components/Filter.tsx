@@ -1,5 +1,8 @@
+/** @format */
+
 //IMPORT React and Child Components
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useTaxon } from "../contexts/taxonContext";
 //IMPORT MUI packages
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
@@ -7,6 +10,13 @@ import { makeStyles } from "@mui/styles";
 import { Theme } from "@mui/material";
 //IMPORT Datasets+Constants
 import { taxonInterface } from "../utils/datagrab";
+import { TaxonLevel } from "../utils/constants";
+//IMPORT helper functions
+import {
+  helperGetClassificationLevel,
+  helperGetTaxonData,
+  helperGetNextAvailableTaxon,
+} from "../utils/helper_functions";
 
 /*
  * STYLE definitions for useStyles hook
@@ -25,16 +35,13 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
  * PARENT COMPONENT: FilterRows.tsx
  * Props received from parent:
  *   classificationLevel:
- *      The taxon classification... kingdown, phylum etc
+ *      The filterTaxon classification... kingdown, phylum etc
  *   dropDownTaxons:
- *      The taxon options corresponding to the classificationLevel
- * onSelectedChange:
- *      When a filters value is changed, the value is passed up to
- *      the parent component.
- */ interface FilterProps {
-  classificationLevel: string;
+ *      The filterTaxon options corresponding to the classificationLevel
+ */
+interface FilterProps {
+  classificationLevel: TaxonLevel;
   dropDownTaxons: taxonInterface[];
-  onSelectedChange: (selectedTaxon: taxonInterface | null) => void;
 }
 
 /*
@@ -44,13 +51,61 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
  */
 const Filter = (props: FilterProps) => {
   //HOOKS here
-  const [taxon, setTaxon] = useState<taxonInterface | null>(null);
+  let { contextTaxon, setContextTaxon } = useTaxon();
+  const [filterTaxon, setFilterTaxon] = useState<taxonInterface | null>(null);
   const classes = useStyles();
 
-  //HOOK CALL BACKS here
-  const handleChange = (newValue: taxonInterface | null): void => {
-    setTaxon(newValue);
-    props.onSelectedChange(newValue);
+  const classificationLevel = props.classificationLevel;
+
+  const contextTaxonData: Record<TaxonLevel, string | undefined | null> = {
+    Kingdom: contextTaxon?.kingdom_id,
+    Phylum: contextTaxon?.phylum_id,
+    Class: contextTaxon?.class_id,
+    Order: contextTaxon?.order_id,
+    Family: contextTaxon?.family_id,
+    Genus: contextTaxon?.genus_id,
+    Species: contextTaxon?.species_id,
+    Sub_Species: contextTaxon?.sub_species_id,
+  };
+
+  /*
+   * This useEffect is triggered when a filterTaxon at any classification level is selected
+   * It handles auto value update when a higher or lower filterTaxon is selected
+   */
+  useEffect(() => {
+    if (!classificationLevel) return;
+
+    //if setting contextTaxon to non null
+    if (contextTaxon) {
+      const tempTaxon = contextTaxonData[classificationLevel];
+      if (tempTaxon !== undefined) {
+        setFilterTaxon(helperGetTaxonData(tempTaxon));
+      }
+
+      //handle contextTaxon level. which will be NULL in the dataset. but have correct taxonID
+      if (contextTaxon?.taxon_id && classificationLevel === helperGetClassificationLevel(contextTaxon)) {
+        setFilterTaxon(contextTaxon);
+      }
+    }
+    //setting filterTaxon null
+    else {
+      setFilterTaxon(null);
+    }
+  }, [contextTaxon]);
+
+  /*
+   * Receives the new filterTaxon value selected from the drop downs
+   * gets called when a filter value changed to a different filterTaxon/null
+   */
+  const handleTaxonChange = (selectedTaxon: taxonInterface | null) => {
+    //if setting the current filterTaxon to null, the contextTaxon
+    //become the next classification level up before its info is reset
+    if (selectedTaxon === null && contextTaxon !== null) {
+      //set next level up here before info is gone..
+      selectedTaxon = helperGetNextAvailableTaxon(contextTaxon, classificationLevel);
+    }
+
+    setContextTaxon(selectedTaxon);
   };
 
   //RETURN ELEMENT HERE
@@ -59,15 +114,9 @@ const Filter = (props: FilterProps) => {
       className={classes.selectBox}
       options={props.dropDownTaxons.filter((t) => t.taxon_name_latin !== null)}
       getOptionLabel={(option) => option.taxon_name_latin || ""}
-      value={taxon}
-      onChange={(event, newValue) => handleChange(newValue)}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          label={props.classificationLevel}
-          variant="outlined"
-        />
-      )}
+      value={filterTaxon}
+      onChange={(event, newTaxonValue) => handleTaxonChange(newTaxonValue)}
+      renderInput={(params) => <TextField {...params} label={classificationLevel} variant="outlined" />}
     />
   );
 };
