@@ -14,11 +14,8 @@ import { TaxonLevel } from "../utils/constants";
 //IMPORT helper functions
 import {
   helperGetClassificationLevel,
-  helperIsHigherClassificationLevel,
   helperGetTaxonData,
-  helperGetLatinNameFromID,
   helperGetNextAvailableTaxon,
-  helperGetTaxonsForClassificationLevel,
 } from "../utils/helper_functions";
 
 /*
@@ -38,9 +35,9 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
  * PARENT COMPONENT: FilterRows.tsx
  * Props received from parent:
  *   classificationLevel:
- *      The taxon classification... kingdown, phylum etc
+ *      The filterTaxon classification... kingdown, phylum etc
  *   dropDownTaxons:
- *      The taxon options corresponding to the classificationLevel
+ *      The filterTaxon options corresponding to the classificationLevel
  */
 interface FilterProps {
   classificationLevel: TaxonLevel;
@@ -55,57 +52,57 @@ interface FilterProps {
 const Filter = (props: FilterProps) => {
   //HOOKS here
   let { contextTaxon, setContextTaxon } = useTaxon();
-  const [taxon, setTaxon] = useState<taxonInterface | null>(null);
+  const [filterTaxon, setFilterTaxon] = useState<taxonInterface | null>(null);
   const classes = useStyles();
 
+  const classificationLevel = props.classificationLevel;
+
+  const contextTaxonData: Record<TaxonLevel, string | undefined | null> = {
+    Kingdom: contextTaxon?.kingdom_id,
+    Phylum: contextTaxon?.phylum_id,
+    Class: contextTaxon?.class_id,
+    Order: contextTaxon?.order_id,
+    Family: contextTaxon?.family_id,
+    Genus: contextTaxon?.genus_id,
+    Species: contextTaxon?.species_id,
+    Sub_Species: contextTaxon?.sub_species_id,
+  };
+
   /*
-   * This useEffect is triggered when a taxon at any classification level is selected
-   * It handles auto value update when a higher or lower taxon is selected
+   * This useEffect is triggered when a filterTaxon at any classification level is selected
+   * It handles auto value update when a higher or lower filterTaxon is selected
    */
   useEffect(() => {
+    if (!classificationLevel) return;
+
     //if setting contextTaxon to non null
-    if (contextTaxon !== null) {
-      if (props.classificationLevel === "Kingdom" && contextTaxon?.kingdom_id) {
-        setTaxon(helperGetTaxonData(contextTaxon.kingdom_id));
-      } else if (props.classificationLevel === "Phylum" && contextTaxon?.phylum_id) {
-        setTaxon(helperGetTaxonData(contextTaxon.phylum_id));
-      } else if (props.classificationLevel === "Class" && contextTaxon?.class_id) {
-        setTaxon(helperGetTaxonData(contextTaxon.class_id));
-      } else if (props.classificationLevel === "Order" && contextTaxon?.order_id) {
-        setTaxon(helperGetTaxonData(contextTaxon.order_id));
-      } else if (props.classificationLevel === "Family" && contextTaxon?.family_id) {
-        setTaxon(helperGetTaxonData(contextTaxon.family_id));
-      } else if (props.classificationLevel === "Genus" && contextTaxon?.genus_id) {
-        setTaxon(helperGetTaxonData(contextTaxon.genus_id));
-      } else if (props.classificationLevel === "Species") {
-        setTaxon(helperGetTaxonData(contextTaxon.species_id));
-      } else if (props.classificationLevel === "Sub_Species" && contextTaxon?.sub_species_id) {
-        setTaxon(helperGetTaxonData(contextTaxon.sub_species_id));
-      } else {
-        setTaxon(null);
+    if (contextTaxon) {
+      const tempTaxon = contextTaxonData[classificationLevel];
+      if (tempTaxon !== undefined) {
+        setFilterTaxon(helperGetTaxonData(tempTaxon));
       }
+
       //handle contextTaxon level. which will be NULL in the dataset. but have correct taxonID
-      if (contextTaxon?.taxon_id && props.classificationLevel === helperGetClassificationLevel(contextTaxon)) {
-        setTaxon(contextTaxon);
+      if (contextTaxon?.taxon_id && classificationLevel === helperGetClassificationLevel(contextTaxon)) {
+        setFilterTaxon(contextTaxon);
       }
     }
-    //setting context taxon null
+    //setting filterTaxon null
     else {
-      setContextTaxon(contextTaxon);
-      setTaxon(null);
+      setFilterTaxon(null);
     }
   }, [contextTaxon]);
 
   /*
-   * Receives the new taxon value selected from the drop downs
-   * gets called when a filter value changed to a different taxon/null
+   * Receives the new filterTaxon value selected from the drop downs
+   * gets called when a filter value changed to a different filterTaxon/null
    */
   const handleTaxonChange = (selectedTaxon: taxonInterface | null) => {
-    //if setting the current taxon to null, the contextTaxon
+    //if setting the current filterTaxon to null, the contextTaxon
     //become the next classification level up before its info is reset
     if (selectedTaxon === null && contextTaxon !== null) {
       //set next level up here before info is gone..
-      selectedTaxon = helperGetNextAvailableTaxon(contextTaxon, props.classificationLevel);
+      selectedTaxon = helperGetNextAvailableTaxon(contextTaxon, classificationLevel);
     }
 
     setContextTaxon(selectedTaxon);
@@ -117,9 +114,9 @@ const Filter = (props: FilterProps) => {
       className={classes.selectBox}
       options={props.dropDownTaxons.filter((t) => t.taxon_name_latin !== null)}
       getOptionLabel={(option) => option.taxon_name_latin || ""}
-      value={taxon}
+      value={filterTaxon}
       onChange={(event, newTaxonValue) => handleTaxonChange(newTaxonValue)}
-      renderInput={(params) => <TextField {...params} label={props.classificationLevel} variant="outlined" />}
+      renderInput={(params) => <TextField {...params} label={classificationLevel} variant="outlined" />}
     />
   );
 };

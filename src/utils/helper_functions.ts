@@ -92,7 +92,8 @@ export const helperGetNextAvailableTaxon = (
   prevContextTaxon: taxonInterface,
   classificationLevelOfSelected: TaxonLevel
 ): taxonInterface | null => {
-  const newClassLevel = classificationLevelArray[classificationLevelArray.indexOf(classificationLevelOfSelected) - 1];
+  const index = classificationLevelArray.indexOf(classificationLevelOfSelected) - 1;
+  const newClassLevel = classificationLevelArray[index];
   return helperGetTaxonData(helperGetClassificationLevelID(newClassLevel, prevContextTaxon));
 };
 
