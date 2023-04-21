@@ -23,21 +23,10 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
 }));
 
 /*
- * PARENT COMPONENT: App.tsx
- * Props received from parent:
- *   onTaxonSelected:
- *      this is a function callback. when a taxon has been selected from Filter.tsx
- *      this callback is passed to FilterRow.tsx parent
- */
-interface FilterRowProps {
-  onTaxonSelected: (taxon: taxonInterface | null) => void;
-}
-
-/*
  * Main component Function.
  * This component maps data to MUI select components.
  */
-const FilterRow = (props: FilterRowProps): JSX.Element => {
+const FilterRow = (): JSX.Element => {
   //HOOKS here
   const classes = useStyles();
 

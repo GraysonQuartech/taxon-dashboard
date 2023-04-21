@@ -4,9 +4,10 @@
  * @format
  */
 
+import QuantitativeData from "../components/QuantitativeData";
 import dataSet from "../datasets/taxon_data.json";
 import { TaxonLevel, classificationLevelArray } from "./constants";
-import { taxonInterface, taxonInterfaceArray } from "./datagrab";
+import { IquantitativeData, IquantitativeDataArray, taxonInterface, taxonInterfaceArray } from "./datagrab";
 
 /*
  * Accepts a single lk_taxon element, which is
@@ -170,3 +171,31 @@ export const helperIsHigherClassificationLevel = (taxonLevel1: TaxonLevel, taxon
   const index2 = classificationLevelArray.indexOf(taxonLevel2);
   return index1 < index2;
 };
+
+/*
+ * accepts a taxon ID, and returns an array of Quantitative Data associated to it
+ */
+export const helperGetQuantitativeDataArray = (taxon_id: string, data: any): IquantitativeData[] => {
+  let quantitativeDataArray: IquantitativeData[] = [];
+  for (const quantitativeData of data) {
+    if (quantitativeData.taxon_id === taxon_id) {
+      quantitativeDataArray.push(quantitativeData);
+    }
+  }
+  return quantitativeDataArray;
+};
+
+/*
+ * accepts a taxon ID, and returns an array of Quantitative Data associated to it
+ */
+/*
+export const helperGetQuantitativeDataArray = (taxon_id: string, ): IquantitativeData[] => {
+  let quantitativeDataArray: IquantitativeData[] = [];
+  for (const quantitativeData of dataSet.xref_taxon_measurement_quantitative) {
+    if (quantitativeData.taxon_id === taxon_id) {
+      quantitativeDataArray.push(quantitativeData);
+    }
+  }
+  return quantitativeDataArray;
+};
+*/
