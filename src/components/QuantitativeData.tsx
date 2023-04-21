@@ -4,14 +4,13 @@ import React from "react";
 //IMPORT MUI packages
 import { makeStyles } from "@mui/styles";
 import { Theme } from "@mui/material";
-import { GridColDef } from "@material-ui/data-grid";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 //IMPORT Datasets+Constants
 import { IquantitativeData, IquantitativeDataArray, taxonInterface } from "../utils/datagrab";
 //IMPORT helper functions
 
 /*
- *PROPS
+ *Generic props. table rows and columns
  */
 export interface MyDataGridProps<T> {
   rows: T[];
@@ -29,7 +28,19 @@ const QuantitativeData = <T extends IquantitativeData>(props: MyDataGridProps<T>
   console.log("props.rows", props.rows);
   console.log("props.columns", props.columns);
   //RETURN ELEMENT
-  return <div style={{ height: 400, width: "100%" }}></div>;
+  return (
+    <div style={{ height: 400, width: "100%" }}>
+      <div style={{ maxWidth: "50vw", margin: "1rem auto" }}>
+        <DataGrid
+          rows={props.rows || []}
+          columns={props.columns}
+          checkboxSelection
+          getRowId={(row: IquantitativeData) => row.taxon_measurement_id}
+          autoHeight
+        />
+      </div>
+    </div>
+  );
 };
 
 export default QuantitativeData;

@@ -34,23 +34,12 @@ const Main = () => {
     { field: "unit", headerName: "Unit", flex: 1 },
   ];
 
-  console.log("quantitativeDataArray", quantitativeDataArray);
-  console.log("columns", columns);
-
   // RETURN ELEMENT HERE
   return (
     <div>
       <TaxonDisplay />
       <FilterRow />
-      <div style={{ maxWidth: "50vw", margin: "1rem auto" }}>
-        <DataGrid
-          rows={quantitativeDataArray || []}
-          columns={columns}
-          checkboxSelection
-          getRowId={(row: IquantitativeData) => row.taxon_measurement_id}
-          autoHeight
-        />
-      </div>
+      <QuantitativeData rows={quantitativeDataArray} columns={columns} />
     </div>
   );
 };
