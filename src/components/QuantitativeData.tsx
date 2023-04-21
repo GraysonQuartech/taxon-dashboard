@@ -34,7 +34,6 @@ const QuantitativeData = <T extends IquantitativeData>(props: MyDataGridProps<T>
         <DataGrid
           rows={props.rows || []}
           columns={props.columns}
-          checkboxSelection
           getRowId={(row: IquantitativeData) => row.taxon_measurement_id}
           autoHeight
         />
