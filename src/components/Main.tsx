@@ -5,9 +5,9 @@
 import { useTaxon } from "../contexts/taxonContext";
 import FilterRow from "./FilterRow";
 import TaxonDisplay from "./TaxonDisplay";
-import QuantitativeData, { MyDataGridProps } from "./QuantitativeData";
+import QuantitativeData from "./QuantitativeData";
 // IMPORT MUI packages
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { GridColDef } from "@mui/x-data-grid";
 // IMPORT Constants + Data + Helper Functions
 import { helperGetQuantitativeDataArray } from "../utils/helper_functions";
 import { IquantitativeData } from "../utils/datagrab";

@@ -2,11 +2,9 @@
 //IMPORT React and Child Components
 import React from "react";
 //IMPORT MUI packages
-import { makeStyles } from "@mui/styles";
-import { Theme } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 //IMPORT Datasets+Constants
-import { IquantitativeData, IquantitativeDataArray, taxonInterface } from "../utils/datagrab";
+import { IquantitativeData } from "../utils/datagrab";
 //IMPORT helper functions
 
 /*
@@ -25,8 +23,6 @@ export interface MyDataGridProps<T> {
  *      measurement_name, measurement_desc, min_valu, max_value, unit
  */
 const QuantitativeData = <T extends IquantitativeData>(props: MyDataGridProps<T>) => {
-  console.log("props.rows", props.rows);
-  console.log("props.columns", props.columns);
   //RETURN ELEMENT
   return (
     <div style={{ height: 400, width: "100%" }}>
