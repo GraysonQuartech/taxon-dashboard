@@ -29,3 +29,20 @@ export interface taxonInterface {
   create_timestamp: string;
   update_timestamp: string;
 }
+
+export interface IquantitativeDataArray {
+  xref_taxon_measurement_quantitative: IquantitativeData[];
+}
+export interface IquantitativeData {
+  taxon_measurement_id: string;
+  taxon_id: string;
+  measurement_name: string | null;
+  measurement_desc: string | null;
+  min_value: number | null;
+  max_value: number | null;
+  unit: string | null;
+  create_user: string | null;
+  update_user: string | null;
+  create_timestamp: string | null;
+  update_timestamp: string | null;
+}
