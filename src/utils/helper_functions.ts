@@ -4,10 +4,9 @@
  * @format
  */
 
-import QuantitativeData from "../components/QuantitativeData";
 import dataSet from "../datasets/taxon_data.json";
 import { TaxonLevel, classificationLevelArray } from "./constants";
-import { IquantitativeData, IquantitativeDataArray, taxonInterface, taxonInterfaceArray } from "./datagrab";
+import { IquantitativeData, taxonInterface } from "./datagrab";
 
 /*
  * Accepts a single lk_taxon element, which is
@@ -114,30 +113,6 @@ export const helperGetTaxonData = (taxon_id: string | null): taxonInterface | nu
 };
 
 /*
- * Accepts a classificationLevel string.
- * returns an array of taxon names associated to it
- */
-export const helperGetLatinNames = (classificationLevel: string): string[] => {
-  const latinNames: string[] = [];
-  const dataSetLength = dataSet.lk_taxon.length;
-
-  //loop entire lk_taxon array
-  for (let i = 0; i < dataSetLength; i++) {
-    const taxon = dataSet.lk_taxon[i];
-    const taxon_id = taxon.taxon_id;
-
-    if (helperGetClassificationLevel(taxon) === classificationLevel) {
-      const name = helperGetLatinNameFromID(taxon_id);
-      if (name !== null) {
-        latinNames.push(name);
-      }
-    }
-  }
-
-  return latinNames;
-};
-
-/*
  * Accepts a taxon classification Level Kingdom, phylum etc
  * Returns an array of taxons associated to that classification level
  */
@@ -163,16 +138,6 @@ export const helperGetTaxonsForClassificationLevel = (classificationLevel: Taxon
 };
 
 /*
- * Takes two TaxonLevels,
- * returns true if the first one is at a lower index in the array than the second one
- */
-export const helperIsHigherClassificationLevel = (taxonLevel1: TaxonLevel, taxonLevel2: TaxonLevel): boolean => {
-  const index1 = classificationLevelArray.indexOf(taxonLevel1);
-  const index2 = classificationLevelArray.indexOf(taxonLevel2);
-  return index1 < index2;
-};
-
-/*
  * accepts a taxon ID, and returns an array of Quantitative Data associated to it
  */
 export const helperGetQuantitativeDataArray = (taxon_id: string, data: any): IquantitativeData[] => {
@@ -184,18 +149,3 @@ export const helperGetQuantitativeDataArray = (taxon_id: string, data: any): Iqu
   }
   return quantitativeDataArray;
 };
-
-/*
- * accepts a taxon ID, and returns an array of Quantitative Data associated to it
- */
-/*
-export const helperGetQuantitativeDataArray = (taxon_id: string, ): IquantitativeData[] => {
-  let quantitativeDataArray: IquantitativeData[] = [];
-  for (const quantitativeData of dataSet.xref_taxon_measurement_quantitative) {
-    if (quantitativeData.taxon_id === taxon_id) {
-      quantitativeDataArray.push(quantitativeData);
-    }
-  }
-  return quantitativeDataArray;
-};
-*/
