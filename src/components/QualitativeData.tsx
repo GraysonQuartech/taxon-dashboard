@@ -1,11 +1,15 @@
 /** @format */
 //IMPORT React and Child Components
 import React from "react";
+import QualOptionsData from "./QualOptionsData";
 //IMPORT MUI packages
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 //IMPORT Datasets+Constants
+import dataSet from "../datasets/taxon_data.json";
 import { IqualitativeData, IqualitativeOptionData } from "../utils/datagrab";
+import { helperGetQualitativeOptions } from "../utils/helper_functions";
+import { columnsQualitativeOptions } from "../utils/constants";
 
 //IMPORT helper functions
 
@@ -23,35 +27,58 @@ const useStyles = makeStyles({
  */
 export interface MyDataGridProps<T> {
   rows: T[];
-  columns: GridColDef[];
-  subColumns: GridColDef[];
-  subDataSet: IqualitativeOptionData[];
+  columns: { headerName: string; field: string }[];
 }
+
+/*
+ * Accepts a measurement ID and returns the options table component
+ * associated to it
+ */
+const OptionsTableConent = (measurementId: string) => {
+  return (
+    <QualOptionsData
+      rows={helperGetQualitativeOptions(measurementId, dataSet.xref_taxon_measurement_qualitative_option)}
+      columns={columnsQualitativeOptions}
+    />
+  );
+};
 
 /*
  * Displays the qualitative data table
  * Associated to the current context taxon
  * displaying:
- *      taxon_id (transformed to the taxon_name),
- *      measurement_name, measurement_desc, min_valu, max_value, unit
+ *      taxon_id (transformed to the taxon_name),
+ *      measurement_name, measurement_desc, min_valu, max_value, unit
  */
 const QualitativeData = <T extends IqualitativeData>(props: MyDataGridProps<T>) => {
+  //VARIABLES
+  const rowId = (row: IqualitativeData): string => row.taxon_measurement_id;
+
   //HOOKS
   const classes = useStyles();
 
   //RETURN ELEMENT
   return (
-    <div className={classes.root}>
-      <DataGrid
-        columns={props.columns}
-        rows={props.rows || []}
-        getRowId={(row: IqualitativeData) => row.taxon_measurement_id}
-        rowThreshold={0}
-        autoHeight
-        //getDetailPanelHeight={getDetailPanelHeight}
-        //getDetailPanelContent={props.subRows}
-      />
-    </div>
+    <TableContainer className={classes.root}>
+      <Table>
+        <TableHead>
+          <TableRow>
+            {props.columns.map((column) => (
+              <TableCell key={column.field}>{column.headerName}</TableCell>
+            ))}
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {props.rows.map((row) => (
+            <TableRow key={rowId(row)}>
+              {props.columns.map((column, index) => (
+                <TableCell key={column.field}> {row[column.field as keyof IqualitativeData]} </TableCell>
+              ))}
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 };
 
