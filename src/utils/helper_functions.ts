@@ -6,7 +6,7 @@
 
 import dataSet from "../datasets/taxon_data.json";
 import { TaxonLevel, classificationLevelArray } from "./constants";
-import { IquantitativeData, taxonInterface } from "./datagrab";
+import { IquantitativeData, taxonInterface, IqualitativeData } from "./datagrab";
 
 /*
  * Accepts a single lk_taxon element, which is
@@ -148,4 +148,17 @@ export const helperGetQuantitativeDataArray = (taxon_id: string, data: any): Iqu
     }
   }
   return quantitativeDataArray;
+};
+
+/*
+ * accepts a taxon ID, and returns an array of Qualitative Data associated to it
+ */
+export const helperGetQualitativeDataArray = (taxon_id: string, data: any): IqualitativeData[] => {
+  let qualitativeDataArray: IqualitativeData[] = [];
+  for (const qualitativeData of data) {
+    if (qualitativeData.taxon_id === taxon_id) {
+      qualitativeDataArray.push(qualitativeData);
+    }
+  }
+  return qualitativeDataArray;
 };

@@ -46,3 +46,17 @@ export interface IquantitativeData {
   create_timestamp: string | null;
   update_timestamp: string | null;
 }
+
+export interface IqualitativeDataArray {
+  xref_taxon_measurement_qualitative: IqualitativeData[];
+}
+export interface IqualitativeData {
+  taxon_measurement_id: string;
+  taxon_id: string;
+  measurement_name: string | null;
+  measurement_desc: string | null;
+  create_user: string | null;
+  update_user: string | null;
+  create_timestamp: string | null;
+  update_timestamp: string | null;
+}

@@ -5,7 +5,7 @@ import React from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { makeStyles } from "@mui/styles";
 //IMPORT Datasets+Constants
-import { IquantitativeData } from "../utils/datagrab";
+import { IqualitativeData } from "../utils/datagrab";
 //IMPORT helper functions
 
 const useStyles = makeStyles({
@@ -26,13 +26,13 @@ export interface MyDataGridProps<T> {
 }
 
 /*
- * Displays the quantitative data table
+ * Displays the qualitative data table
  * Associated to the current context taxon
  * displaying:
  *      taxon_id (transformed to the taxon_name),
  *      measurement_name, measurement_desc, min_valu, max_value, unit
  */
-const QuantitativeData = <T extends IquantitativeData>(props: MyDataGridProps<T>) => {
+const QualitativeData = <T extends IqualitativeData>(props: MyDataGridProps<T>) => {
   //HOOKS
   const classes = useStyles();
 
@@ -42,11 +42,11 @@ const QuantitativeData = <T extends IquantitativeData>(props: MyDataGridProps<T>
       <DataGrid
         rows={props.rows || []}
         columns={props.columns}
-        getRowId={(row: IquantitativeData) => row.taxon_measurement_id}
+        getRowId={(row: IqualitativeData) => row.taxon_measurement_id}
         autoHeight
       />
     </div>
   );
 };
 
-export default QuantitativeData;
+export default QualitativeData;
