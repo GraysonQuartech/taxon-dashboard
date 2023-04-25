@@ -4,21 +4,15 @@
 import React from "react";
 //IMPORT MUI packages
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
-import { makeStyles } from "@mui/styles";
-import IconButton from "@mui/material/IconButton";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 //IMPORT Datasets+Constants
-import dataSet from "../datasets/taxon_data.json";
-import { IquantitativeData, IqualitativeOptionData } from "../utils/datagrab";
-import { helperGetQualitativeOptions } from "../utils/helper_functions";
-import { columnsQualitativeOptions } from "../utils/constants";
+import { IquantitativeData } from "../utils/datagrab";
 
 /*
  *Generic props. table rows and columns
  */
 export interface TableRowProps<T> {
   row: T;
+  rowID: string;
   columns: { headerName: string; field: string }[];
 }
 
@@ -26,13 +20,13 @@ export interface TableRowProps<T> {
  * A non collapsible regular table row
  * Used by quantitative data component
  */
-const TableRowRegular = <T extends IquantitativeData>(props: TableRowProps<T>) => {
+const TableRowRegular = <T extends Record<string, string | number | null>>(props: TableRowProps<T>) => {
   //VARIABLES
-  const rowId = (row: IquantitativeData): string => row.taxon_measurement_id;
+  //const rowId = (row: IquantitativeData): string => row.taxon_measurement_id;
 
   //RETURN ELEMENT
   return (
-    <TableRow key={rowId(props.row)}>
+    <TableRow key={props.rowID}>
       {props.columns.map((column, index) => (
         <TableCell key={column.field}> {props.row[column.field as keyof IquantitativeData]} </TableCell>
       ))}

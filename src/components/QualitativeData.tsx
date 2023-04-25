@@ -25,6 +25,7 @@ const useStyles = makeStyles({
 export interface MyDataGridProps<T> {
   rows: T[];
   columns: { headerName: string; field: string }[];
+  getRowID: (row: T) => string;
 }
 
 /*
@@ -34,7 +35,7 @@ export interface MyDataGridProps<T> {
  *      taxon_id (transformed to the taxon_name),
  *      measurement_name, measurement_desc, min_valu, max_value, unit
  */
-const QualitativeData = <T extends IqualitativeData>(props: MyDataGridProps<T>) => {
+const QualitativeData = <T extends Record<string, string | number | null>>(props: MyDataGridProps<T>) => {
   //HOOKS
   const classes = useStyles();
 
@@ -51,7 +52,7 @@ const QualitativeData = <T extends IqualitativeData>(props: MyDataGridProps<T>) 
         </TableHead>
         <TableBody>
           {props.rows.map((row) => (
-            <TableRowCollapse row={row} columns={props.columns} />
+            <TableRowCollapse row={row} columns={props.columns} rowID={props.getRowID(row)} />
           ))}
         </TableBody>
       </Table>

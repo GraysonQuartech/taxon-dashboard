@@ -12,6 +12,7 @@ import QualitativeData from "./QualitativeData";
 import { helperGetQuantitativeDataArray, helperGetQualitativeDataArray } from "../utils/helper_functions";
 import { columnsQuantitative, columnsQualitative } from "../utils/constants";
 import dataSet from "../datasets/taxon_data.json";
+import { IqualitativeData, IquantitativeData } from "../utils/datagrab";
 
 /*
  * Main component function here
@@ -38,8 +39,16 @@ const Main = () => {
     <div>
       <FilterRow />
       <TaxonDisplay />
-      <QuantitativeData rows={quantitativeDataArray} columns={columnsQuantitative} />
-      <QualitativeData rows={qualitativeDataArray} columns={columnsQualitative} />
+      <QuantitativeData<IquantitativeData>
+        rows={quantitativeDataArray}
+        columns={columnsQuantitative}
+        getRowID={(row: IquantitativeData) => row.taxon_measurement_id}
+      />
+      <QualitativeData<IqualitativeData>
+        rows={qualitativeDataArray}
+        columns={columnsQualitative}
+        getRowID={(row: IqualitativeData) => row.taxon_measurement_id}
+      />
     </div>
   );
 };
