@@ -2,7 +2,6 @@
 /** @format */
 //IMPORT React and Child Components
 import React from "react";
-import QualOptionsData from "./QualOptionsData";
 //IMPORT MUI packages
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { makeStyles } from "@mui/styles";
@@ -10,10 +9,7 @@ import IconButton from "@mui/material/IconButton";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 //IMPORT Datasets+Constants
-import dataSet from "../datasets/taxon_data.json";
-import { IqualitativeData, IqualitativeOptionData } from "../utils/datagrab";
-import { helperGetQualitativeOptions } from "../utils/helper_functions";
-import { columnsQualitativeOptions } from "../utils/constants";
+import { IqualitativeData } from "../utils/datagrab";
 
 /*
  *Generic props. table rows and columns
@@ -23,7 +19,7 @@ export interface CollapsibleRowProps<T> {
   columns: { headerName: string; field: string }[];
 }
 
-const CollapsibleRow = <T extends IqualitativeData>(props: CollapsibleRowProps<T>) => {
+const TableRowCollapse = <T extends IqualitativeData>(props: CollapsibleRowProps<T>) => {
   //VARIABLES
   const rowId = (row: IqualitativeData): string => row.taxon_measurement_id;
 
@@ -44,4 +40,4 @@ const CollapsibleRow = <T extends IqualitativeData>(props: CollapsibleRowProps<T
     </TableRow>
   );
 };
-export default CollapsibleRow;
+export default TableRowCollapse;

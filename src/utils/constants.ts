@@ -21,7 +21,7 @@ export const classificationLevelArray: TaxonLevel[] = [
 ];
 
 //quantitative data columns
-export const columnsQuantitative: GridColDef<IquantitativeData>[] = [
+export const columnsQuantitative = [
   { field: "measurement_name", headerName: "Name", flex: 1 },
   { field: "measurement_desc", headerName: "Description", flex: 1 },
   { field: "min_value", headerName: "Min Value", flex: 1 },

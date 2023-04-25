@@ -2,10 +2,11 @@
 //IMPORT React and Child Components
 import React from "react";
 //IMPORT MUI packages
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 //IMPORT Datasets+Constants
 import { IquantitativeData } from "../utils/datagrab";
+import TableRowRegular from "./TableRowRegular";
 //IMPORT helper functions
 
 const useStyles = makeStyles({
@@ -22,7 +23,7 @@ const useStyles = makeStyles({
  */
 export interface MyDataGridProps<T> {
   rows: T[];
-  columns: GridColDef[];
+  columns: { headerName: string; field: string }[];
 }
 
 /*
@@ -38,14 +39,22 @@ const QuantitativeData = <T extends IquantitativeData>(props: MyDataGridProps<T>
 
   //RETURN ELEMENT
   return (
-    <div className={classes.root}>
-      <DataGrid
-        rows={props.rows || []}
-        columns={props.columns}
-        getRowId={(row: IquantitativeData) => row.taxon_measurement_id}
-        autoHeight
-      />
-    </div>
+    <TableContainer className={classes.root}>
+      <Table>
+        <TableHead>
+          <TableRow>
+            {props.columns.map((column) => (
+              <TableCell key={column.field}>{column.headerName}</TableCell>
+            ))}
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {props.rows.map((row) => (
+            <TableRowRegular row={row} columns={props.columns} />
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 };
 

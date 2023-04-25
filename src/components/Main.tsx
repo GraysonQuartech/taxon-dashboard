@@ -12,7 +12,6 @@ import QualitativeData from "./QualitativeData";
 import { helperGetQuantitativeDataArray, helperGetQualitativeDataArray } from "../utils/helper_functions";
 import { columnsQuantitative, columnsQualitative } from "../utils/constants";
 import dataSet from "../datasets/taxon_data.json";
-import QualOptionsData from "./QualOptionsData";
 
 /*
  * Main component function here

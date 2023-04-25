@@ -1,15 +1,12 @@
 /** @format */
 //IMPORT React and Child Components
 import React from "react";
-import CollapsibleRow from "./CollapsibleRow";
+import TableRowCollapse from "./TableRowCollapse";
 //IMPORT MUI packages
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 //IMPORT Datasets+Constants
-import dataSet from "../datasets/taxon_data.json";
-import { IqualitativeData, IqualitativeOptionData } from "../utils/datagrab";
-import { helperGetQualitativeOptions } from "../utils/helper_functions";
-import { columnsQualitativeOptions } from "../utils/constants";
+import { IqualitativeData } from "../utils/datagrab";
 
 //IMPORT helper functions
 
@@ -29,19 +26,6 @@ export interface MyDataGridProps<T> {
   rows: T[];
   columns: { headerName: string; field: string }[];
 }
-
-/*
- * Accepts a measurement ID and returns the options table component
- * associated to it
- */
-//const OptionsTableConent = (measurementId: string) => {
-//  return (
-//<QualOptionsData
-//  rows={helperGetQualitativeOptions(measurementId, dataSet.xref_taxon_measurement_qualitative_option)}
-//  columns={columnsQualitativeOptions}
-///>
-//  );
-//};
 
 /*
  * Displays the qualitative data table
@@ -67,7 +51,7 @@ const QualitativeData = <T extends IqualitativeData>(props: MyDataGridProps<T>) 
         </TableHead>
         <TableBody>
           {props.rows.map((row) => (
-            <CollapsibleRow row={row} columns={props.columns} />
+            <TableRowCollapse row={row} columns={props.columns} />
           ))}
         </TableBody>
       </Table>
