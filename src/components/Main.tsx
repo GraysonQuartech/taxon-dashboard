@@ -9,8 +9,13 @@ import QuantitativeData from "./QuantitativeData";
 import QualitativeData from "./QualitativeData";
 // IMPORT MUI packages
 import { GridColDef } from "@mui/x-data-grid";
+import { Card, CardContent, Typography, Theme } from "@mui/material";
 // IMPORT Constants + Data + Helper Functions
-import { helperGetQuantitativeDataArray, helperGetQualitativeDataArray } from "../utils/helper_functions";
+import {
+  helperGetQuantitativeDataArray,
+  helperGetQualitativeDataArray,
+  helperGetQualitativeOptionDataArray,
+} from "../utils/helper_functions";
 import { IquantitativeData, IqualitativeData } from "../utils/datagrab";
 import dataSet from "../datasets/taxon_data.json";
 
@@ -35,7 +40,7 @@ const Main = () => {
   );
 
   //quantitative data columns
-  const columns: GridColDef<IquantitativeData>[] = [
+  const columnsQuantitative: GridColDef<IquantitativeData>[] = [
     { field: "measurement_name", headerName: "Name", flex: 1 },
     { field: "measurement_desc", headerName: "Description", flex: 1 },
     { field: "min_value", headerName: "Min Value", flex: 1 },
@@ -44,8 +49,7 @@ const Main = () => {
   ];
 
   //qualitative data columns
-  const columns2: GridColDef<IqualitativeData>[] = [
-    { field: "taxon_id", headerName: "taxon", flex: 1 },
+  const columnsQualitative: GridColDef<IqualitativeData>[] = [
     { field: "measurement_name", headerName: "Name", flex: 1 },
     { field: "measurement_desc", headerName: "Description", flex: 1 },
   ];
@@ -53,10 +57,15 @@ const Main = () => {
   // RETURN ELEMENT HERE
   return (
     <div>
-      <TaxonDisplay />
       <FilterRow />
-      <QuantitativeData rows={quantitativeDataArray} columns={columns} />
-      <QualitativeData rows={qualitativeDataArray} columns={columns2} />
+      <TaxonDisplay />
+      <QuantitativeData rows={quantitativeDataArray} columns={columnsQuantitative} />
+      <QualitativeData
+        rows={qualitativeDataArray}
+        columns={columnsQualitative}
+        subColumns={columnsQualitative}
+        subDataSet={dataSet.xref_taxon_measurement_qualitative_option}
+      />
     </div>
   );
 };

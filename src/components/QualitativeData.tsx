@@ -5,7 +5,8 @@ import React from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { makeStyles } from "@mui/styles";
 //IMPORT Datasets+Constants
-import { IqualitativeData } from "../utils/datagrab";
+import { IqualitativeData, IqualitativeOptionData } from "../utils/datagrab";
+
 //IMPORT helper functions
 
 const useStyles = makeStyles({
@@ -23,6 +24,8 @@ const useStyles = makeStyles({
 export interface MyDataGridProps<T> {
   rows: T[];
   columns: GridColDef[];
+  subColumns: GridColDef[];
+  subDataSet: IqualitativeOptionData[];
 }
 
 /*
@@ -40,10 +43,13 @@ const QualitativeData = <T extends IqualitativeData>(props: MyDataGridProps<T>) 
   return (
     <div className={classes.root}>
       <DataGrid
-        rows={props.rows || []}
         columns={props.columns}
+        rows={props.rows || []}
         getRowId={(row: IqualitativeData) => row.taxon_measurement_id}
+        rowThreshold={0}
         autoHeight
+        //getDetailPanelHeight={getDetailPanelHeight}
+        //getDetailPanelContent={props.subRows}
       />
     </div>
   );

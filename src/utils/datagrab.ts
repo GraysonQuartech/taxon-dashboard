@@ -60,3 +60,18 @@ export interface IqualitativeData {
   create_timestamp: string | null;
   update_timestamp: string | null;
 }
+
+export interface IqualitativeOptionDataArray {
+  xref_taxon_measurement_qualitative_option: IqualitativeOptionData[];
+}
+export interface IqualitativeOptionData {
+  qualitative_option_id: string;
+  taxon_measurement_id: string;
+  option_label: string | null;
+  option_value: number;
+  option_desc: string | null;
+  create_user: string | null;
+  update_user: string | null;
+  create_timestamp: string | null;
+  update_timestamp: string | null;
+}
