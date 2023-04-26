@@ -1,5 +1,4 @@
 /** @format */
-/** @format */
 //IMPORT React and Child Components
 import React from "react";
 //IMPORT MUI packages
@@ -10,8 +9,7 @@ import IconButton from "@mui/material/IconButton";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 //IMPORT Datasets+Constants
-import { IqualitativeData } from "../utils/datagrab";
-import TableRowRegular from "./TableRowRegular";
+import RowRegular from "./RowRegular";
 
 /*
  *Generic props. table rows and columns
@@ -23,9 +21,6 @@ interface CollapsibleRowProps<T> {
 }
 
 const TableRowCollapse = <T extends Record<string, string | number | null>>(props: CollapsibleRowProps<T>) => {
-  //VARIABLES
-  //const rowId = (row: IqualitativeData): string => row.taxon_measurement_id;
-
   //HOOKS
   const [open, setOpen] = React.useState(false);
 
@@ -46,7 +41,7 @@ const TableRowCollapse = <T extends Record<string, string | number | null>>(prop
         <TableRow>
           <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={props.columns.length + 1}>
             <Collapse in={open} timeout="auto" unmountOnExit>
-              <TableRowRegular row={props.row} columns={props.columns} rowID={props.rowID} />
+              <RowRegular row={props.row} columns={props.columns} rowID={props.rowID} />
             </Collapse>
           </TableCell>
         </TableRow>

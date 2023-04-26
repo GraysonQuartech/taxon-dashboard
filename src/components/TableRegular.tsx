@@ -1,13 +1,11 @@
 /** @format */
 //IMPORT React and Child Components
 import React from "react";
-import TableRowCollapse from "./TableRowCollapse";
+import RowRegular from "./RowRegular";
 //IMPORT MUI packages
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 //IMPORT Datasets+Constants
-import { IqualitativeData } from "../utils/datagrab";
-
 //IMPORT helper functions
 
 const useStyles = makeStyles({
@@ -29,13 +27,13 @@ export interface MyDataGridProps<T> {
 }
 
 /*
- * Displays the qualitative data table
+ * Displays the quantitative data table
  * Associated to the current context taxon
  * displaying:
- *      taxon_id (transformed to the taxon_name),
- *      measurement_name, measurement_desc, min_valu, max_value, unit
+ *      taxon_id (transformed to the taxon_name),
+ *      measurement_name, measurement_desc, min_valu, max_value, unit
  */
-const QualitativeData = <T extends Record<string, string | number | null>>(props: MyDataGridProps<T>) => {
+const QuantitativeData = <T extends Record<string, string | number | null>>(props: MyDataGridProps<T>) => {
   //HOOKS
   const classes = useStyles();
 
@@ -52,7 +50,7 @@ const QualitativeData = <T extends Record<string, string | number | null>>(props
         </TableHead>
         <TableBody>
           {props.rows.map((row) => (
-            <TableRowCollapse row={row} columns={props.columns} rowID={props.getRowID(row)} />
+            <RowRegular row={row} columns={props.columns} rowID={props.getRowID(row)} />
           ))}
         </TableBody>
       </Table>
@@ -60,4 +58,4 @@ const QualitativeData = <T extends Record<string, string | number | null>>(props
   );
 };
 
-export default QualitativeData;
+export default QuantitativeData;

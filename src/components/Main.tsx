@@ -5,8 +5,8 @@ import React from "react";
 import { useTaxon } from "../contexts/taxonContext";
 import FilterRow from "./FilterRow";
 import TaxonDisplay from "./TaxonDisplay";
-import QuantitativeData from "./QuantitativeData";
-import QualitativeData from "./QualitativeData";
+import TableRegular from "./TableRegular";
+import TableCollapse from "./TableCollapse";
 // IMPORT MUI packages
 // IMPORT Constants + Data + Helper Functions
 import { helperGetQuantitativeDataArray, helperGetQualitativeDataArray } from "../utils/helper_functions";
@@ -39,12 +39,12 @@ const Main = () => {
     <div>
       <FilterRow />
       <TaxonDisplay />
-      <QuantitativeData<IquantitativeData>
+      <TableRegular<IquantitativeData>
         rows={quantitativeDataArray}
         columns={columnsQuantitative}
         getRowID={(row: IquantitativeData) => row.taxon_measurement_id}
       />
-      <QualitativeData<IqualitativeData>
+      <TableCollapse<IqualitativeData>
         rows={qualitativeDataArray}
         columns={columnsQualitative}
         getRowID={(row: IqualitativeData) => row.taxon_measurement_id}
