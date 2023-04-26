@@ -3,19 +3,24 @@
 import React from "react";
 import RowRegular from "./RowRegular";
 //IMPORT MUI packages
+import { Theme } from "@mui/material";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 //IMPORT Datasets+Constants
 //IMPORT helper functions
 
-const useStyles = makeStyles({
-  root: {
-    height: 400,
+const useStyles = makeStyles((globalTheme: Theme) => ({
+  tableClass: {
     width: "100%",
-    maxWidth: "75vw",
-    //margin: "1rem auto",
+    maxWidth: "100vw",
+    maxHeight: "40vh",
+    paddingBottom: globalTheme.spacing(1),
+    paddingTop: globalTheme.spacing(1),
   },
-});
+  tableHeaderClass: {
+    backgroundColor: globalTheme.palette.secondary.light,
+  },
+}));
 
 /*
  *Generic props. table rows and columns
@@ -39,9 +44,9 @@ const QuantitativeData = <T extends Record<string, string | number | null>>(prop
 
   //RETURN ELEMENT
   return (
-    <TableContainer className={classes.root}>
+    <TableContainer className={classes.tableClass}>
       <Table>
-        <TableHead>
+        <TableHead className={classes.tableHeaderClass}>
           <TableRow>
             {props.columns.map((column) => (
               <TableCell key={column.field}>{column.headerName}</TableCell>
