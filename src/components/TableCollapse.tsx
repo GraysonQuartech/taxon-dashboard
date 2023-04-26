@@ -51,6 +51,7 @@ const QualitativeData = <T extends Record<string, string | number | null>>(props
       <Table>
         <TableHead>
           <TableRow className={classes.tableHeaderClass}>
+            <TableCell></TableCell>
             {props.columns.map((column) => (
               <TableCell key={column.field}>{column.headerName}</TableCell>
             ))}
