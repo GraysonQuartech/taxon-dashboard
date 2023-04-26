@@ -20,7 +20,7 @@ const useStyles = makeStyles({
 /*
  *Generic props. table rows and columns
  */
-export interface MyDataGridProps<T> {
+export interface TableProps<T> {
   rows: T[];
   columns: { headerName: string; field: string }[];
   getRowID: (row: T) => string;
@@ -33,7 +33,7 @@ export interface MyDataGridProps<T> {
  *      taxon_id (transformed to the taxon_name),
  *      measurement_name, measurement_desc, min_valu, max_value, unit
  */
-const QuantitativeData = <T extends Record<string, string | number | null>>(props: MyDataGridProps<T>) => {
+const QuantitativeData = <T extends Record<string, string | number | null>>(props: TableProps<T>) => {
   //HOOKS
   const classes = useStyles();
 

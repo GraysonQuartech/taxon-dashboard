@@ -9,7 +9,7 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from
 /*
  *Generic props. table rows and columns
  */
-export interface TableRowProps<T> {
+export interface RowProps<T> {
   row: T;
   rowID: string;
   columns: { headerName: string; field: string }[];
@@ -19,7 +19,7 @@ export interface TableRowProps<T> {
  * A non collapsible regular table row
  * Used by quantitative data component
  */
-const TableRowRegular = <T extends Record<string, string | number | null>>(props: TableRowProps<T>) => {
+const TableRowRegular = <T extends Record<string, string | number | null>>(props: RowProps<T>) => {
   //RETURN ELEMENT
   return (
     <TableRow key={props.rowID}>

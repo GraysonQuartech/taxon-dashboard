@@ -36,7 +36,7 @@ export const columnsQualitative = [
 ];
 
 //qualitative options data columns
-export const columnsQualitativeOptions: GridColDef<IqualitativeOptionData>[] = [
+export const columnsQualitativeOptions = [
   { field: "option_label", headerName: "label", flex: 1 },
   { field: "option_value", headerName: "Value", flex: 1 },
   { field: "option_desc", headerName: "Description", flex: 1 },
