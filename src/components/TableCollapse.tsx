@@ -21,6 +21,9 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
     paddingBottom: globalTheme.spacing(1),
     paddingTop: globalTheme.spacing(1),
     backgroundColor: globalTheme.palette.secondary.light,
+    "& th": {
+      fontWeight: globalTheme.typography.fontWeightBold,
+    },
   },
 }));
 

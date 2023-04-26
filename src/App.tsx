@@ -20,6 +20,11 @@ const globalTheme = createTheme({
     },
   },
   spacing: 8,
+  typography: {
+    fontWeightRegular: 400,
+    fontWeightMedium: 500,
+    fontWeightBold: 600,
+  },
 });
 
 const App = (): JSX.Element => {

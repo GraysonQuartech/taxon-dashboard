@@ -19,6 +19,9 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
   },
   tableHeaderClass: {
     backgroundColor: globalTheme.palette.secondary.light,
+    "& th": {
+      fontWeight: globalTheme.typography.fontWeightBold,
+    },
   },
 }));
 
