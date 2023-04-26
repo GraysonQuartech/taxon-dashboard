@@ -1,13 +1,11 @@
 /** @format */
 //IMPORT React and Child Components
-import React from "react";
+import React, { ReactNode } from "react";
 import RowCollapse from "./RowCollapse";
 //IMPORT MUI packages
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 //IMPORT Datasets+Constants
-import { IqualitativeData } from "../utils/datagrab";
-
 //IMPORT helper functions
 
 const useStyles = makeStyles({
@@ -22,10 +20,11 @@ const useStyles = makeStyles({
 /*
  *Generic props. table rows and columns
  */
-export interface MyDataGridProps<T> {
+export interface TableProps<T> {
   rows: T[];
   columns: { headerName: string; field: string }[];
   getRowID: (row: T) => string;
+  renderSubTable: (row: T) => ReactNode; //
 }
 
 /*
@@ -35,7 +34,7 @@ export interface MyDataGridProps<T> {
  *      taxon_id (transformed to the taxon_name),
  *      measurement_name, measurement_desc, min_valu, max_value, unit
  */
-const QualitativeData = <T extends Record<string, string | number | null>>(props: MyDataGridProps<T>) => {
+const QualitativeData = <T extends Record<string, string | number | null>>(props: TableProps<T>) => {
   //HOOKS
   const classes = useStyles();
 
@@ -52,7 +51,12 @@ const QualitativeData = <T extends Record<string, string | number | null>>(props
         </TableHead>
         <TableBody>
           {props.rows.map((row) => (
-            <RowCollapse row={row} columns={props.columns} rowID={props.getRowID(row)} />
+            <RowCollapse
+              row={row}
+              columns={props.columns}
+              rowID={props.getRowID(row)}
+              renderSubTable={props.renderSubTable}
+            />
           ))}
         </TableBody>
       </Table>
