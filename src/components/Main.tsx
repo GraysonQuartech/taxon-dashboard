@@ -59,12 +59,16 @@ const Main = () => {
       <FilterRow />
       <div className={contextTaxon ? classes.enabled : classes.disabled}>
         <TaxonDisplay />
+      </div>
+      <div className={quantitativeDataArray.length ? classes.enabled : classes.disabled}>
         <TableRegular<IquantitativeData>
           tableName={"Quantative Measurements"}
           rows={quantitativeDataArray}
           columns={columnsQuantitative}
           getRowID={(row: IquantitativeData) => row.taxon_measurement_id}
         />
+      </div>
+      <div className={qualitativeDataArray.length ? classes.enabled : classes.disabled}>
         <TableCollapse<IqualitativeData>
           tableName={"Qualitative Measurements"}
           rows={qualitativeDataArray}
@@ -77,12 +81,14 @@ const Main = () => {
               dataSet.xref_taxon_measurement_qualitative_option
             );
             return (
-              <TableRegular<IqualitativeOptionData>
-                tableName={"Qualitative Options"}
-                rows={qualitativeOptionDataArray}
-                columns={columnsQualitativeOptions}
-                getRowID={(row: IqualitativeOptionData) => row.qualitative_option_id}
-              />
+              <div className={qualitativeOptionDataArray.length ? classes.enabled : classes.disabled}>
+                <TableRegular<IqualitativeOptionData>
+                  tableName={"Qualitative Options"}
+                  rows={qualitativeOptionDataArray}
+                  columns={columnsQualitativeOptions}
+                  getRowID={(row: IqualitativeOptionData) => row.qualitative_option_id}
+                />
+              </div>
             );
           }} // (row: T) => ReactNode;
         />
