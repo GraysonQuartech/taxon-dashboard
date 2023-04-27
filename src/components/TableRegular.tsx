@@ -20,6 +20,9 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
       fontWeight: globalTheme.typography.fontWeightBold,
     },
   },
+  titleClass: {
+    padding: globalTheme.spacing(1),
+  },
 }));
 
 /*
@@ -46,7 +49,7 @@ const QuantitativeData = <T extends Record<string, string | number | null>>(prop
   //RETURN ELEMENT
   return (
     <TableContainer component={Paper} className={classes.tableClass}>
-      <Typography variant="h6" gutterBottom>
+      <Typography variant="h6" className={classes.titleClass}>
         {props.tableName}
       </Typography>
       <Table size="small">

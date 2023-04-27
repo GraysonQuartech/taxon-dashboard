@@ -19,7 +19,7 @@ const globalTheme = createTheme({
       light: blueGrey[50],
     },
   },
-  spacing: 8,
+  spacing: 4,
   typography: {
     fontWeightRegular: 400,
     fontWeightMedium: 500,

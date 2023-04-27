@@ -14,6 +14,7 @@ import { TableCell, TableRow } from "@mui/material";
 const useStyles = makeStyles((globalTheme: Theme) => ({
   tableCellClass: {
     fontWeight: globalTheme.typography.fontWeightMedium + "!important",
+    height: "34px",
   },
 }));
 

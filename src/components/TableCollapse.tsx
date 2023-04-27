@@ -19,8 +19,8 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
     //paddingTop: globalTheme.spacing(1),
     //display: "Inline-Block",
   },
-  tableNameClass: {
-    //variant: "h7",
+  titleClass: {
+    padding: globalTheme.spacing(1),
   },
   tableHeaderClass: {
     //paddingBottom: globalTheme.spacing(1),
@@ -57,7 +57,7 @@ const QualitativeData = <T extends Record<string, string | number | null>>(props
   //RETURN ELEMENT
   return (
     <TableContainer component={Paper} className={classes.tableClass}>
-      <Typography variant="h6" gutterBottom className={classes.tableNameClass}>
+      <Typography variant="h6" className={classes.titleClass}>
         {props.tableName}
       </Typography>
       <Table aria-label="collapsible table" size="small">
