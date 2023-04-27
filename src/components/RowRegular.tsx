@@ -7,7 +7,7 @@ import { makeStyles } from "@mui/styles";
 import { Theme } from "@mui/material";
 import { TableCell, TableRow } from "@mui/material";
 //IMPORT Datasets+Constants
-
+import { IColumn } from "../utils/constants";
 /*
  * STYLE definitions for useStyles hook
  */
@@ -24,7 +24,7 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
 export interface RowProps<T> {
   row: T;
   rowID: string;
-  columns: { headerName: string; field: string }[];
+  columns: IColumn<T>[];
 }
 
 /*
@@ -39,7 +39,7 @@ const TableRowRegular = <T extends Record<string, string | number | null>>(props
   return (
     <TableRow key={props.rowID}>
       {props.columns.map((column) => (
-        <TableCell className={classes.tableCellClass} key={column.field}>
+        <TableCell className={classes.tableCellClass} key={column.field as string}>
           {" "}
           {props.row[column.field as keyof T]}{" "}
         </TableCell>

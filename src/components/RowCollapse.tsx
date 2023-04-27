@@ -10,7 +10,7 @@ import IconButton from "@mui/material/IconButton";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 //IMPORT Datasets+Constants
-
+import { IColumn } from "../utils/constants";
 /*
  * STYLE definitions for useStyles hook
  */
@@ -26,7 +26,7 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
 interface CollapsibleRowProps<T> {
   row: T;
   rowID: string;
-  columns: { headerName: string; field: string }[];
+  columns: IColumn<T>[];
   renderSubTable: (row: T) => ReactNode;
 }
 
@@ -45,7 +45,7 @@ const TableRowCollapse = <T extends Record<string, string | number | null>>(prop
           </IconButton>
         </TableCell>
         {props.columns.map((column, index) => (
-          <TableCell key={column.field}> {props.row[column.field as keyof T]} </TableCell>
+          <TableCell key={column.field as string}> {props.row[column.field as keyof T]} </TableCell>
         ))}
       </TableRow>
       {open && (

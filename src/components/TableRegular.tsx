@@ -8,6 +8,7 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from
 import { makeStyles } from "@mui/styles";
 import Typography from "@mui/material/Typography";
 //IMPORT Datasets+Constants
+import { IColumn } from "../utils/constants";
 //IMPORT helper functions
 
 const useStyles = makeStyles((globalTheme: Theme) => ({
@@ -31,7 +32,7 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
 export interface TableProps<T> {
   tableName: string;
   rows: T[];
-  columns: { headerName: string; field: string }[];
+  columns: IColumn<T>[];
   getRowID: (row: T) => string;
 }
 
@@ -42,7 +43,7 @@ export interface TableProps<T> {
  *      taxon_id (transformed to the taxon_name),
  *      measurement_name, measurement_desc, min_valu, max_value, unit
  */
-const QuantitativeData = <T extends Record<string, string | number | null>>(props: TableProps<T>) => {
+const RegularTable = <T extends Record<string, string | number | null>>(props: TableProps<T>) => {
   //HOOKS
   const classes = useStyles();
 
@@ -56,7 +57,7 @@ const QuantitativeData = <T extends Record<string, string | number | null>>(prop
         <TableHead className={classes.tableHeaderClass}>
           <TableRow>
             {props.columns.map((column) => (
-              <TableCell key={column.field}>{column.headerName}</TableCell>
+              <TableCell key={column.field as string}>{column.headerName}</TableCell>
             ))}
           </TableRow>
         </TableHead>
@@ -70,4 +71,4 @@ const QuantitativeData = <T extends Record<string, string | number | null>>(prop
   );
 };
 
-export default QuantitativeData;
+export default RegularTable;

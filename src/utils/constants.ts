@@ -4,9 +4,9 @@
  * @format
  */
 // IMPORT MUI packages
-import { GridColDef } from "@mui/x-data-grid";
 // IMPORT DATA
-import { IquantitativeData, IqualitativeData, IqualitativeOptionData } from "../utils/datagrab";
+
+import { IqualitativeData, IqualitativeOptionData, IquantitativeData } from "./datagrab";
 
 export type TaxonLevel = "Kingdom" | "Phylum" | "Class" | "Order" | "Family" | "Genus" | "Species" | "Sub_Species";
 export const classificationLevelArray: TaxonLevel[] = [
@@ -20,24 +20,31 @@ export const classificationLevelArray: TaxonLevel[] = [
   "Sub_Species",
 ];
 
+export interface IColumn<T> {
+  field: keyof T;
+  headerName: string;
+}
+
 //quantitative data columns
-export const columnsQuantitative = [
-  { field: "measurement_name", headerName: "Name", flex: 1 },
-  { field: "min_value", headerName: "Min Value", flex: 1 },
-  { field: "max_value", headerName: "Max Value", flex: 1 },
-  { field: "unit", headerName: "Unit", flex: 1 },
-  { field: "measurement_desc", headerName: "Description", flex: 1 },
+export const columnsQuantitative: IColumn<IquantitativeData>[] = [
+  { field: "measurement_name", headerName: "Name" },
+  { field: "min_value", headerName: "Min Value" },
+  { field: "max_value", headerName: "Max Value" },
+  { field: "unit", headerName: "Unit" },
+  { field: "measurement_desc", headerName: "Description" },
+  { field: "taxon_name", headerName: "Taxon Level" },
 ];
 
 //qualitative data columns
-export const columnsQualitative = [
-  { field: "measurement_name", headerName: "Name", flex: 1 },
-  { field: "measurement_desc", headerName: "Description", flex: 1 },
+export const columnsQualitative: IColumn<IqualitativeData>[] = [
+  { field: "measurement_name", headerName: "Name" },
+  { field: "measurement_desc", headerName: "Description" },
+  { field: "taxon_name", headerName: "Taxon Level" },
 ];
 
 //qualitative options data columns
-export const columnsQualitativeOptions = [
-  { field: "option_label", headerName: "label", flex: 1 },
-  { field: "option_value", headerName: "Value", flex: 1 },
-  { field: "option_desc", headerName: "Description", flex: 1 },
+export const columnsQualitativeOptions: IColumn<IqualitativeOptionData>[] = [
+  { field: "option_label", headerName: "label" },
+  { field: "option_value", headerName: "Value" },
+  { field: "option_desc", headerName: "Description" },
 ];

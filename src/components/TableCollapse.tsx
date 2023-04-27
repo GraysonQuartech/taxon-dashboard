@@ -8,6 +8,7 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from
 import { makeStyles } from "@mui/styles";
 import Typography from "@mui/material/Typography";
 //IMPORT Datasets+Constants
+import { IColumn } from "../utils/constants";
 //IMPORT helper functions
 
 const useStyles = makeStyles((globalTheme: Theme) => ({
@@ -31,7 +32,7 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
 export interface TableProps<T> {
   tableName: string;
   rows: T[];
-  columns: { headerName: string; field: string }[];
+  columns: IColumn<T>[];
   getRowID: (row: T) => string;
   renderSubTable: (row: T) => ReactNode; //
 }
@@ -58,7 +59,7 @@ const QualitativeData = <T extends Record<string, string | number | null>>(props
           <TableRow className={classes.tableHeaderClass}>
             <TableCell></TableCell>
             {props.columns.map((column) => (
-              <TableCell key={column.field}>{column.headerName}</TableCell>
+              <TableCell key={column.field as string}>{column.headerName}</TableCell>
             ))}
           </TableRow>
         </TableHead>
