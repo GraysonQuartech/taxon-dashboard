@@ -16,8 +16,8 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
  */
 const useStyles = makeStyles((globalTheme: Theme) => ({
   tableCellClass: {
-    paddingBottom: globalTheme.spacing(1),
-    paddingTop: globalTheme.spacing(1),
+    //paddingBottom: globalTheme.spacing(1),
+    //paddingTop: globalTheme.spacing(1),
     fontWeight: globalTheme.typography.fontWeightMedium + "!important",
   },
 }));

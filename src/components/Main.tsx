@@ -42,35 +42,38 @@ const Main = () => {
   return (
     <div>
       <FilterRow />
-      <TaxonDisplay />
-      <TableRegular<IquantitativeData>
-        rows={quantitativeDataArray}
-        columns={columnsQuantitative}
-        getRowID={(row: IquantitativeData) => row.taxon_measurement_id}
-      />
-      <TableCollapse<IqualitativeData>
-        rows={qualitativeDataArray}
-        columns={columnsQualitative}
-        getRowID={(row: IqualitativeData) => row.taxon_measurement_id}
-        renderSubTable={(row: IqualitativeData) => {
-          //Grabbing qualitative data
-          const qualitativeOptionDataArray = helperGetQualitativeOptions(
-            row.taxon_measurement_id,
-            dataSet.xref_taxon_measurement_qualitative_option
-          );
-          return (
-            <TableRegular<IqualitativeOptionData>
-              rows={qualitativeOptionDataArray}
-              columns={columnsQualitativeOptions}
-              getRowID={(row: IqualitativeOptionData) => row.qualitative_option_id}
-            />
-          );
-        }} // (row: T) => ReactNode;
-      />
+      <div>
+        <TaxonDisplay />
+        <TableRegular<IquantitativeData>
+          tableName={"Quantative Measurements"}
+          rows={quantitativeDataArray}
+          columns={columnsQuantitative}
+          getRowID={(row: IquantitativeData) => row.taxon_measurement_id}
+        />
+        <TableCollapse<IqualitativeData>
+          tableName={"Qualitative Measurements"}
+          rows={qualitativeDataArray}
+          columns={columnsQualitative}
+          getRowID={(row: IqualitativeData) => row.taxon_measurement_id}
+          renderSubTable={(row: IqualitativeData) => {
+            //Grabbing qualitative data
+            const qualitativeOptionDataArray = helperGetQualitativeOptions(
+              row.taxon_measurement_id,
+              dataSet.xref_taxon_measurement_qualitative_option
+            );
+            return (
+              <TableRegular<IqualitativeOptionData>
+                tableName={"Qualitative Options"}
+                rows={qualitativeOptionDataArray}
+                columns={columnsQualitativeOptions}
+                getRowID={(row: IqualitativeOptionData) => row.qualitative_option_id}
+              />
+            );
+          }} // (row: T) => ReactNode;
+        />
+      </div>
     </div>
   );
 };
 
 export default Main;
-//
-//

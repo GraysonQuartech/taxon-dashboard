@@ -3,23 +3,27 @@
 import React, { ReactNode } from "react";
 import RowCollapse from "./RowCollapse";
 //IMPORT MUI packages
-import { Theme } from "@mui/material";
+import { Paper, Theme } from "@mui/material";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { makeStyles } from "@mui/styles";
+import Typography from "@mui/material/Typography";
 //IMPORT Datasets+Constants
 //IMPORT helper functions
 
 const useStyles = makeStyles((globalTheme: Theme) => ({
   tableClass: {
     width: "100%",
-    maxWidth: "100vw",
+    maxWidth: "50vw",
     maxHeight: "50vh",
-    paddingBottom: globalTheme.spacing(1),
-    paddingTop: globalTheme.spacing(1),
+    //paddingBottom: globalTheme.spacing(1),
+    //paddingTop: globalTheme.spacing(1),
+  },
+  tableNameClass: {
+    //variant: "h7",
   },
   tableHeaderClass: {
-    paddingBottom: globalTheme.spacing(1),
-    paddingTop: globalTheme.spacing(1),
+    //paddingBottom: globalTheme.spacing(1),
+    //paddingTop: globalTheme.spacing(1),
     backgroundColor: globalTheme.palette.secondary.light,
     "& th": {
       fontWeight: globalTheme.typography.fontWeightBold,
@@ -31,6 +35,7 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
  *Generic props. table rows and columns
  */
 export interface TableProps<T> {
+  tableName: string;
   rows: T[];
   columns: { headerName: string; field: string }[];
   getRowID: (row: T) => string;
@@ -50,8 +55,11 @@ const QualitativeData = <T extends Record<string, string | number | null>>(props
 
   //RETURN ELEMENT
   return (
-    <TableContainer className={classes.tableClass}>
-      <Table>
+    <TableContainer component={Paper} className={classes.tableClass}>
+      <Typography variant="h6" gutterBottom className={classes.tableNameClass}>
+        {props.tableName}
+      </Typography>
+      <Table aria-label="collapsible table" size="small">
         <TableHead>
           <TableRow className={classes.tableHeaderClass}>
             <TableCell></TableCell>

@@ -20,7 +20,6 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
   containerClass: {
     paddingBottom: globalTheme.spacing(1),
     paddingTop: globalTheme.spacing(1),
-    display: "Inline-Block",
     boxShadow: "none !important",
   },
 }));
