@@ -12,19 +12,12 @@ import Typography from "@mui/material/Typography";
 
 const useStyles = makeStyles((globalTheme: Theme) => ({
   tableClass: {
-    width: "50vw",
-    //maxWidth: "50vw",
     maxHeight: "50vh",
-    //paddingBottom: globalTheme.spacing(1),
-    //paddingTop: globalTheme.spacing(1),
-    //display: "Inline-Block",
   },
   titleClass: {
     padding: globalTheme.spacing(1),
   },
   tableHeaderClass: {
-    //paddingBottom: globalTheme.spacing(1),
-    //paddingTop: globalTheme.spacing(1),
     backgroundColor: globalTheme.palette.secondary.light,
     "& th": {
       fontWeight: globalTheme.typography.fontWeightBold,

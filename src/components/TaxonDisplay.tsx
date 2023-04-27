@@ -16,11 +16,13 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
   },
   taxonIdClass: {
     color: globalTheme.palette.secondary.main,
+    margin: "0px !important",
   },
   containerClass: {
     paddingBottom: globalTheme.spacing(1),
     paddingTop: globalTheme.spacing(1),
     boxShadow: "none !important",
+    marginLeft: "-16px",
   },
 }));
 

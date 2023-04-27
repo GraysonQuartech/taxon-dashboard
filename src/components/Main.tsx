@@ -9,7 +9,7 @@ import TableRegular from "./TableRegular";
 import TableCollapse from "./TableCollapse";
 // IMPORT MUI packages
 import { makeStyles } from "@mui/styles";
-import { Grid, Theme } from "@mui/material";
+import { Grid, Theme, Typography } from "@mui/material";
 // IMPORT Constants + Data + Helper Functions
 import {
   helperGetQuantitativeDataArray,
@@ -42,12 +42,12 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
   tableEnabled: {
     opacity: "100%",
     padding: globalTheme.spacing(1),
-    width: "48vw",
+    width: "49vw",
   },
   tableDisabled: {
     opacity: "20%",
     padding: globalTheme.spacing(1),
-    width: "48vw",
+    width: "49vw",
   },
 }));
 /*
