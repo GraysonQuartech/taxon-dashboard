@@ -5,7 +5,7 @@ import React, { ReactNode } from "react";
 import { makeStyles } from "@mui/styles";
 import { Theme } from "@mui/material";
 import { Collapse, Box } from "@mui/material";
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { TableCell, TableRow } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
@@ -16,8 +16,6 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
  */
 const useStyles = makeStyles((globalTheme: Theme) => ({
   tableCellClass: {
-    //paddingBottom: globalTheme.spacing(1),
-    //paddingTop: globalTheme.spacing(1),
     fontWeight: globalTheme.typography.fontWeightMedium + "!important",
   },
 }));

@@ -12,11 +12,12 @@ import Typography from "@mui/material/Typography";
 
 const useStyles = makeStyles((globalTheme: Theme) => ({
   tableClass: {
-    width: "100%",
-    maxWidth: "50vw",
+    width: "50vw",
+    //maxWidth: "50vw",
     maxHeight: "50vh",
     //paddingBottom: globalTheme.spacing(1),
     //paddingTop: globalTheme.spacing(1),
+    //display: "Inline-Block",
   },
   tableNameClass: {
     //variant: "h7",

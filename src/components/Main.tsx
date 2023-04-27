@@ -9,7 +9,7 @@ import TableRegular from "./TableRegular";
 import TableCollapse from "./TableCollapse";
 // IMPORT MUI packages
 import { makeStyles } from "@mui/styles";
-import { Theme } from "@mui/material";
+import { Grid, Theme } from "@mui/material";
 // IMPORT Constants + Data + Helper Functions
 import {
   helperGetQuantitativeDataArray,
@@ -25,11 +25,29 @@ import { IqualitativeData, IquantitativeData, IqualitativeOptionData } from "../
  * and global theme
  */
 const useStyles = makeStyles((globalTheme: Theme) => ({
-  enabled: {
+  labelEnabled: {
     opacity: "100%",
+    padding: globalTheme.spacing(1),
   },
-  disabled: {
+  labelDisabled: {
     opacity: "20%",
+    padding: globalTheme.spacing(1),
+  },
+  gridClass: {
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr",
+    justifyContent: "space-between",
+    padding: globalTheme.spacing(1),
+  },
+  tableEnabled: {
+    opacity: "100%",
+    padding: globalTheme.spacing(1),
+    width: "48vw",
+  },
+  tableDisabled: {
+    opacity: "20%",
+    padding: globalTheme.spacing(1),
+    width: "48vw",
   },
 }));
 /*
@@ -57,42 +75,44 @@ const Main = () => {
   return (
     <div>
       <FilterRow />
-      <div className={contextTaxon ? classes.enabled : classes.disabled}>
+      <div className={contextTaxon ? classes.labelEnabled : classes.labelDisabled}>
         <TaxonDisplay />
       </div>
-      <div className={quantitativeDataArray.length ? classes.enabled : classes.disabled}>
-        <TableRegular<IquantitativeData>
-          tableName={"Quantative Measurements"}
-          rows={quantitativeDataArray}
-          columns={columnsQuantitative}
-          getRowID={(row: IquantitativeData) => row.taxon_measurement_id}
-        />
-      </div>
-      <div className={qualitativeDataArray.length ? classes.enabled : classes.disabled}>
-        <TableCollapse<IqualitativeData>
-          tableName={"Qualitative Measurements"}
-          rows={qualitativeDataArray}
-          columns={columnsQualitative}
-          getRowID={(row: IqualitativeData) => row.taxon_measurement_id}
-          renderSubTable={(row: IqualitativeData) => {
-            //Grabbing qualitative data
-            const qualitativeOptionDataArray = helperGetQualitativeOptions(
-              row.taxon_measurement_id,
-              dataSet.xref_taxon_measurement_qualitative_option
-            );
-            return (
-              <div className={qualitativeOptionDataArray.length ? classes.enabled : classes.disabled}>
-                <TableRegular<IqualitativeOptionData>
-                  tableName={"Qualitative Options"}
-                  rows={qualitativeOptionDataArray}
-                  columns={columnsQualitativeOptions}
-                  getRowID={(row: IqualitativeOptionData) => row.qualitative_option_id}
-                />
-              </div>
-            );
-          }} // (row: T) => ReactNode;
-        />
-      </div>
+      <Grid container columns={2} spacing={2} className={classes.gridClass}>
+        <div className={quantitativeDataArray.length ? classes.tableEnabled : classes.tableDisabled}>
+          <TableRegular<IquantitativeData>
+            tableName={"Quantative"}
+            rows={quantitativeDataArray}
+            columns={columnsQuantitative}
+            getRowID={(row: IquantitativeData) => row.taxon_measurement_id}
+          />
+        </div>
+        <div className={qualitativeDataArray.length ? classes.tableEnabled : classes.tableDisabled}>
+          <TableCollapse<IqualitativeData>
+            tableName={"Qualitative"}
+            rows={qualitativeDataArray}
+            columns={columnsQualitative}
+            getRowID={(row: IqualitativeData) => row.taxon_measurement_id}
+            renderSubTable={(row: IqualitativeData) => {
+              //Grabbing qualitative data
+              const qualitativeOptionDataArray = helperGetQualitativeOptions(
+                row.taxon_measurement_id,
+                dataSet.xref_taxon_measurement_qualitative_option
+              );
+              return (
+                <div className={qualitativeOptionDataArray.length ? classes.tableEnabled : classes.tableDisabled}>
+                  <TableRegular<IqualitativeOptionData>
+                    tableName={"Options"}
+                    rows={qualitativeOptionDataArray}
+                    columns={columnsQualitativeOptions}
+                    getRowID={(row: IqualitativeOptionData) => row.qualitative_option_id}
+                  />
+                </div>
+              );
+            }}
+          />
+        </div>
+      </Grid>
     </div>
   );
 };
