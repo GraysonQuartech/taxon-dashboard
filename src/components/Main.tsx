@@ -8,6 +8,8 @@ import TaxonDisplay from "./TaxonDisplay";
 import TableRegular from "./TableRegular";
 import TableCollapse from "./TableCollapse";
 // IMPORT MUI packages
+import { makeStyles } from "@mui/styles";
+import { Theme } from "@mui/material";
 // IMPORT Constants + Data + Helper Functions
 import {
   helperGetQuantitativeDataArray,
@@ -19,12 +21,25 @@ import dataSet from "../datasets/taxon_data.json";
 import { IqualitativeData, IquantitativeData, IqualitativeOptionData } from "../utils/datagrab";
 
 /*
+ * STYLE definitions for useStyles hook
+ * and global theme
+ */
+const useStyles = makeStyles((globalTheme: Theme) => ({
+  enabled: {
+    opacity: "100%",
+  },
+  disabled: {
+    opacity: "20%",
+  },
+}));
+/*
  * Main component function here
  * This component contains all other components
  */
 const Main = () => {
   // HOOKS here
   const { contextTaxon } = useTaxon();
+  const classes = useStyles();
 
   //Grabbing quantitative data
   const quantitativeDataArray = helperGetQuantitativeDataArray(
@@ -42,7 +57,7 @@ const Main = () => {
   return (
     <div>
       <FilterRow />
-      <div>
+      <div className={contextTaxon ? classes.enabled : classes.disabled}>
         <TaxonDisplay />
         <TableRegular<IquantitativeData>
           tableName={"Quantative Measurements"}
