@@ -37,6 +37,14 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
     opacity: "20%",
     padding: globalTheme.spacing(1),
   },
+  displayGrid: {
+    boxShadow: "none !important",
+    gridTemplateColumns: "auto auto",
+    justifyContent: "left",
+    display: "grid",
+    width: "70%",
+    gridGap: globalTheme.spacing(6),
+  },
   gridClass: {
     display: "grid",
     gridTemplateColumns: "1fr 1fr",
@@ -75,12 +83,15 @@ const Main = () => {
       <FilterRow />
       <Box className={classes.infoContainerClass}>
         <div className={contextTaxon ? classes.labelEnabled : classes.labelDisabled}>
-          <TaxonDisplay />
+          <Grid className={classes.displayGrid} columns={2}>
+            <TaxonDisplay title={"Current Taxon"} value={contextTaxon?.taxon_name_latin} />
+            <TaxonDisplay title={"Taxon ID"} value={contextTaxon?.taxon_id} />
+          </Grid>
         </div>
         <Grid columns={2} className={classes.gridClass}>
           <div className={quantitativeDataArray.length ? classes.tableEnabled : classes.tableDisabled}>
             <TableRegular<IquantitativeData>
-              tableName={"Quantative"}
+              tableName={"Quantative Measurements"}
               rows={quantitativeDataArray}
               columns={columnsQuantitative}
               getRowID={(row: IquantitativeData) => row.taxon_measurement_id}
@@ -88,7 +99,7 @@ const Main = () => {
           </div>
           <div className={qualitativeDataArray.length ? classes.tableEnabled : classes.tableDisabled}>
             <TableCollapse<IqualitativeData>
-              tableName={"Qualitative"}
+              tableName={"Qualitative Measurements"}
               rows={qualitativeDataArray}
               columns={columnsQualitative}
               getRowID={(row: IqualitativeData) => row.taxon_measurement_id}
