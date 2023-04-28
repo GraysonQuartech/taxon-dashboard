@@ -32,14 +32,14 @@ export const columnsQuantitative: IColumn<IquantitativeData>[] = [
   { field: "max_value", headerName: "Max Value" },
   { field: "unit", headerName: "Unit" },
   { field: "measurement_desc", headerName: "Description" },
-  { field: "taxon_name", headerName: "Taxon" },
+  { field: "taxon_id", headerName: "Taxon" },
 ];
 
 //qualitative data columns
 export const columnsQualitative: IColumn<IqualitativeData>[] = [
   { field: "measurement_name", headerName: "Measurement" },
   { field: "measurement_desc", headerName: "Description" },
-  { field: "taxon_name", headerName: "Taxon" },
+  { field: "taxon_id", headerName: "Taxon" },
 ];
 
 //qualitative options data columns

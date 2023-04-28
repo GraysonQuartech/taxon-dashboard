@@ -6,8 +6,9 @@ import React from "react";
 import { makeStyles } from "@mui/styles";
 import { Theme } from "@mui/material";
 import { TableCell, TableRow } from "@mui/material";
-//IMPORT Datasets+Constants
+//IMPORT Datasets+Constants+Helpers
 import { IColumn } from "../utils/constants";
+import { helperGetLatinNameFromID } from "../utils/helper_functions";
 /*
  * STYLE definitions for useStyles hook
  */
@@ -40,8 +41,9 @@ const TableRowRegular = <T extends Record<string, string | number | null>>(props
     <TableRow key={props.rowID}>
       {props.columns.map((column) => (
         <TableCell className={classes.tableCellClass} key={column.field as string}>
-          {" "}
-          {props.row[column.field as keyof T]}{" "}
+          {column.field === "taxon_id"
+            ? helperGetLatinNameFromID(props.row[column.field as keyof T] as string)
+            : props.row[column.field as keyof T]}
         </TableCell>
       ))}
     </TableRow>

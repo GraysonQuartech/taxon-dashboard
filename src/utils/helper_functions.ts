@@ -160,7 +160,7 @@ export const helperGetTaxonsForClassificationLevel = (classificationLevel: Taxon
 */
 
 /*
- * accepts a taxon ID, and returns an array of Quantitative Data associated to it
+ * accepts a taxon ID, and returns an array of Quantitative Data associated to it and its parent taxon levels
  */
 export const helperGetQuantitativeDataArray = (contextTaxon: taxonInterface | null, data: any): IquantitativeData[] => {
   let quantitativeDataArray: IquantitativeData[] = [];
@@ -191,7 +191,7 @@ export const helperGetQuantitativeDataArray = (contextTaxon: taxonInterface | nu
 };
 
 /*
- * accepts a taxon ID, and returns an array of Qualitative Data associated to it
+ * accepts a taxon ID, and returns an array of Qualitative Data associated to it and its parent taxon levels
  */
 export const helperGetQualitativeDataArray = (contextTaxon: taxonInterface | null, data: any): IqualitativeData[] => {
   let qualitativeDataArray: IqualitativeData[] = [];

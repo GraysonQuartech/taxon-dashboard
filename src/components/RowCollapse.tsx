@@ -9,8 +9,10 @@ import { TableCell, TableRow } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-//IMPORT Datasets+Constants
+//IMPORT Datasets+Constants + helpers
 import { IColumn } from "../utils/constants";
+import { helperGetLatinNameFromID } from "../utils/helper_functions";
+
 /*
  * STYLE definitions for useStyles hook
  */
@@ -35,7 +37,7 @@ const TableRowCollapse = <T extends Record<string, string | number | null>>(prop
   const [open, setOpen] = React.useState(false);
   const classes = useStyles();
 
-  //RETURN ELEMENT
+  // RETURN ELEMENT
   return (
     <>
       <TableRow key={props.rowID}>
@@ -45,7 +47,11 @@ const TableRowCollapse = <T extends Record<string, string | number | null>>(prop
           </IconButton>
         </TableCell>
         {props.columns.map((column, index) => (
-          <TableCell key={column.field as string}> {props.row[column.field as keyof T]} </TableCell>
+          <TableCell key={column.field as string}>
+            {column.field === "taxon_id"
+              ? helperGetLatinNameFromID(props.row[column.field as keyof T] as string)
+              : props.row[column.field as keyof T]}
+          </TableCell>
         ))}
       </TableRow>
       {open && (
