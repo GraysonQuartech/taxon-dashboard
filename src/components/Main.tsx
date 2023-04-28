@@ -61,15 +61,12 @@ const Main = () => {
 
   //Grabbing quantitative data
   const quantitativeDataArray = helperGetQuantitativeDataArray(
-    contextTaxon?.taxon_id || "",
+    contextTaxon,
     dataSet.xref_taxon_measurement_quantitative
   );
 
   //Grabbing qualitative data
-  const qualitativeDataArray = helperGetQualitativeDataArray(
-    contextTaxon?.taxon_id || "",
-    dataSet.xref_taxon_measurement_qualitative
-  );
+  const qualitativeDataArray = helperGetQualitativeDataArray(contextTaxon, dataSet.xref_taxon_measurement_qualitative);
 
   // RETURN ELEMENT HERE
   return (

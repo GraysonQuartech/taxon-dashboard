@@ -138,13 +138,53 @@ export const helperGetTaxonsForClassificationLevel = (classificationLevel: Taxon
 };
 
 /*
+*    {
+      "taxon_id": "deaeef07-f954-4780-a35f-d1a3e906badf",
+      "kingdom_id": "92072613-325f-4dba-a65b-d8a4fe2206ef",
+      "phylum_id": "2b2273d0-e6b6-43e5-b4e0-378c3df3e6f4",
+      "class_id": null,
+      "order_id": null,
+      "family_id": null,
+      "genus_id": null,
+      "species_id": null,
+      "sub_species_id": null,
+      "taxon_name_common": null,
+      "taxon_name_latin": "Mammalia",
+      "spi_taxonomy_id": -1,
+      "taxon_description": null,
+      "create_user": "d62376e5-58a6-4514-a2cc-e15a8eda3522",
+      "update_user": "d62376e5-58a6-4514-a2cc-e15a8eda3522",
+      "create_timestamp": "2023-03-10T00:00:12.320Z",
+      "update_timestamp": "2023-03-10T00:00:12.320Z"
+    }
+*/
+
+/*
  * accepts a taxon ID, and returns an array of Quantitative Data associated to it
  */
-export const helperGetQuantitativeDataArray = (taxon_id: string, data: any): IquantitativeData[] => {
+export const helperGetQuantitativeDataArray = (contextTaxon: taxonInterface | null, data: any): IquantitativeData[] => {
   let quantitativeDataArray: IquantitativeData[] = [];
-  for (const quantitativeData of data) {
-    if (quantitativeData.taxon_id === taxon_id) {
-      quantitativeDataArray.push(quantitativeData);
+  if (contextTaxon) {
+    for (const quantitativeData of data) {
+      if (quantitativeData.taxon_id === contextTaxon.taxon_id) {
+        quantitativeDataArray.push(quantitativeData);
+      } else if (quantitativeData.taxon_id === contextTaxon.kingdom_id) {
+        quantitativeDataArray.push(quantitativeData);
+      } else if (quantitativeData.taxon_id === contextTaxon.class_id) {
+        quantitativeDataArray.push(quantitativeData);
+      } else if (quantitativeData.taxon_id === contextTaxon.phylum_id) {
+        quantitativeDataArray.push(quantitativeData);
+      } else if (quantitativeData.taxon_id === contextTaxon.order_id) {
+        quantitativeDataArray.push(quantitativeData);
+      } else if (quantitativeData.taxon_id === contextTaxon.family_id) {
+        quantitativeDataArray.push(quantitativeData);
+      } else if (quantitativeData.taxon_id === contextTaxon.genus_id) {
+        quantitativeDataArray.push(quantitativeData);
+      } else if (quantitativeData.taxon_id === contextTaxon.species_id) {
+        quantitativeDataArray.push(quantitativeData);
+      } else if (quantitativeData.taxon_id === contextTaxon.sub_species_id) {
+        quantitativeDataArray.push(quantitativeData);
+      }
     }
   }
   return quantitativeDataArray;
@@ -153,11 +193,29 @@ export const helperGetQuantitativeDataArray = (taxon_id: string, data: any): Iqu
 /*
  * accepts a taxon ID, and returns an array of Qualitative Data associated to it
  */
-export const helperGetQualitativeDataArray = (taxon_id: string, data: any): IqualitativeData[] => {
+export const helperGetQualitativeDataArray = (contextTaxon: taxonInterface | null, data: any): IqualitativeData[] => {
   let qualitativeDataArray: IqualitativeData[] = [];
-  for (const qualitativeData of data) {
-    if (qualitativeData.taxon_id === taxon_id) {
-      qualitativeDataArray.push(qualitativeData);
+  if (contextTaxon) {
+    for (const qualitativeData of data) {
+      if (qualitativeData.taxon_id === contextTaxon.taxon_id) {
+        qualitativeDataArray.push(qualitativeData);
+      } else if (qualitativeData.taxon_id === contextTaxon.kingdom_id) {
+        qualitativeDataArray.push(qualitativeData);
+      } else if (qualitativeData.taxon_id === contextTaxon.class_id) {
+        qualitativeDataArray.push(qualitativeData);
+      } else if (qualitativeData.taxon_id === contextTaxon.phylum_id) {
+        qualitativeDataArray.push(qualitativeData);
+      } else if (qualitativeData.taxon_id === contextTaxon.order_id) {
+        qualitativeDataArray.push(qualitativeData);
+      } else if (qualitativeData.taxon_id === contextTaxon.family_id) {
+        qualitativeDataArray.push(qualitativeData);
+      } else if (qualitativeData.taxon_id === contextTaxon.genus_id) {
+        qualitativeDataArray.push(qualitativeData);
+      } else if (qualitativeData.taxon_id === contextTaxon.species_id) {
+        qualitativeDataArray.push(qualitativeData);
+      } else if (qualitativeData.taxon_id === contextTaxon.sub_species_id) {
+        qualitativeDataArray.push(qualitativeData);
+      }
     }
   }
   return qualitativeDataArray;

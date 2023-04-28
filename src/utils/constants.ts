@@ -27,19 +27,19 @@ export interface IColumn<T> {
 
 //quantitative data columns
 export const columnsQuantitative: IColumn<IquantitativeData>[] = [
-  { field: "measurement_name", headerName: "Name" },
+  { field: "measurement_name", headerName: "Measurement" },
   { field: "min_value", headerName: "Min Value" },
   { field: "max_value", headerName: "Max Value" },
   { field: "unit", headerName: "Unit" },
   { field: "measurement_desc", headerName: "Description" },
-  { field: "taxon_name", headerName: "Taxon Level" },
+  { field: "taxon_name", headerName: "Taxon" },
 ];
 
 //qualitative data columns
 export const columnsQualitative: IColumn<IqualitativeData>[] = [
-  { field: "measurement_name", headerName: "Name" },
+  { field: "measurement_name", headerName: "Measurement" },
   { field: "measurement_desc", headerName: "Description" },
-  { field: "taxon_name", headerName: "Taxon Level" },
+  { field: "taxon_name", headerName: "Taxon" },
 ];
 
 //qualitative options data columns
