@@ -45,14 +45,10 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
   tableEnabled: {
     opacity: "100%",
     padding: globalTheme.spacing(1),
-    //width: "100%",
-    //gridColumn: "auto",
   },
   tableDisabled: {
     opacity: "20%",
     padding: globalTheme.spacing(1),
-    //width: "100%",
-    //gridColumn: "inherit",
   },
 }));
 /*
@@ -81,7 +77,7 @@ const Main = () => {
         <div className={contextTaxon ? classes.labelEnabled : classes.labelDisabled}>
           <TaxonDisplay />
         </div>
-        <Grid container columns={2} className={classes.gridClass}>
+        <Grid columns={2} className={classes.gridClass}>
           <div className={quantitativeDataArray.length ? classes.tableEnabled : classes.tableDisabled}>
             <TableRegular<IquantitativeData>
               tableName={"Quantative"}

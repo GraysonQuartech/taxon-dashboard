@@ -4,24 +4,32 @@
 import React from "react";
 import { useTaxon } from "../contexts/taxonContext";
 //IMPORT MUI packages
-import { Card, CardContent, Typography, Theme } from "@mui/material";
+import { Card, CardContent, Typography, Theme, Grid } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 
 /*
  * STYLE definitions for useStyles hook
  */
 const useStyles = makeStyles((globalTheme: Theme) => ({
+  titleClass: {
+    color: globalTheme.palette.secondary.dark,
+  },
   taxonNameClass: {
-    color: globalTheme.palette.secondary.main,
+    color: globalTheme.palette.primary.light,
   },
   taxonIdClass: {
-    color: globalTheme.palette.secondary.main,
-    margin: "0px !important",
+    color: globalTheme.palette.primary.light,
   },
-  containerClass: {
-    padding: globalTheme.spacing(1),
+  gridClass: {
     boxShadow: "none !important",
-    display: "inline-block",
+    gridTemplateColumns: "auto auto",
+    justifyContent: "left",
+    display: "grid",
+    width: "70%",
+    gridGap: globalTheme.spacing(6),
+  },
+  gridCellClass: {
+    width: "100%",
   },
 }));
 
@@ -35,16 +43,32 @@ const TaxonDisplay = (): JSX.Element => {
 
   //RETURN ELEMENT HERE
   return (
-    <Card className={classes.containerClass}>
-      <CardContent>
-        <Typography className={classes.taxonNameClass} variant="h5" component="h2">
-          Current Taxon: {contextTaxon?.taxon_name_latin}
+    <Grid className={classes.gridClass}>
+      <div className={classes.gridCellClass}>
+        <Typography variant="h6" className={classes.titleClass}>
+          Current Taxon
         </Typography>
-        <Typography className={classes.taxonIdClass} gutterBottom>
-          Taxon ID: {contextTaxon?.taxon_id}
+        <Card>
+          <CardContent>
+            <Typography className={classes.taxonNameClass} component="h2">
+              {contextTaxon?.taxon_name_latin}
+            </Typography>
+          </CardContent>
+        </Card>
+      </div>
+      <div className={classes.gridCellClass}>
+        <Typography variant="h6" className={classes.titleClass}>
+          Taxon ID
         </Typography>
-      </CardContent>
-    </Card>
+        <Card>
+          <CardContent>
+            <Typography className={classes.taxonIdClass} component="h2">
+              {contextTaxon?.taxon_id}
+            </Typography>
+          </CardContent>
+        </Card>
+      </div>
+    </Grid>
   );
 };
 

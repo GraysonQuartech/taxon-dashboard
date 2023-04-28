@@ -20,11 +20,12 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
   tableHeaderClass: {
     backgroundColor: globalTheme.palette.secondary.light,
     "& th": {
-      fontWeight: globalTheme.typography.fontWeightBold,
+      fontWeight: globalTheme.typography.fontWeightMedium,
     },
   },
   titleClass: {
     padding: globalTheme.spacing(1),
+    color: globalTheme.palette.secondary.dark,
   },
 }));
 
@@ -51,11 +52,11 @@ const RegularTable = <T extends Record<string, string | number | null>>(props: T
 
   //RETURN ELEMENT
   return (
-    <TableContainer component={Paper}>
+    <div>
       <Typography variant="h6" className={classes.titleClass}>
         {props.tableName}
       </Typography>
-      <TableContainer className={classes.tableClass}>
+      <TableContainer component={Paper} className={classes.tableClass}>
         <Table size="small" stickyHeader>
           <TableHead className={classes.tableHeaderClass}>
             <TableRow>
@@ -71,7 +72,7 @@ const RegularTable = <T extends Record<string, string | number | null>>(props: T
           </TableBody>
         </Table>
       </TableContainer>
-    </TableContainer>
+    </div>
   );
 };
 
