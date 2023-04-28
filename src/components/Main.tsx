@@ -29,6 +29,10 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
     backgroundColor: globalTheme.palette.secondary.light,
     padding: "0px",
   },
+  titleClass: {
+    padding: globalTheme.spacing(1),
+    color: globalTheme.palette.secondary.dark,
+  },
   labelEnabled: {
     opacity: "100%",
     padding: globalTheme.spacing(1),
@@ -39,7 +43,7 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
   },
   displayGrid: {
     boxShadow: "none !important",
-    gridTemplateColumns: "auto auto",
+    gridTemplateColumns: "auto auto auto",
     justifyContent: "left",
     display: "grid",
     width: "70%",
@@ -83,9 +87,13 @@ const Main = () => {
       <FilterRow />
       <Box className={classes.infoContainerClass}>
         <div className={contextTaxon ? classes.labelEnabled : classes.labelDisabled}>
-          <Grid className={classes.displayGrid} columns={2}>
-            <TaxonDisplay title={"Current Taxon"} value={contextTaxon?.taxon_name_latin} />
+          <Typography className={classes.titleClass} variant="h6">
+            Current Taxon
+          </Typography>
+          <Grid className={classes.displayGrid} columns={3}>
+            <TaxonDisplay title={"Latin"} value={contextTaxon?.taxon_name_latin} />
             <TaxonDisplay title={"Taxon ID"} value={contextTaxon?.taxon_id} />
+            <TaxonDisplay title={"Updated"} value={contextTaxon?.update_timestamp} />
           </Grid>
         </div>
         <Grid columns={2} className={classes.gridClass}>

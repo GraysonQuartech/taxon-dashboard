@@ -37,7 +37,7 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
  */
 interface DisplayProps {
   title: string;
-  value: string | undefined;
+  value: string | undefined | null;
 }
 
 /*
@@ -50,14 +50,12 @@ const TaxonDisplay = (props: DisplayProps): JSX.Element => {
   //RETURN ELEMENT HERE
   return (
     <div className={classes.gridCellClass}>
-      <Typography variant="h6" className={classes.titleClass}>
-        {props.title}
-      </Typography>
       <Card>
         <CardContent>
           <Typography className={classes.taxonNameClass} component="h2">
             {props.value}
           </Typography>
+          <Typography className={classes.titleClass}>{props.title}</Typography>
         </CardContent>
       </Card>
     </div>
