@@ -50,30 +50,32 @@ const QualitativeData = <T extends Record<string, string | number | null>>(props
 
   //RETURN ELEMENT
   return (
-    <TableContainer component={Paper} className={classes.tableClass}>
+    <TableContainer component={Paper}>
       <Typography variant="h6" className={classes.titleClass}>
         {props.tableName}
       </Typography>
-      <Table aria-label="collapsible table" size="small">
-        <TableHead>
-          <TableRow className={classes.tableHeaderClass}>
-            <TableCell></TableCell>
-            {props.columns.map((column) => (
-              <TableCell key={column.field as string}>{column.headerName}</TableCell>
+      <TableContainer className={classes.tableClass}>
+        <Table aria-label="collapsible table" size="small" stickyHeader>
+          <TableHead>
+            <TableRow className={classes.tableHeaderClass}>
+              <TableCell></TableCell>
+              {props.columns.map((column) => (
+                <TableCell key={column.field as string}>{column.headerName}</TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {props.rows.map((row) => (
+              <RowCollapse
+                row={row}
+                columns={props.columns}
+                rowID={props.getRowID(row)}
+                renderSubTable={props.renderSubTable}
+              />
             ))}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {props.rows.map((row) => (
-            <RowCollapse
-              row={row}
-              columns={props.columns}
-              rowID={props.getRowID(row)}
-              renderSubTable={props.renderSubTable}
-            />
-          ))}
-        </TableBody>
-      </Table>
+          </TableBody>
+        </Table>
+      </TableContainer>
     </TableContainer>
   );
 };

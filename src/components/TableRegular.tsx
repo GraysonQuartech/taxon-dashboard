@@ -49,24 +49,26 @@ const RegularTable = <T extends Record<string, string | number | null>>(props: T
 
   //RETURN ELEMENT
   return (
-    <TableContainer component={Paper} className={classes.tableClass}>
+    <TableContainer component={Paper}>
       <Typography variant="h6" className={classes.titleClass}>
         {props.tableName}
       </Typography>
-      <Table size="small">
-        <TableHead className={classes.tableHeaderClass}>
-          <TableRow>
-            {props.columns.map((column) => (
-              <TableCell key={column.field as string}>{column.headerName}</TableCell>
+      <TableContainer className={classes.tableClass}>
+        <Table size="small" stickyHeader>
+          <TableHead className={classes.tableHeaderClass}>
+            <TableRow>
+              {props.columns.map((column) => (
+                <TableCell key={column.field as string}>{column.headerName}</TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {props.rows.map((row) => (
+              <RowRegular row={row} columns={props.columns} rowID={props.getRowID(row)} />
             ))}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {props.rows.map((row) => (
-            <RowRegular row={row} columns={props.columns} rowID={props.getRowID(row)} />
-          ))}
-        </TableBody>
-      </Table>
+          </TableBody>
+        </Table>
+      </TableContainer>
     </TableContainer>
   );
 };
