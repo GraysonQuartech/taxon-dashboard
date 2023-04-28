@@ -27,7 +27,7 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
     width: "100%",
   },
   selectBox: {
-    backgroundColor: globalTheme.palette.secondary.light,
+    //backgroundColor: globalTheme.palette.secondary.light,
   },
 }));
 

@@ -24,6 +24,7 @@ const globalTheme = createTheme({
     fontWeightRegular: 400,
     fontWeightMedium: 500,
     fontWeightBold: 600,
+    fontFamily: ["BCSans", "Verdana", "Arial", "sans-serif"].join(","),
   },
 });
 

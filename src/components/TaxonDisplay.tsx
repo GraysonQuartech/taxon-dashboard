@@ -19,10 +19,9 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
     margin: "0px !important",
   },
   containerClass: {
-    paddingBottom: globalTheme.spacing(1),
-    paddingTop: globalTheme.spacing(1),
+    padding: globalTheme.spacing(1),
     boxShadow: "none !important",
-    marginLeft: "-16px",
+    display: "inline-block",
   },
 }));
 

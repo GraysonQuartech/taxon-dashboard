@@ -13,7 +13,9 @@ import { IColumn } from "../utils/constants";
 
 const useStyles = makeStyles((globalTheme: Theme) => ({
   tableClass: {
-    maxHeight: "40vh",
+    height: "65vh",
+    maxHeight: "65vh",
+    width: "100%",
   },
   tableHeaderClass: {
     backgroundColor: globalTheme.palette.secondary.light,
