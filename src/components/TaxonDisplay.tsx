@@ -16,6 +16,13 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
   },
   taxonIdClass: {
     color: globalTheme.palette.secondary.main,
+    margin: "0px !important",
+  },
+  containerClass: {
+    paddingBottom: globalTheme.spacing(1),
+    paddingTop: globalTheme.spacing(1),
+    boxShadow: "none !important",
+    marginLeft: "-16px",
   },
 }));
 
@@ -29,7 +36,7 @@ const TaxonDisplay = (): JSX.Element => {
 
   //RETURN ELEMENT HERE
   return (
-    <Card>
+    <Card className={classes.containerClass}>
       <CardContent>
         <Typography className={classes.taxonNameClass} variant="h5" component="h2">
           Current Taxon: {contextTaxon?.taxon_name_latin}

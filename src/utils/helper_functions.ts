@@ -4,10 +4,9 @@
  * @format
  */
 
-import QuantitativeData from "../components/QuantitativeData";
 import dataSet from "../datasets/taxon_data.json";
 import { TaxonLevel, classificationLevelArray } from "./constants";
-import { IquantitativeData, IquantitativeDataArray, taxonInterface, taxonInterfaceArray } from "./datagrab";
+import { IquantitativeData, taxonInterface, IqualitativeData, IqualitativeOptionData } from "./datagrab";
 
 /*
  * Accepts a single lk_taxon element, which is
@@ -114,30 +113,6 @@ export const helperGetTaxonData = (taxon_id: string | null): taxonInterface | nu
 };
 
 /*
- * Accepts a classificationLevel string.
- * returns an array of taxon names associated to it
- */
-export const helperGetLatinNames = (classificationLevel: string): string[] => {
-  const latinNames: string[] = [];
-  const dataSetLength = dataSet.lk_taxon.length;
-
-  //loop entire lk_taxon array
-  for (let i = 0; i < dataSetLength; i++) {
-    const taxon = dataSet.lk_taxon[i];
-    const taxon_id = taxon.taxon_id;
-
-    if (helperGetClassificationLevel(taxon) === classificationLevel) {
-      const name = helperGetLatinNameFromID(taxon_id);
-      if (name !== null) {
-        latinNames.push(name);
-      }
-    }
-  }
-
-  return latinNames;
-};
-
-/*
  * Accepts a taxon classification Level Kingdom, phylum etc
  * Returns an array of taxons associated to that classification level
  */
@@ -163,39 +138,98 @@ export const helperGetTaxonsForClassificationLevel = (classificationLevel: Taxon
 };
 
 /*
- * Takes two TaxonLevels,
- * returns true if the first one is at a lower index in the array than the second one
- */
-export const helperIsHigherClassificationLevel = (taxonLevel1: TaxonLevel, taxonLevel2: TaxonLevel): boolean => {
-  const index1 = classificationLevelArray.indexOf(taxonLevel1);
-  const index2 = classificationLevelArray.indexOf(taxonLevel2);
-  return index1 < index2;
-};
-
-/*
- * accepts a taxon ID, and returns an array of Quantitative Data associated to it
- */
-export const helperGetQuantitativeDataArray = (taxon_id: string, data: any): IquantitativeData[] => {
-  let quantitativeDataArray: IquantitativeData[] = [];
-  for (const quantitativeData of data) {
-    if (quantitativeData.taxon_id === taxon_id) {
-      quantitativeDataArray.push(quantitativeData);
+*    {
+      "taxon_id": "deaeef07-f954-4780-a35f-d1a3e906badf",
+      "kingdom_id": "92072613-325f-4dba-a65b-d8a4fe2206ef",
+      "phylum_id": "2b2273d0-e6b6-43e5-b4e0-378c3df3e6f4",
+      "class_id": null,
+      "order_id": null,
+      "family_id": null,
+      "genus_id": null,
+      "species_id": null,
+      "sub_species_id": null,
+      "taxon_name_common": null,
+      "taxon_name_latin": "Mammalia",
+      "spi_taxonomy_id": -1,
+      "taxon_description": null,
+      "create_user": "d62376e5-58a6-4514-a2cc-e15a8eda3522",
+      "update_user": "d62376e5-58a6-4514-a2cc-e15a8eda3522",
+      "create_timestamp": "2023-03-10T00:00:12.320Z",
+      "update_timestamp": "2023-03-10T00:00:12.320Z"
     }
-  }
-  return quantitativeDataArray;
-};
-
-/*
- * accepts a taxon ID, and returns an array of Quantitative Data associated to it
- */
-/*
-export const helperGetQuantitativeDataArray = (taxon_id: string, ): IquantitativeData[] => {
-  let quantitativeDataArray: IquantitativeData[] = [];
-  for (const quantitativeData of dataSet.xref_taxon_measurement_quantitative) {
-    if (quantitativeData.taxon_id === taxon_id) {
-      quantitativeDataArray.push(quantitativeData);
-    }
-  }
-  return quantitativeDataArray;
-};
 */
+
+/*
+ * accepts a taxon ID, and returns an array of Quantitative Data associated to it and its parent taxon levels
+ */
+export const helperGetQuantitativeDataArray = (contextTaxon: taxonInterface | null, data: any): IquantitativeData[] => {
+  let quantitativeDataArray: IquantitativeData[] = [];
+  if (contextTaxon) {
+    for (const quantitativeData of data) {
+      if (quantitativeData.taxon_id === contextTaxon.taxon_id) {
+        quantitativeDataArray.push(quantitativeData);
+      } else if (quantitativeData.taxon_id === contextTaxon.kingdom_id) {
+        quantitativeDataArray.push(quantitativeData);
+      } else if (quantitativeData.taxon_id === contextTaxon.class_id) {
+        quantitativeDataArray.push(quantitativeData);
+      } else if (quantitativeData.taxon_id === contextTaxon.phylum_id) {
+        quantitativeDataArray.push(quantitativeData);
+      } else if (quantitativeData.taxon_id === contextTaxon.order_id) {
+        quantitativeDataArray.push(quantitativeData);
+      } else if (quantitativeData.taxon_id === contextTaxon.family_id) {
+        quantitativeDataArray.push(quantitativeData);
+      } else if (quantitativeData.taxon_id === contextTaxon.genus_id) {
+        quantitativeDataArray.push(quantitativeData);
+      } else if (quantitativeData.taxon_id === contextTaxon.species_id) {
+        quantitativeDataArray.push(quantitativeData);
+      } else if (quantitativeData.taxon_id === contextTaxon.sub_species_id) {
+        quantitativeDataArray.push(quantitativeData);
+      }
+    }
+  }
+  return quantitativeDataArray;
+};
+
+/*
+ * accepts a taxon ID, and returns an array of Qualitative Data associated to it and its parent taxon levels
+ */
+export const helperGetQualitativeDataArray = (contextTaxon: taxonInterface | null, data: any): IqualitativeData[] => {
+  let qualitativeDataArray: IqualitativeData[] = [];
+  if (contextTaxon) {
+    for (const qualitativeData of data) {
+      if (qualitativeData.taxon_id === contextTaxon.taxon_id) {
+        qualitativeDataArray.push(qualitativeData);
+      } else if (qualitativeData.taxon_id === contextTaxon.kingdom_id) {
+        qualitativeDataArray.push(qualitativeData);
+      } else if (qualitativeData.taxon_id === contextTaxon.class_id) {
+        qualitativeDataArray.push(qualitativeData);
+      } else if (qualitativeData.taxon_id === contextTaxon.phylum_id) {
+        qualitativeDataArray.push(qualitativeData);
+      } else if (qualitativeData.taxon_id === contextTaxon.order_id) {
+        qualitativeDataArray.push(qualitativeData);
+      } else if (qualitativeData.taxon_id === contextTaxon.family_id) {
+        qualitativeDataArray.push(qualitativeData);
+      } else if (qualitativeData.taxon_id === contextTaxon.genus_id) {
+        qualitativeDataArray.push(qualitativeData);
+      } else if (qualitativeData.taxon_id === contextTaxon.species_id) {
+        qualitativeDataArray.push(qualitativeData);
+      } else if (qualitativeData.taxon_id === contextTaxon.sub_species_id) {
+        qualitativeDataArray.push(qualitativeData);
+      }
+    }
+  }
+  return qualitativeDataArray;
+};
+
+/*
+ * accepts a taxon measurement ID, and returns an array of Qualitative Data associated to it
+ */
+export const helperGetQualitativeOptions = (taxon_measurement_id: string, data: any): IqualitativeOptionData[] => {
+  let qualitativeOptionDataArray: IqualitativeOptionData[] = [];
+  for (const qualitativeOptionData of data) {
+    if (qualitativeOptionData.taxon_measurement_id === taxon_measurement_id) {
+      qualitativeOptionDataArray.push(qualitativeOptionData);
+    }
+  }
+  return qualitativeOptionDataArray;
+};

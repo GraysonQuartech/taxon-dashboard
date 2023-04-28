@@ -33,7 +33,7 @@ export interface taxonInterface {
 export interface IquantitativeDataArray {
   xref_taxon_measurement_quantitative: IquantitativeData[];
 }
-export interface IquantitativeData {
+export interface IquantitativeData extends Record<string, string | number | null> {
   taxon_measurement_id: string;
   taxon_id: string;
   measurement_name: string | null;
@@ -41,6 +41,35 @@ export interface IquantitativeData {
   min_value: number | null;
   max_value: number | null;
   unit: string | null;
+  create_user: string | null;
+  update_user: string | null;
+  create_timestamp: string | null;
+  update_timestamp: string | null;
+}
+
+export interface IqualitativeDataArray {
+  xref_taxon_measurement_qualitative: IqualitativeData[];
+}
+export interface IqualitativeData extends Record<string, string | number | null> {
+  taxon_measurement_id: string;
+  taxon_id: string;
+  measurement_name: string | null;
+  measurement_desc: string | null;
+  create_user: string | null;
+  update_user: string | null;
+  create_timestamp: string | null;
+  update_timestamp: string | null;
+}
+
+export interface IqualitativeOptionDataArray {
+  xref_taxon_measurement_qualitative_option: IqualitativeOptionData[];
+}
+export interface IqualitativeOptionData extends Record<string, string | number | null> {
+  qualitative_option_id: string;
+  taxon_measurement_id: string;
+  option_label: string | null;
+  option_value: number;
+  option_desc: string | null;
   create_user: string | null;
   update_user: string | null;
   create_timestamp: string | null;
