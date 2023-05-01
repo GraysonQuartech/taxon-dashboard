@@ -7,6 +7,7 @@ import FilterRow from "./FilterRow";
 import TaxonDisplay from "./TaxonDisplay";
 import TableRegular from "./TableRegular";
 import TableCollapse from "./TableCollapse";
+import SearchAll from "./SearchAll";
 // IMPORT MUI packages
 import { makeStyles } from "@mui/styles";
 import { Box, Grid, Theme, Typography } from "@mui/material";
@@ -30,6 +31,8 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
     padding: "0px",
   },
   titleClass: {
+    alignSelf: "end",
+    display: "inline-block",
     padding: globalTheme.spacing(1),
     color: globalTheme.palette.secondary.dark,
   },
@@ -39,6 +42,12 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
   },
   labelDisabled: {
     opacity: "20%",
+    padding: globalTheme.spacing(1),
+  },
+  headerGrid: {
+    width: "100%",
+    gridTemplateColumns: "80% auto",
+    display: "grid",
     padding: globalTheme.spacing(1),
   },
   displayGrid: {
@@ -84,9 +93,12 @@ const Main = () => {
   // RETURN ELEMENT HERE
   return (
     <div>
-      <Typography className={classes.titleClass} variant="h6">
-        Taxon Selection
-      </Typography>
+      <Grid className={classes.headerGrid} columns={2}>
+        <Typography className={classes.titleClass} variant="h5">
+          Taxon Selection
+        </Typography>
+        <SearchAll classificationLevel="Kingdom" dropDownTaxons={dataSet.lk_taxon} />
+      </Grid>
       <FilterRow />
       <Box className={classes.infoContainerClass}>
         <div className={contextTaxon ? classes.labelEnabled : classes.labelDisabled}>

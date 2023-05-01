@@ -50,7 +50,7 @@ interface FilterProps {
  * This component is a basic MUI select
  * It receives an array of taxons for the user to select from
  */
-const Filter = (props: FilterProps) => {
+const SearchAll = (props: FilterProps) => {
   //HOOKS here
   let { contextTaxon, setContextTaxon } = useTaxon();
   const [filterTaxon, setFilterTaxon] = useState<taxonInterface | null>(null);
@@ -70,43 +70,15 @@ const Filter = (props: FilterProps) => {
   };
 
   /*
-   * This useEffect is triggered when a filterTaxon at any classification level is selected
-   * It handles auto value update when a higher or lower filterTaxon is selected
-   */
-  useEffect(() => {
-    if (!classificationLevel) return;
-
-    //if setting contextTaxon to non null
-    if (contextTaxon) {
-      const tempTaxon = contextTaxonData[classificationLevel];
-      if (tempTaxon !== undefined) {
-        setFilterTaxon(helperGetTaxonData(tempTaxon));
-      }
-
-      //handle contextTaxon level. which will be NULL in the dataset. but have correct taxonID
-      if (contextTaxon?.taxon_id && classificationLevel === helperGetClassificationLevel(contextTaxon)) {
-        setFilterTaxon(contextTaxon);
-      }
-    }
-    //setting filterTaxon null
-    else {
-      setFilterTaxon(null);
-    }
-  }, [contextTaxon]);
-
-  /*
    * Receives the new filterTaxon value selected from the drop downs
    * gets called when a filter value changed to a different filterTaxon/null
    */
   const handleTaxonChange = (selectedTaxon: taxonInterface | null) => {
-    //if setting the current filterTaxon to null, the contextTaxon
-    //become the next classification level up before its info is reset
-    if (selectedTaxon === null && contextTaxon !== null) {
-      //set next level up here before info is gone..
-      selectedTaxon = helperGetNextAvailableTaxon(contextTaxon, classificationLevel);
+    setFilterTaxon(selectedTaxon);
+    //if not clearing search bar.. ie setting selectedTaxon to null
+    if (selectedTaxon) {
+      setContextTaxon(selectedTaxon);
     }
-
-    setContextTaxon(selectedTaxon);
   };
 
   //RETURN ELEMENT HERE
@@ -117,9 +89,9 @@ const Filter = (props: FilterProps) => {
       getOptionLabel={(option) => option.taxon_name_latin || ""}
       value={filterTaxon}
       onChange={(event, newTaxonValue) => handleTaxonChange(newTaxonValue)}
-      renderInput={(params) => <TextField {...params} label={classificationLevel} variant="outlined" />}
+      renderInput={(params) => <TextField {...params} label={"Search All Taxons"} variant="outlined" />}
     />
   );
 };
 
-export default Filter;
+export default SearchAll;

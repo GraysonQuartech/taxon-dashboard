@@ -78,7 +78,7 @@ export const helperGetClassificationLevel = (taxon: taxonInterface): TaxonLevel 
     case taxon.species_id:
       return "Species";
     case taxon.sub_species_id:
-      return "Sub_Species";
+      return "Sub Species";
   }
   return null;
 };

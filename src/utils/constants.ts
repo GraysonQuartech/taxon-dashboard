@@ -8,7 +8,7 @@
 
 import { IqualitativeData, IqualitativeOptionData, IquantitativeData } from "./datagrab";
 
-export type TaxonLevel = "Kingdom" | "Phylum" | "Class" | "Order" | "Family" | "Genus" | "Species" | "Sub_Species";
+export type TaxonLevel = "Kingdom" | "Phylum" | "Class" | "Order" | "Family" | "Genus" | "Species" | "Sub Species";
 export const classificationLevelArray: TaxonLevel[] = [
   "Kingdom",
   "Phylum",
@@ -17,7 +17,7 @@ export const classificationLevelArray: TaxonLevel[] = [
   "Family",
   "Genus",
   "Species",
-  "Sub_Species",
+  "Sub Species",
 ];
 
 export interface IColumn<T> {
