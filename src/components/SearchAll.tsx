@@ -90,7 +90,9 @@ const SearchAll = (props: FilterProps) => {
     <Autocomplete
       className={classes.selectBox}
       options={sortedOptions}
-      getOptionLabel={(option) => option.taxon_name_latin || ""}
+      getOptionLabel={(option) =>
+        `${option.taxon_name_latin || ""}${option.taxon_name_common ? ` - ${option.taxon_name_common}` : ""}`
+      }
       value={filterTaxon}
       groupBy={(option) => helperGetClassificationLevel(option) as string}
       onChange={(event, newTaxonValue) => handleTaxonChange(newTaxonValue)}
