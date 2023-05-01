@@ -97,7 +97,7 @@ const Main = () => {
         <Typography className={classes.titleClass} variant="h5">
           Taxon Selection
         </Typography>
-        <SearchAll classificationLevel="Kingdom" dropDownTaxons={dataSet.lk_taxon} />
+        <SearchAll dropDownTaxons={dataSet.lk_taxon} />
       </Grid>
       <FilterRow />
       <Box className={classes.infoContainerClass}>
