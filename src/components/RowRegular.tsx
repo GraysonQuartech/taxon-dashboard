@@ -17,6 +17,9 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
     fontWeight: globalTheme.typography.fontWeightMedium + "!important",
     height: "34px",
   },
+  tableCellClassDense: {
+    fontWeight: globalTheme.typography.fontWeightMedium + "!important",
+  },
 }));
 
 /*
@@ -26,6 +29,7 @@ export interface RowProps<T> {
   row: T;
   rowID: string;
   columns: IColumn<T>[];
+  dense: boolean;
 }
 
 /*
@@ -40,7 +44,10 @@ const TableRowRegular = <T extends Record<string, string | number | null>>(props
   return (
     <TableRow key={props.rowID}>
       {props.columns.map((column) => (
-        <TableCell className={classes.tableCellClass} key={column.field as string}>
+        <TableCell
+          className={props.dense ? classes.tableCellClassDense : classes.tableCellClass}
+          key={column.field as string}
+        >
           {column.field === "taxon_id"
             ? helperGetLatinNameFromID(props.row[column.field as keyof T] as string)
             : props.row[column.field as keyof T]}

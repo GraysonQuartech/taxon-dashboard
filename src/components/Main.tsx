@@ -84,6 +84,9 @@ const Main = () => {
   // RETURN ELEMENT HERE
   return (
     <div>
+      <Typography className={classes.titleClass} variant="h6">
+        Taxon Selection
+      </Typography>
       <FilterRow />
       <Box className={classes.infoContainerClass}>
         <div className={contextTaxon ? classes.labelEnabled : classes.labelDisabled}>
@@ -103,6 +106,7 @@ const Main = () => {
               rows={quantitativeDataArray}
               columns={columnsQuantitative}
               getRowID={(row: IquantitativeData) => row.taxon_measurement_id}
+              dense={false}
             />
           </div>
           <div className={qualitativeDataArray.length ? classes.tableEnabled : classes.tableDisabled}>
@@ -124,6 +128,7 @@ const Main = () => {
                       rows={qualitativeOptionDataArray}
                       columns={columnsQualitativeOptions}
                       getRowID={(row: IqualitativeOptionData) => row.qualitative_option_id}
+                      dense={true}
                     />
                   </div>
                 );
