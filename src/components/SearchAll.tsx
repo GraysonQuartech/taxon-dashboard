@@ -1,6 +1,6 @@
 /** @format */
 //IMPORT React and Child Components
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useTaxon } from "../contexts/taxonContext";
 //IMPORT MUI packages
 import Autocomplete from "@mui/material/Autocomplete";
@@ -67,6 +67,14 @@ const SearchAll = (props: FilterProps) => {
       return 0;
     });
 
+  /*
+   *Gets called when context taxon updated anywhere. updates search bar to null
+   */
+  useEffect(() => {
+    if (contextTaxon != filterTaxon) {
+      setFilterTaxon(null);
+    }
+  }, [contextTaxon]);
   /*
    * Receives the new filterTaxon value selected from the drop downs
    * gets called when a filter value changed to a different filterTaxon/null
