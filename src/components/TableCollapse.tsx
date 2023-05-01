@@ -13,8 +13,8 @@ import { IColumn } from "../utils/constants";
 
 const useStyles = makeStyles((globalTheme: Theme) => ({
   tableClass: {
-    height: "65vh",
-    maxHeight: "65vh",
+    height: "58vh",
+    maxHeight: "58vh",
   },
   titleClass: {
     padding: globalTheme.spacing(1),

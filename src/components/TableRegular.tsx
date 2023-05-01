@@ -14,12 +14,12 @@ import { IColumn } from "../utils/constants";
 const useStyles = makeStyles((globalTheme: Theme) => ({
   tableClassDense: {
     //height: "65vh",
-    maxHeight: "65vh",
+    maxHeight: "58vh",
     width: "100%",
   },
   tableClass: {
-    height: "65vh",
-    maxHeight: "65vh",
+    height: "58vh",
+    maxHeight: "58vh",
     width: "100%",
   },
   tableHeaderClass: {
