@@ -20,12 +20,36 @@ import {
 import { columnsQuantitative, columnsQualitative, columnsQualitativeOptions } from "../utils/constants";
 import dataSet from "../datasets/taxon_data.json";
 import { IqualitativeData, IquantitativeData, IqualitativeOptionData } from "../utils/datagrab";
+import BClogo from "../images/BClogo.svg";
 
 /*
  * STYLE definitions for useStyles hook
  * and global theme
  */
 const useStyles = makeStyles((globalTheme: Theme) => ({
+  headerClass: {
+    backgroundColor: globalTheme.palette.primary.dark,
+    height: "72px",
+    display: "flex",
+    justifyContent: "left",
+    alignItems: "center",
+    padding: "0 32px",
+    color: globalTheme.palette.primary.contrastText,
+    paddingLeft: "0px",
+  },
+  logoClass: {
+    height: "48px",
+  },
+  searchContainerClass: {
+    //backgroundColor: globalTheme.palette.secondary.light,
+    padding: globalTheme.spacing(1),
+  },
+  searchContainerGrid: {
+    width: "100%",
+    gridTemplateColumns: "80% auto",
+    display: "grid",
+    padding: globalTheme.spacing(1),
+  },
   infoContainerClass: {
     backgroundColor: globalTheme.palette.secondary.light,
     padding: "0px",
@@ -35,20 +59,6 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
     display: "inline-block",
     padding: globalTheme.spacing(1),
     color: globalTheme.palette.secondary.dark,
-  },
-  labelEnabled: {
-    opacity: "100%",
-    padding: globalTheme.spacing(1),
-  },
-  labelDisabled: {
-    opacity: "20%",
-    padding: globalTheme.spacing(1),
-  },
-  headerGrid: {
-    width: "100%",
-    gridTemplateColumns: "80% auto",
-    display: "grid",
-    padding: globalTheme.spacing(1),
   },
   displayGrid: {
     boxShadow: "none !important",
@@ -68,6 +78,14 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
     padding: globalTheme.spacing(1),
   },
   tableDisabled: {
+    opacity: "20%",
+    padding: globalTheme.spacing(1),
+  },
+  labelEnabled: {
+    opacity: "100%",
+    padding: globalTheme.spacing(1),
+  },
+  labelDisabled: {
     opacity: "20%",
     padding: globalTheme.spacing(1),
   },
@@ -93,13 +111,19 @@ const Main = () => {
   // RETURN ELEMENT HERE
   return (
     <div>
-      <Grid className={classes.headerGrid} columns={2}>
-        <Typography className={classes.titleClass} variant="h5">
-          Taxon Selection
-        </Typography>
-        <SearchAll dropDownTaxons={dataSet.lk_taxon} />
-      </Grid>
-      <FilterRow />
+      <header className={classes.headerClass}>
+        <img src={BClogo} alt="BC Government Emblem" className={classes.logoClass} />
+        <Typography variant="h6">Critterbase Taxon Dashboard</Typography>
+      </header>
+      <div className={classes.searchContainerClass}>
+        <Grid className={classes.searchContainerGrid} columns={2}>
+          <Typography className={classes.titleClass} variant="h6">
+            Taxon Selection
+          </Typography>
+          <SearchAll dropDownTaxons={dataSet.lk_taxon} />
+        </Grid>
+        <FilterRow />
+      </div>
       <Box className={classes.infoContainerClass}>
         <div className={contextTaxon ? classes.labelEnabled : classes.labelDisabled}>
           <Typography className={classes.titleClass} variant="h6">
