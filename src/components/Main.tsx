@@ -20,7 +20,7 @@ import {
 import { columnsQuantitative, columnsQualitative, columnsQualitativeOptions } from "../utils/constants";
 import dataSet from "../datasets/taxon_data.json";
 import { IqualitativeData, IquantitativeData, IqualitativeOptionData } from "../utils/datagrab";
-import BClogo from "../images/BClogo.svg";
+import gov3_bc_logo from "../images/gov3_bc_logo.png";
 
 /*
  * STYLE definitions for useStyles hook
@@ -39,6 +39,7 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
   },
   logoClass: {
     height: "48px",
+    margin: "14px",
   },
   searchContainerClass: {
     //backgroundColor: globalTheme.palette.secondary.light,
@@ -112,7 +113,7 @@ const Main = () => {
   return (
     <div>
       <header className={classes.headerClass}>
-        <img src={BClogo} alt="BC Government Emblem" className={classes.logoClass} />
+        <img src={gov3_bc_logo} alt="BC Government Emblem" className={classes.logoClass} />
         <Typography variant="h6">Critterbase Taxon Dashboard</Typography>
       </header>
       <div className={classes.searchContainerClass}>
