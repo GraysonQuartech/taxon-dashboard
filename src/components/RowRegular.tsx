@@ -18,6 +18,7 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
   tableCellClass: {
     display: "flex",
     alignItems: "center",
+    minHeight: "34px",
   },
   tableCellClassDense: {
     fontWeight: globalTheme.typography.fontWeightMedium + "!important",
