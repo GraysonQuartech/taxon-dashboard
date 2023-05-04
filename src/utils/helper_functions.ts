@@ -240,24 +240,24 @@ export const helperGetColorFromID = (taxonID: string): string => {
     const classLevel = helperGetClassificationLevel(taxon);
     switch (classLevel) {
       case "Kingdom":
-        return "#D1A8C1";
+        return "#BC4482";
       case "Phylum":
-        return "#D9C8B8";
+        return "#8C448C";
       case "Class":
-        return "#A3C3A8";
+        return "#448CBC";
       case "Order":
-        return "#A3AEB8";
+        return "#44BC89";
       case "Family":
-        return "#D5A8A5";
+        return "#BC7E44";
       case "Genus":
-        return "#C5A8D1";
+        return "#8282BC";
       case "Species":
-        return "#D9BBA5";
+        return "#8C448C";
       case "Sub Species":
-        return "#A8D1BD";
+        return "#44BC7E";
       default:
-        return "#B8B8B8";
+        return "#727272";
     }
   }
-  return "#B8B8B8";
+  return "#727272";
 };

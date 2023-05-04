@@ -5,11 +5,10 @@ import React from "react";
 import TaxonBubble from "./TaxonBubble";
 //IMPORT MUI packages
 import { makeStyles } from "@mui/styles";
-import { Theme, Typography } from "@mui/material";
+import { Theme } from "@mui/material";
 import { TableCell, TableRow } from "@mui/material";
 //IMPORT Datasets+Constants+Helpers
 import { IColumn } from "../utils/constants";
-import { helperGetLatinNameFromID } from "../utils/helper_functions";
 
 /*
  * STYLE definitions for useStyles hook

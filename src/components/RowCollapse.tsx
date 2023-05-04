@@ -4,14 +4,14 @@ import React, { ReactNode } from "react";
 //IMPORT MUI packages
 import { makeStyles } from "@mui/styles";
 import { Theme } from "@mui/material";
-import { Collapse, Box } from "@mui/material";
+import { Collapse } from "@mui/material";
 import { TableCell, TableRow } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 //IMPORT Datasets+Constants + helpers
 import { IColumn } from "../utils/constants";
-import { helperGetLatinNameFromID } from "../utils/helper_functions";
+import TaxonBubble from "./TaxonBubble";
 
 /*
  * STYLE definitions for useStyles hook
@@ -48,9 +48,11 @@ const TableRowCollapse = <T extends Record<string, string | number | null>>(prop
         </TableCell>
         {props.columns.map((column, index) => (
           <TableCell key={column.field as string}>
-            {column.field === "taxon_id"
-              ? helperGetLatinNameFromID(props.row[column.field as keyof T] as string)
-              : props.row[column.field as keyof T]}
+            {column.field === "taxon_id" ? (
+              <TaxonBubble taxonID={props.row[column.field as keyof T] as string} />
+            ) : (
+              props.row[column.field as keyof T]
+            )}
           </TableCell>
         ))}
       </TableRow>
