@@ -235,5 +235,29 @@ export const helperGetQualitativeOptions = (taxon_measurement_id: string, data: 
 };
 
 export const helperGetColorFromID = (taxonID: string): string => {
-  return "444444";
+  const taxon = helperGetTaxonData(taxonID);
+  if (taxon) {
+    const classLevel = helperGetClassificationLevel(taxon);
+    switch (classLevel) {
+      case "Kingdom":
+        return "#F1C4D4";
+      case "Phylum":
+        return "#FDE9C9";
+      case "Class":
+        return "#D4EFDF";
+      case "Order":
+        return "#D1D8E0";
+      case "Family":
+        return "#FADBD8";
+      case "Genus":
+        return "#E8DAEF";
+      case "Species":
+        return "#FDEBD0";
+      case "Sub Species":
+        return "#D5F5E3";
+      default:
+        return "#CCCCCC";
+    }
+  }
+  return "#CCCCCC";
 };

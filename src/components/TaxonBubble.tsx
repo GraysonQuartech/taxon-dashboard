@@ -6,7 +6,14 @@ import React from "react";
 import { Theme } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 //IMPORT HELPER FUNCTIONS
-import { helperGetLatinNameFromID } from "../utils/helper_functions";
+import { helperGetColorFromID, helperGetLatinNameFromID } from "../utils/helper_functions";
+
+/*
+ *title props received from main.tsx
+ */
+interface TaxonBubbleProps {
+  taxonID: string;
+}
 
 /*
  * STYLE definitions for useStyles hook
@@ -28,18 +35,13 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
 }));
 
 /*
- *title props received from main.tsx
- */
-interface TaxonBubbleProps {
-  taxonID: string;
-}
-
-/*
  * Main component Function. displays taxon ID and name
  */
 const TaxonBubble = (props: TaxonBubbleProps): JSX.Element => {
   //HOOKS here
   const classes = useStyles();
+
+  const colour = helperGetColorFromID(props.taxonID);
 
   //RETURN ELEMENT HERE
   return <div className={classes.bubbleClass}>{helperGetLatinNameFromID(props.taxonID)}</div>;
