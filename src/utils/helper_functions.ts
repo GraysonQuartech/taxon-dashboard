@@ -233,3 +233,7 @@ export const helperGetQualitativeOptions = (taxon_measurement_id: string, data: 
   }
   return qualitativeOptionDataArray;
 };
+
+export const helperGetColorFromID = (taxonID: string): string => {
+  return "444444";
+};
