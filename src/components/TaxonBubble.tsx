@@ -1,15 +1,14 @@
 /** @format */
-
 //IMPORT REACT packages
-import React from "react";
+import React, { useState } from "react";
 //IMPORT MUI packages
 import { Theme } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-//IMPORT HELPER FUNCTIONS
+//IMPORT helper functions
 import { helperGetColorFromID, helperGetLatinNameFromID } from "../utils/helper_functions";
 
 /*
- *title props received from main.tsx
+ *taxon id props received from main.tsx
  */
 interface TaxonBubbleProps {
   taxonID: string;
@@ -35,16 +34,17 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
 }));
 
 /*
- * Main component Function. displays taxon ID and name
+ *Main component. Used to give a coloured bubble around taxon name
  */
 const TaxonBubble = (props: TaxonBubbleProps): JSX.Element => {
-  //HOOKS here
   const classes = useStyles();
+  const [color, setColor] = useState(helperGetColorFromID(props.taxonID));
 
-  const colour = helperGetColorFromID(props.taxonID);
-
-  //RETURN ELEMENT HERE
-  return <div className={classes.bubbleClass}>{helperGetLatinNameFromID(props.taxonID)}</div>;
+  return (
+    <div className={classes.bubbleClass} style={{ backgroundColor: color }}>
+      {helperGetLatinNameFromID(props.taxonID)}
+    </div>
+  );
 };
 
 export default TaxonBubble;
