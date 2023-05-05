@@ -127,8 +127,10 @@ const Filter = (props: FilterProps) => {
             style: {
               backgroundColor: filterTaxon ? helperGetColorFromID(filterTaxon.taxon_id) : "",
               color: filterTaxon ? "white" : "inherit",
-              borderRadius: "5px",
-              padding: "2px",
+              borderRadius: "10px",
+              padding: "3px",
+              paddingLeft: "10px",
+              paddingRight: "10px",
               opacity: filterTaxon ? 1 : 0.5,
             },
           }}
