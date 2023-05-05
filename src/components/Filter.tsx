@@ -16,6 +16,7 @@ import {
   helperGetClassificationLevel,
   helperGetTaxonData,
   helperGetNextAvailableTaxon,
+  helperGetColorFromID,
 } from "../utils/helper_functions";
 
 /*
@@ -117,7 +118,22 @@ const Filter = (props: FilterProps) => {
       getOptionLabel={(option) => option.taxon_name_latin || ""}
       value={filterTaxon}
       onChange={(event, newTaxonValue) => handleTaxonChange(newTaxonValue)}
-      renderInput={(params) => <TextField {...params} label={classificationLevel} variant="outlined" />}
+      renderInput={(params) => (
+        <TextField
+          {...params}
+          label={classificationLevel}
+          variant="outlined"
+          InputLabelProps={{
+            style: {
+              backgroundColor: filterTaxon ? helperGetColorFromID(filterTaxon.taxon_id) : "",
+              color: filterTaxon ? "white" : "inherit",
+              borderRadius: "5px",
+              padding: "2px",
+              opacity: filterTaxon ? 1 : 0.5,
+            },
+          }}
+        />
+      )}
     />
   );
 };
