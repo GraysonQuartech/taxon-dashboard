@@ -131,7 +131,7 @@ const Main = () => {
             Current Taxon
           </Typography>
           <Grid className={classes.displayGrid} columns={3}>
-            <TaxonDisplay title={"Latin"} value={contextTaxon?.taxon_name_latin} />
+            <TaxonDisplay title={"Latin Name"} value={contextTaxon?.taxon_name_latin} />
             <TaxonDisplay title={"Taxon ID"} value={contextTaxon?.taxon_id} />
             <TaxonDisplay title={"Updated"} value={contextTaxon?.update_timestamp} />
           </Grid>
