@@ -23,11 +23,7 @@ import {
  * STYLE definitions for useStyles hook
  * and global theme
  */
-interface StlyeProps {
-  filterTaxon: taxonInterface | null;
-}
-
-const useStyles = makeStyles<Theme, StlyeProps>((theme) => ({
+const useStyles = makeStyles((globalTheme: Theme) => ({
   formControl: {
     width: "100%",
   },
@@ -36,10 +32,10 @@ const useStyles = makeStyles<Theme, StlyeProps>((theme) => ({
     borderRadius: "5px",
   },
   labelClass: {
-    borderRadius: "12px !important",
-    padding: "3px !important",
-    paddingLeft: "10px !important",
-    paddingRight: "10px !important",
+    borderRadius: "40px !important",
+    padding: globalTheme.spacing(1) + "!important",
+    paddingLeft: globalTheme.spacing(2) + "!important",
+    paddingRight: globalTheme.spacing(2) + "!important",
   },
 }));
 
@@ -118,21 +114,6 @@ const Filter = (props: FilterProps) => {
     }
     setContextTaxon(selectedTaxon);
   };
-
-  let backgroundColour = {
-    labelBackgroundColour: {
-      backgroundColor: "white",
-    },
-  };
-
-  if (filterTaxon) {
-    backgroundColour = {
-      labelBackgroundColour: {
-        backgroundColor: helperGetColorFromID(filterTaxon.taxon_id),
-      },
-    };
-    console.log(backgroundColour);
-  }
 
   //RETURN ELEMENT HERE
   return (

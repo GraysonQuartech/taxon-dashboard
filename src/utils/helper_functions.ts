@@ -232,7 +232,7 @@ export const helperGetColorFromID = (taxonID: string): string => {
       case "Species":
         return "#8C448C";
       case "Sub Species":
-        return "#FADBD8";
+        return "#ABDBD8";
       default:
         return "#727272";
     }

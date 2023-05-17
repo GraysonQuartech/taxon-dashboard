@@ -22,14 +22,15 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
     height: "50%",
     width: "fit-content",
     minWidth: "70px",
-    backgroundColor: "#9575cd",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     textAlign: "center",
-    borderRadius: "70px",
+    borderRadius: "40px",
     color: `${globalTheme.palette.primary.contrastText} !important`,
-    padding: "6px",
+    padding: globalTheme.spacing(1) + "!important",
+    paddingLeft: globalTheme.spacing(2) + "!important",
+    paddingRight: globalTheme.spacing(2) + "!important",
   },
 }));
 
