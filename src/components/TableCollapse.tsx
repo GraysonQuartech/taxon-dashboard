@@ -3,7 +3,7 @@
 import React, { ReactNode } from "react";
 import RowCollapse from "./RowCollapse";
 //IMPORT MUI packages
-import { Paper, Theme } from "@mui/material";
+import { Paper, TablePagination, Theme } from "@mui/material";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import Typography from "@mui/material/Typography";
@@ -49,6 +49,20 @@ export interface TableProps<T> {
 const QualitativeData = <T extends Record<string, string | number | null>>(props: TableProps<T>) => {
   //HOOKS
   const classes = useStyles();
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+  const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  const startIndex = page * rowsPerPage;
+  const endIndex = startIndex + rowsPerPage;
 
   //RETURN ELEMENT
   return (
@@ -68,7 +82,7 @@ const QualitativeData = <T extends Record<string, string | number | null>>(props
             </TableRow>
           </TableHead>
           <TableBody>
-            {props.rows.map((row) => (
+            {props.rows.slice(startIndex, endIndex).map((row) => (
               <RowCollapse
                 row={row}
                 columns={props.columns}
@@ -78,6 +92,15 @@ const QualitativeData = <T extends Record<string, string | number | null>>(props
             ))}
           </TableBody>
         </Table>
+        <TablePagination
+          rowsPerPageOptions={[1, 10, 25]}
+          component="div"
+          count={props.rows.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
       </TableContainer>
     </div>
   );
