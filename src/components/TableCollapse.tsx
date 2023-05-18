@@ -13,7 +13,7 @@ import { IColumn } from "../utils/constants";
 
 const useStyles = makeStyles((globalTheme: Theme) => ({
   tableClass: {
-    height: "58vh",
+    //height: "58vh",
     maxHeight: "58vh",
   },
   titleClass: {
@@ -71,29 +71,31 @@ const QualitativeData = <T extends Record<string, string | number | null>>(props
         {props.tableName}
       </Typography>
 
-      <TableContainer component={Paper} className={classes.tableClass}>
-        <Table aria-label="collapsible table" size="small" stickyHeader>
-          <TableHead>
-            <TableRow className={classes.tableHeaderClass}>
-              <TableCell></TableCell>
-              {props.columns.map((column) => (
-                <TableCell key={column.field as string}>{column.headerName}</TableCell>
+      <Paper>
+        <TableContainer className={classes.tableClass}>
+          <Table aria-label="collapsible table" size="small" stickyHeader>
+            <TableHead>
+              <TableRow className={classes.tableHeaderClass}>
+                <TableCell></TableCell>
+                {props.columns.map((column) => (
+                  <TableCell key={column.field as string}>{column.headerName}</TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {props.rows.slice(startIndex, endIndex).map((row) => (
+                <RowCollapse
+                  row={row}
+                  columns={props.columns}
+                  rowID={props.getRowID(row)}
+                  renderSubTable={props.renderSubTable}
+                />
               ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {props.rows.slice(startIndex, endIndex).map((row) => (
-              <RowCollapse
-                row={row}
-                columns={props.columns}
-                rowID={props.getRowID(row)}
-                renderSubTable={props.renderSubTable}
-              />
-            ))}
-          </TableBody>
-        </Table>
+            </TableBody>
+          </Table>
+        </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[1, 10, 25]}
+          rowsPerPageOptions={[5, 10, 25]}
           component="div"
           count={props.rows.length}
           rowsPerPage={rowsPerPage}
@@ -101,7 +103,7 @@ const QualitativeData = <T extends Record<string, string | number | null>>(props
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
-      </TableContainer>
+      </Paper>
     </div>
   );
 };

@@ -18,7 +18,7 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
     width: "100%",
   },
   tableClass: {
-    height: "58vh",
+    //height: "58vh",
     maxHeight: "58vh",
     width: "100%",
   },
@@ -76,27 +76,29 @@ const RegularTable = <T extends Record<string, string | number | null>>(props: T
       <Typography variant="h6" className={classes.titleClass}>
         {props.tableName}
       </Typography>
-      <TableContainer component={Paper} className={props.dense ? classes.tableClassDense : classes.tableClass}>
-        <Table size="small" stickyHeader>
-          <TableHead className={classes.tableHeaderClass}>
-            <TableRow>
-              {props.columns.map((column) => (
-                <TableCell key={column.field as string}>{column.headerName}</TableCell>
+      <Paper>
+        <TableContainer className={props.dense ? classes.tableClassDense : classes.tableClass}>
+          <Table size="small" stickyHeader>
+            <TableHead className={classes.tableHeaderClass}>
+              <TableRow>
+                {props.columns.map((column) => (
+                  <TableCell key={column.field as string}>{column.headerName}</TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {props.rows.slice(startIndex, endIndex).map((row) => (
+                <RowRegular
+                  key={props.getRowID(row)}
+                  row={row}
+                  columns={props.columns}
+                  rowID={props.getRowID(row)}
+                  dense={props.dense}
+                />
               ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {props.rows.slice(startIndex, endIndex).map((row) => (
-              <RowRegular
-                key={props.getRowID(row)}
-                row={row}
-                columns={props.columns}
-                rowID={props.getRowID(row)}
-                dense={props.dense}
-              />
-            ))}
-          </TableBody>
-        </Table>{" "}
+            </TableBody>
+          </Table>{" "}
+        </TableContainer>
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
@@ -106,7 +108,7 @@ const RegularTable = <T extends Record<string, string | number | null>>(props: T
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
-      </TableContainer>
+      </Paper>
     </div>
   );
 };
