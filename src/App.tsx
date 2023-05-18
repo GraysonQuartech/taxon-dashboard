@@ -12,11 +12,13 @@ const globalTheme = createTheme({
   palette: {
     primary: {
       main: blue[600],
-      light: blue[50],
+      light: "#111111",
+      dark: "#003366", // BC ID: corporate blue
     },
     secondary: {
       main: blueGrey[600],
       light: blueGrey[50],
+      dark: "#999999",
     },
   },
   spacing: 4,
@@ -24,6 +26,7 @@ const globalTheme = createTheme({
     fontWeightRegular: 400,
     fontWeightMedium: 500,
     fontWeightBold: 600,
+    fontFamily: ["BCSans", "Verdana", "Arial", "sans-serif"].join(","),
   },
 });
 

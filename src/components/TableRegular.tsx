@@ -12,17 +12,25 @@ import { IColumn } from "../utils/constants";
 //IMPORT helper functions
 
 const useStyles = makeStyles((globalTheme: Theme) => ({
+  tableClassDense: {
+    //height: "65vh",
+    maxHeight: "58vh",
+    width: "100%",
+  },
   tableClass: {
-    maxHeight: "40vh",
+    height: "58vh",
+    maxHeight: "58vh",
+    width: "100%",
   },
   tableHeaderClass: {
     backgroundColor: globalTheme.palette.secondary.light,
     "& th": {
-      fontWeight: globalTheme.typography.fontWeightBold,
+      fontWeight: globalTheme.typography.fontWeightMedium,
     },
   },
   titleClass: {
     padding: globalTheme.spacing(1),
+    color: globalTheme.palette.secondary.dark,
   },
 }));
 
@@ -34,6 +42,7 @@ export interface TableProps<T> {
   rows: T[];
   columns: IColumn<T>[];
   getRowID: (row: T) => string;
+  dense: boolean;
 }
 
 /*
@@ -49,11 +58,11 @@ const RegularTable = <T extends Record<string, string | number | null>>(props: T
 
   //RETURN ELEMENT
   return (
-    <TableContainer component={Paper}>
+    <div>
       <Typography variant="h6" className={classes.titleClass}>
         {props.tableName}
       </Typography>
-      <TableContainer className={classes.tableClass}>
+      <TableContainer component={Paper} className={props.dense ? classes.tableClassDense : classes.tableClass}>
         <Table size="small" stickyHeader>
           <TableHead className={classes.tableHeaderClass}>
             <TableRow>
@@ -64,12 +73,12 @@ const RegularTable = <T extends Record<string, string | number | null>>(props: T
           </TableHead>
           <TableBody>
             {props.rows.map((row) => (
-              <RowRegular row={row} columns={props.columns} rowID={props.getRowID(row)} />
+              <RowRegular row={row} columns={props.columns} rowID={props.getRowID(row)} dense={props.dense} />
             ))}
           </TableBody>
         </Table>
       </TableContainer>
-    </TableContainer>
+    </div>
   );
 };
 

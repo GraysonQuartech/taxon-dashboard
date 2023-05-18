@@ -16,7 +16,7 @@ import { classificationLevelArray } from "../utils/constants";
  */
 const useStyles = makeStyles((globalTheme: Theme) => ({
   gridClass: {
-    //backgroundColor: globalTheme.palette.primary.light,
+    //backgroundColor: globalTheme.palette.primary.dark,
     padding: globalTheme.spacing(1),
   },
 }));

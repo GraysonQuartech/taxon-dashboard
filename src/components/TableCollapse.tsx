@@ -13,15 +13,17 @@ import { IColumn } from "../utils/constants";
 
 const useStyles = makeStyles((globalTheme: Theme) => ({
   tableClass: {
-    maxHeight: "50vh",
+    height: "58vh",
+    maxHeight: "58vh",
   },
   titleClass: {
     padding: globalTheme.spacing(1),
+    color: globalTheme.palette.secondary.dark,
   },
   tableHeaderClass: {
     backgroundColor: globalTheme.palette.secondary.light,
     "& th": {
-      fontWeight: globalTheme.typography.fontWeightBold,
+      fontWeight: globalTheme.typography.fontWeightMedium,
     },
   },
 }));
@@ -50,11 +52,12 @@ const QualitativeData = <T extends Record<string, string | number | null>>(props
 
   //RETURN ELEMENT
   return (
-    <TableContainer component={Paper}>
+    <div>
       <Typography variant="h6" className={classes.titleClass}>
         {props.tableName}
       </Typography>
-      <TableContainer className={classes.tableClass}>
+
+      <TableContainer component={Paper} className={classes.tableClass}>
         <Table aria-label="collapsible table" size="small" stickyHeader>
           <TableHead>
             <TableRow className={classes.tableHeaderClass}>
@@ -76,7 +79,7 @@ const QualitativeData = <T extends Record<string, string | number | null>>(props
           </TableBody>
         </Table>
       </TableContainer>
-    </TableContainer>
+    </div>
   );
 };
 

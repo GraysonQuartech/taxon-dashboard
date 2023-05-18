@@ -78,7 +78,7 @@ export const helperGetClassificationLevel = (taxon: taxonInterface): TaxonLevel 
     case taxon.species_id:
       return "Species";
     case taxon.sub_species_id:
-      return "Sub_Species";
+      return "Sub Species";
   }
   return null;
 };
@@ -136,28 +136,6 @@ export const helperGetTaxonsForClassificationLevel = (classificationLevel: Taxon
 
   return taxonArray;
 };
-
-/*
-*    {
-      "taxon_id": "deaeef07-f954-4780-a35f-d1a3e906badf",
-      "kingdom_id": "92072613-325f-4dba-a65b-d8a4fe2206ef",
-      "phylum_id": "2b2273d0-e6b6-43e5-b4e0-378c3df3e6f4",
-      "class_id": null,
-      "order_id": null,
-      "family_id": null,
-      "genus_id": null,
-      "species_id": null,
-      "sub_species_id": null,
-      "taxon_name_common": null,
-      "taxon_name_latin": "Mammalia",
-      "spi_taxonomy_id": -1,
-      "taxon_description": null,
-      "create_user": "d62376e5-58a6-4514-a2cc-e15a8eda3522",
-      "update_user": "d62376e5-58a6-4514-a2cc-e15a8eda3522",
-      "create_timestamp": "2023-03-10T00:00:12.320Z",
-      "update_timestamp": "2023-03-10T00:00:12.320Z"
-    }
-*/
 
 /*
  * accepts a taxon ID, and returns an array of Quantitative Data associated to it and its parent taxon levels
@@ -232,4 +210,32 @@ export const helperGetQualitativeOptions = (taxon_measurement_id: string, data: 
     }
   }
   return qualitativeOptionDataArray;
+};
+
+export const helperGetColorFromID = (taxonID: string): string => {
+  const taxon = helperGetTaxonData(taxonID);
+  if (taxon) {
+    const classLevel = helperGetClassificationLevel(taxon);
+    switch (classLevel) {
+      case "Kingdom":
+        return "#c23b22";
+      case "Phylum":
+        return "#44BC89";
+      case "Class":
+        return "#448CBC";
+      case "Order":
+        return "#BC4482";
+      case "Family":
+        return "#BC7E44";
+      case "Genus":
+        return "#8282BC";
+      case "Species":
+        return "#8C448C";
+      case "Sub Species":
+        return "#ABDBD8";
+      default:
+        return "#727272";
+    }
+  }
+  return "#727272";
 };

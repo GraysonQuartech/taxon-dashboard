@@ -7,9 +7,10 @@ import FilterRow from "./FilterRow";
 import TaxonDisplay from "./TaxonDisplay";
 import TableRegular from "./TableRegular";
 import TableCollapse from "./TableCollapse";
+import SearchAll from "./SearchAll";
 // IMPORT MUI packages
 import { makeStyles } from "@mui/styles";
-import { Grid, Theme, Typography } from "@mui/material";
+import { Box, Grid, Theme, Typography } from "@mui/material";
 // IMPORT Constants + Data + Helper Functions
 import {
   helperGetQuantitativeDataArray,
@@ -19,12 +20,68 @@ import {
 import { columnsQuantitative, columnsQualitative, columnsQualitativeOptions } from "../utils/constants";
 import dataSet from "../datasets/taxon_data.json";
 import { IqualitativeData, IquantitativeData, IqualitativeOptionData } from "../utils/datagrab";
+import gov3_bc_logo from "../images/gov3_bc_logo.png";
 
 /*
  * STYLE definitions for useStyles hook
  * and global theme
  */
 const useStyles = makeStyles((globalTheme: Theme) => ({
+  headerClass: {
+    backgroundColor: globalTheme.palette.primary.dark,
+    height: "72px",
+    display: "flex",
+    justifyContent: "left",
+    alignItems: "center",
+    padding: "0 32px",
+    color: globalTheme.palette.primary.contrastText,
+    paddingLeft: "0px",
+  },
+  logoClass: {
+    height: "48px",
+    margin: "14px",
+  },
+  searchContainerClass: {
+    //backgroundColor: globalTheme.palette.secondary.light,
+    padding: globalTheme.spacing(1),
+  },
+  searchContainerGrid: {
+    width: "100%",
+    gridTemplateColumns: "80% auto",
+    display: "grid",
+    padding: globalTheme.spacing(1),
+  },
+  infoContainerClass: {
+    backgroundColor: globalTheme.palette.secondary.light,
+    padding: "0px",
+  },
+  titleClass: {
+    alignSelf: "end",
+    display: "inline-block",
+    padding: globalTheme.spacing(1),
+    color: globalTheme.palette.secondary.dark,
+  },
+  displayGrid: {
+    boxShadow: "none !important",
+    gridTemplateColumns: "auto auto auto",
+    justifyContent: "left",
+    display: "grid",
+    width: "70%",
+    gridGap: globalTheme.spacing(6),
+  },
+  gridClass: {
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr",
+    justifyContent: "center",
+  },
+  tableEnabled: {
+    opacity: "100%",
+    padding: globalTheme.spacing(1),
+  },
+  tableDisabled: {
+    opacity: "20%",
+    padding: globalTheme.spacing(1),
+  },
   labelEnabled: {
     opacity: "100%",
     padding: globalTheme.spacing(1),
@@ -32,22 +89,6 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
   labelDisabled: {
     opacity: "20%",
     padding: globalTheme.spacing(1),
-  },
-  gridClass: {
-    display: "grid",
-    gridTemplateColumns: "1fr 1fr",
-    justifyContent: "space-between",
-    padding: globalTheme.spacing(1),
-  },
-  tableEnabled: {
-    opacity: "100%",
-    padding: globalTheme.spacing(1),
-    width: "49vw",
-  },
-  tableDisabled: {
-    opacity: "20%",
-    padding: globalTheme.spacing(1),
-    width: "49vw",
   },
 }));
 /*
@@ -71,45 +112,68 @@ const Main = () => {
   // RETURN ELEMENT HERE
   return (
     <div>
-      <FilterRow />
-      <div className={contextTaxon ? classes.labelEnabled : classes.labelDisabled}>
-        <TaxonDisplay />
+      <header className={classes.headerClass}>
+        <img src={gov3_bc_logo} alt="BC Government Emblem" className={classes.logoClass} />
+        <Typography variant="h6">Critterbase Taxon Dashboard</Typography>
+      </header>
+      <div className={classes.searchContainerClass}>
+        <Grid className={classes.searchContainerGrid} columns={2}>
+          <Typography className={classes.titleClass} variant="h6">
+            Taxon Selection
+          </Typography>
+          <SearchAll dropDownTaxons={dataSet.lk_taxon} />
+        </Grid>
+        <FilterRow />
       </div>
-      <Grid container columns={2} spacing={2} className={classes.gridClass}>
-        <div className={quantitativeDataArray.length ? classes.tableEnabled : classes.tableDisabled}>
-          <TableRegular<IquantitativeData>
-            tableName={"Quantative"}
-            rows={quantitativeDataArray}
-            columns={columnsQuantitative}
-            getRowID={(row: IquantitativeData) => row.taxon_measurement_id}
-          />
+      <Box className={classes.infoContainerClass}>
+        <div className={contextTaxon ? classes.labelEnabled : classes.labelDisabled}>
+          <Typography className={classes.titleClass} variant="h6">
+            Current Taxon
+          </Typography>
+          <Grid className={classes.displayGrid} columns={3}>
+            <TaxonDisplay title={"Latin Name"} value={contextTaxon?.taxon_name_latin} />
+            <TaxonDisplay title={"Taxon ID"} value={contextTaxon?.taxon_id} />
+            <TaxonDisplay title={"Updated"} value={contextTaxon?.update_timestamp} />
+          </Grid>
         </div>
-        <div className={qualitativeDataArray.length ? classes.tableEnabled : classes.tableDisabled}>
-          <TableCollapse<IqualitativeData>
-            tableName={"Qualitative"}
-            rows={qualitativeDataArray}
-            columns={columnsQualitative}
-            getRowID={(row: IqualitativeData) => row.taxon_measurement_id}
-            renderSubTable={(row: IqualitativeData) => {
-              //Grabbing qualitative data
-              const qualitativeOptionDataArray = helperGetQualitativeOptions(
-                row.taxon_measurement_id,
-                dataSet.xref_taxon_measurement_qualitative_option
-              );
-              return (
-                <div className={qualitativeOptionDataArray.length ? classes.tableEnabled : classes.tableDisabled}>
-                  <TableRegular<IqualitativeOptionData>
-                    tableName={"Options"}
-                    rows={qualitativeOptionDataArray}
-                    columns={columnsQualitativeOptions}
-                    getRowID={(row: IqualitativeOptionData) => row.qualitative_option_id}
-                  />
-                </div>
-              );
-            }}
-          />
-        </div>
-      </Grid>
+        <Grid columns={2} className={classes.gridClass}>
+          <div className={quantitativeDataArray.length ? classes.tableEnabled : classes.tableDisabled}>
+            <TableRegular<IquantitativeData>
+              tableName={"Quantative Measurements"}
+              rows={quantitativeDataArray}
+              columns={columnsQuantitative}
+              getRowID={(row: IquantitativeData) => row.taxon_measurement_id}
+              dense={false}
+            />
+          </div>
+          <div className={qualitativeDataArray.length ? classes.tableEnabled : classes.tableDisabled}>
+            <TableCollapse<IqualitativeData>
+              tableName={"Qualitative Measurements"}
+              rows={qualitativeDataArray}
+              columns={columnsQualitative}
+              getRowID={(row: IqualitativeData) => row.taxon_measurement_id}
+              renderSubTable={(row: IqualitativeData) => {
+                //Grabbing qualitative data
+                const qualitativeOptionDataArray = helperGetQualitativeOptions(
+                  row.taxon_measurement_id,
+                  dataSet.xref_taxon_measurement_qualitative_option
+                );
+                return (
+                  <div className={qualitativeOptionDataArray.length ? classes.tableEnabled : classes.tableDisabled}>
+                    <TableRegular<IqualitativeOptionData>
+                      tableName={"Options"}
+                      rows={qualitativeOptionDataArray}
+                      columns={columnsQualitativeOptions}
+                      getRowID={(row: IqualitativeOptionData) => row.qualitative_option_id}
+                      dense={true}
+                    />
+                  </div>
+                );
+              }}
+            />
+          </div>
+        </Grid>
+      </Box>
     </div>
   );
 };

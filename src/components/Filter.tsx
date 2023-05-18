@@ -1,13 +1,13 @@
 /** @format */
-
 //IMPORT React and Child Components
 import React, { useEffect, useState } from "react";
 import { useTaxon } from "../contexts/taxonContext";
-//IMPORT MUI packages
+//IMPORT packages
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import { makeStyles } from "@mui/styles";
 import { Theme } from "@mui/material";
+import { clsx } from "clsx";
 //IMPORT Datasets+Constants
 import { taxonInterface } from "../utils/datagrab";
 import { TaxonLevel } from "../utils/constants";
@@ -16,6 +16,7 @@ import {
   helperGetClassificationLevel,
   helperGetTaxonData,
   helperGetNextAvailableTaxon,
+  helperGetColorFromID,
 } from "../utils/helper_functions";
 
 /*
@@ -27,17 +28,24 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
     width: "100%",
   },
   selectBox: {
-    backgroundColor: globalTheme.palette.secondary.light,
+    backgroundColor: "#ffffff",
+    borderRadius: "5px",
+  },
+  labelClass: {
+    borderRadius: "40px !important",
+    padding: globalTheme.spacing(1) + "!important",
+    paddingLeft: globalTheme.spacing(2) + "!important",
+    paddingRight: globalTheme.spacing(2) + "!important",
   },
 }));
 
 /*
  * PARENT COMPONENT: FilterRows.tsx
  * Props received from parent:
- *   classificationLevel:
- *      The filterTaxon classification... kingdown, phylum etc
- *   dropDownTaxons:
- *      The filterTaxon options corresponding to the classificationLevel
+ *   classificationLevel:
+ *      The filterTaxon classification... kingdown, phylum etc
+ *   dropDownTaxons:
+ *      The filterTaxon options corresponding to the classificationLevel
  */
 interface FilterProps {
   classificationLevel: TaxonLevel;
@@ -53,8 +61,8 @@ const Filter = (props: FilterProps) => {
   //HOOKS here
   let { contextTaxon, setContextTaxon } = useTaxon();
   const [filterTaxon, setFilterTaxon] = useState<taxonInterface | null>(null);
-  const classes = useStyles();
-
+  //console.log(filterTaxon);
+  let classes = useStyles({ filterTaxon });
   const classificationLevel = props.classificationLevel;
 
   const contextTaxonData: Record<TaxonLevel, string | undefined | null> = {
@@ -65,7 +73,7 @@ const Filter = (props: FilterProps) => {
     Family: contextTaxon?.family_id,
     Genus: contextTaxon?.genus_id,
     Species: contextTaxon?.species_id,
-    Sub_Species: contextTaxon?.sub_species_id,
+    "Sub Species": contextTaxon?.sub_species_id,
   };
 
   /*
@@ -104,7 +112,6 @@ const Filter = (props: FilterProps) => {
       //set next level up here before info is gone..
       selectedTaxon = helperGetNextAvailableTaxon(contextTaxon, classificationLevel);
     }
-
     setContextTaxon(selectedTaxon);
   };
 
@@ -116,7 +123,24 @@ const Filter = (props: FilterProps) => {
       getOptionLabel={(option) => option.taxon_name_latin || ""}
       value={filterTaxon}
       onChange={(event, newTaxonValue) => handleTaxonChange(newTaxonValue)}
-      renderInput={(params) => <TextField {...params} label={classificationLevel} variant="outlined" />}
+      renderInput={(params) => (
+        <TextField
+          {...params}
+          label={classificationLevel}
+          variant="outlined"
+          //style={{ backgroundColor: "888888 + !important" }} // inline background color
+          InputLabelProps={{
+            classes: {
+              root: classes.labelClass,
+            },
+            style: {
+              backgroundColor: filterTaxon ? helperGetColorFromID(filterTaxon.taxon_id) : "",
+              color: filterTaxon ? "white" : "inherit",
+              opacity: filterTaxon ? 1 : 0.5,
+            },
+          }}
+        />
+      )}
     />
   );
 };

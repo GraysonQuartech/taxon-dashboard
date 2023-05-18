@@ -2,50 +2,63 @@
 
 //IMPORT REACT packages
 import React from "react";
-import { useTaxon } from "../contexts/taxonContext";
 //IMPORT MUI packages
-import { Card, CardContent, Typography, Theme } from "@mui/material";
+import { Card, CardContent, Typography, Theme, Grid } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 
 /*
  * STYLE definitions for useStyles hook
  */
 const useStyles = makeStyles((globalTheme: Theme) => ({
+  titleClass: {
+    color: globalTheme.palette.secondary.dark,
+  },
   taxonNameClass: {
-    color: globalTheme.palette.secondary.main,
+    color: globalTheme.palette.primary.light,
   },
   taxonIdClass: {
-    color: globalTheme.palette.secondary.main,
-    margin: "0px !important",
+    color: globalTheme.palette.primary.light,
   },
-  containerClass: {
-    paddingBottom: globalTheme.spacing(1),
-    paddingTop: globalTheme.spacing(1),
+  gridClass: {
     boxShadow: "none !important",
-    marginLeft: "-16px",
+    gridTemplateColumns: "auto auto",
+    justifyContent: "left",
+    display: "grid",
+    width: "70%",
+    gridGap: globalTheme.spacing(6),
+  },
+  gridCellClass: {
+    width: "100%",
   },
 }));
 
 /*
+ *title props received from main.tsx
+ */
+interface DisplayProps {
+  title: string;
+  value: string | undefined | null;
+}
+
+/*
  * Main component Function. displays taxon ID and name
  */
-const TaxonDisplay = (): JSX.Element => {
+const TaxonDisplay = (props: DisplayProps): JSX.Element => {
   //HOOKS here
   const classes = useStyles();
-  const { contextTaxon } = useTaxon();
 
   //RETURN ELEMENT HERE
   return (
-    <Card className={classes.containerClass}>
-      <CardContent>
-        <Typography className={classes.taxonNameClass} variant="h5" component="h2">
-          Current Taxon: {contextTaxon?.taxon_name_latin}
-        </Typography>
-        <Typography className={classes.taxonIdClass} gutterBottom>
-          Taxon ID: {contextTaxon?.taxon_id}
-        </Typography>
-      </CardContent>
-    </Card>
+    <div className={classes.gridCellClass}>
+      <Card>
+        <CardContent>
+          <Typography className={classes.taxonNameClass} component="h2">
+            {props.value}
+          </Typography>
+          <Typography className={classes.titleClass}>{props.title}</Typography>
+        </CardContent>
+      </Card>
+    </div>
   );
 };
 
