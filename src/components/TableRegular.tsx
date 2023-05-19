@@ -19,8 +19,9 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
   },
   tableClass: {
     //height: "58vh",
-    maxHeight: "58vh",
+    maxHeight: "36vh",
     width: "100%",
+    minHeight: "36vh",
   },
   tableHeaderClass: {
     backgroundColor: globalTheme.palette.secondary.light,

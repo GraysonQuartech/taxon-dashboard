@@ -1,9 +1,10 @@
 /** @format */
 //IMPORT React and Child Components
 import React, { ReactNode } from "react";
+import TaxonBubble from "./TaxonBubble";
 //IMPORT MUI packages
 import { makeStyles } from "@mui/styles";
-import { Theme } from "@mui/material";
+import { Button, Card, Theme, Typography } from "@mui/material";
 import { Collapse } from "@mui/material";
 import { TableCell, TableRow } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
@@ -11,7 +12,6 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 //IMPORT Datasets+Constants + helpers
 import { IColumn } from "../utils/constants";
-import TaxonBubble from "./TaxonBubble";
 
 /*
  * STYLE definitions for useStyles hook
@@ -19,6 +19,23 @@ import TaxonBubble from "./TaxonBubble";
 const useStyles = makeStyles((globalTheme: Theme) => ({
   tableCellClass: {
     fontWeight: globalTheme.typography.fontWeightMedium + "!important",
+  },
+  actionsCardClass: {
+    // fontWeight: globalTheme.typography.fontWeightMedium + "!important",
+    position: "absolute",
+    zIndex: 1,
+    color: globalTheme.palette.primary.dark + "!important",
+    //padding: globalTheme.spacing(1),
+    width: globalTheme.spacing(25),
+  },
+  actionClass: {
+    fontWeight: globalTheme.typography.fontWeightLight + "!important",
+    padding: globalTheme.spacing(1),
+    cursor: "pointer",
+    "&:hover": {
+      backgroundColor: globalTheme.palette.primary.main,
+      color: globalTheme.palette.common.white,
+    },
   },
 }));
 
@@ -35,6 +52,7 @@ interface CollapsibleRowProps<T> {
 const TableRowCollapse = <T extends Record<string, string | number | null>>(props: CollapsibleRowProps<T>) => {
   //HOOKS
   const [open, setOpen] = React.useState(false);
+  const [openActions, setOpenActions] = React.useState(false);
   const classes = useStyles();
 
   // RETURN ELEMENT
@@ -55,6 +73,15 @@ const TableRowCollapse = <T extends Record<string, string | number | null>>(prop
             )}
           </TableCell>
         ))}
+        <TableCell>
+          <IconButton onClick={() => setOpenActions(!openActions)}>...</IconButton>
+          {openActions && (
+            <Card className={classes.actionsCardClass}>
+              <Typography className={classes.actionClass}>Edit</Typography>
+              <Typography className={classes.actionClass}>Delete</Typography>
+            </Card>
+          )}
+        </TableCell>
       </TableRow>
       {open && (
         <TableRow>

@@ -14,7 +14,8 @@ import { IColumn } from "../utils/constants";
 const useStyles = makeStyles((globalTheme: Theme) => ({
   tableClass: {
     //height: "58vh",
-    maxHeight: "58vh",
+    maxHeight: "36vh",
+    minHeight: "36vh",
   },
   titleClass: {
     padding: globalTheme.spacing(1),
@@ -80,6 +81,7 @@ const QualitativeData = <T extends Record<string, string | number | null>>(props
                 {props.columns.map((column) => (
                   <TableCell key={column.field as string}>{column.headerName}</TableCell>
                 ))}
+                <TableCell>Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
