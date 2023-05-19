@@ -30,6 +30,10 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
       color: globalTheme.palette.common.white,
     },
   },
+  iconClass: {
+    color: globalTheme.palette.secondary.dark + "!important",
+    paddingRight: globalTheme.spacing(1),
+  },
 }));
 
 /*
@@ -50,11 +54,11 @@ const RowActions = (props: RowActionsProps) => {
   return (
     <Card className={classes.actionsCardClass}>
       <div className={classes.actionClass}>
-        <Edit />
+        <Edit className={classes.iconClass} />
         <Typography> Edit</Typography>
       </div>
       <div className={classes.actionClass}>
-        <Delete />
+        <Delete className={classes.iconClass} />
         <Typography> Delete</Typography>
       </div>
     </Card>

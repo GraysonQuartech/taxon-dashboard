@@ -45,11 +45,9 @@ const TableRowCollapse = <T extends Record<string, string | number | null>>(prop
     const handleClickOutside = () => {
       setOpenActions(false);
     };
-
     if (openActions) {
       document.addEventListener("mousedown", handleClickOutside);
     }
-
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
