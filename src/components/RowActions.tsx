@@ -34,18 +34,7 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
     color: globalTheme.palette.secondary.dark + "!important",
     paddingRight: globalTheme.spacing(1),
   },
-  showDeleteConfirmation: {
-    position: "fixed",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    zIndex: 3,
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    //padding: globalTheme.spacing(2),
-    backgroundColor: globalTheme.palette.background.paper,
-  },
+
   overlay: {
     position: "fixed",
     top: 0,
@@ -55,29 +44,42 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
     backgroundColor: "rgba(0, 0, 0, 0.5)",
     zIndex: 2,
   },
+  showDeleteConfirmation: {
+    position: "fixed",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    zIndex: 3,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    padding: globalTheme.spacing(4),
+    backgroundColor: globalTheme.palette.background.paper,
+  },
   titleClass: {
     fontWeight: globalTheme.typography.fontWeightLight + "!important",
-    padding: globalTheme.spacing(1),
-    paddingLeft: globalTheme.spacing(2),
-    paddingRight: globalTheme.spacing(2),
+    padding: globalTheme.spacing(2),
     display: "flex",
   },
   buttonsContainer: {
-    padding: globalTheme.spacing(2),
     width: "100%",
     display: "grid",
-    gridTemplateColumns: "1fr 1fr", // Two columns with equal width
-    columnGap: globalTheme.spacing(2), // Add spacing between columns
+    gridTemplateColumns: "1fr 1fr",
+    columnGap: globalTheme.spacing(2),
     marginTop: globalTheme.spacing(2),
   },
   deleteConfirmationButton: {
+    border: `1px solid`,
+    borderColor: globalTheme.palette.secondary.dark,
+    borderRadius: "6px",
+    padding: globalTheme.spacing(2),
     fontWeight: globalTheme.typography.fontWeightLight + "!important",
     width: "100%",
-    border: "none",
     backgroundColor: "white",
     "&:hover": {
       backgroundColor: globalTheme.palette.primary.main,
       color: globalTheme.palette.common.white,
+      cursor: "pointer",
     },
     display: "flex",
     justifyContent: "center",
@@ -125,7 +127,7 @@ const RowActions = (props: RowActionsProps) => {
       {showDeleteConfirmation && (
         <div className={classes.overlay}>
           <Card className={classes.showDeleteConfirmation}>
-            <Typography className={classes.titleClass}>Are you sure you want to delete this row?</Typography>
+            <Typography className={classes.titleClass}>Are you sure you want to delete this measurement?</Typography>
             <Grid className={classes.buttonsContainer}>
               <button className={classes.deleteConfirmationButton} onClick={handleCancelDelete}>
                 Cancel
