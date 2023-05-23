@@ -3,6 +3,8 @@
 //IMPORT React packages and components
 import React from "react";
 import Main from "./components/Main";
+import "./utils/globalStyles.css";
+
 //IMPORT MUI packages
 import { createTheme, ThemeProvider } from "@mui/material";
 import { blue, blueGrey } from "@mui/material/colors";

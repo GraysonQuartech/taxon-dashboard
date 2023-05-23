@@ -104,6 +104,10 @@ const RowActions = (props: RowActionsProps) => {
   const handleDeleteClick = () => {
     setShowDeleteConfirmation(true);
   };
+  const handleConfirmDeleteClick = () => {
+    console.log("Deleted Measurement #" + props.rowID);
+    setShowDeleteConfirmation(false);
+  };
 
   const handleCancelDelete = () => {
     setShowDeleteConfirmation(false);
@@ -132,7 +136,9 @@ const RowActions = (props: RowActionsProps) => {
               <button className={classes.deleteConfirmationButton} onClick={handleCancelDelete}>
                 Cancel
               </button>
-              <button className={classes.deleteConfirmationButton}>Delete</button>
+              <button className={classes.deleteConfirmationButton} onClick={handleConfirmDeleteClick}>
+                Delete
+              </button>
             </Grid>
           </Card>
         </div>
