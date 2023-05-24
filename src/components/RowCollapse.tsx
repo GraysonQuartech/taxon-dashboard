@@ -22,6 +22,14 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
   tableCellClass: {
     fontWeight: globalTheme.typography.fontWeightMedium + "!important",
   },
+  iconClass: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "34px", // Adjust the width to your desired value
+    height: "34px", // Adjust the height to your desired value
+    borderRadius: "50%", // Makes the IconButton a circle
+  },
 }));
 
 /*
@@ -72,7 +80,9 @@ const TableRowCollapse = <T extends Record<string, string | number | null>>(prop
           </TableCell>
         ))}
         <TableCell>
-          <IconButton onClick={() => setOpenActions(!openActions)}>...</IconButton>
+          <IconButton className={classes.iconClass} onClick={() => setOpenActions(!openActions)}>
+            ...
+          </IconButton>
           {openActions && <RowActions rowID={props.rowID} />}
         </TableCell>
       </TableRow>
