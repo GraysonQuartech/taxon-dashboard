@@ -9,6 +9,8 @@ import { makeStyles } from "@mui/styles";
 import Typography from "@mui/material/Typography";
 //IMPORT Datasets+Constants
 import { IColumn } from "../utils/constants";
+import { useTaxon } from "../contexts/taxonContext";
+import TaxonBubble from "./TaxonBubble";
 //IMPORT helper functions
 
 const useStyles = makeStyles((globalTheme: Theme) => ({
@@ -32,6 +34,16 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
   titleClass: {
     padding: globalTheme.spacing(1),
     color: globalTheme.palette.secondary.dark,
+  },
+  taxonNameClass: {
+    display: "inline-block",
+  },
+  headerGridClass: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    paddingBottom: globalTheme.spacing(1),
+    paddingTop: globalTheme.spacing(2),
   },
 }));
 
@@ -58,6 +70,7 @@ const RegularTable = <T extends Record<string, string | number | null>>(props: T
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const { contextTaxon } = useTaxon();
 
   const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
     setPage(newPage);
@@ -74,9 +87,12 @@ const RegularTable = <T extends Record<string, string | number | null>>(props: T
   //RETURN ELEMENT
   return (
     <div>
-      <Typography variant="h6" className={classes.titleClass}>
-        {props.tableName}
-      </Typography>
+      <div className={classes.headerGridClass}>
+        <div className={classes.taxonNameClass}>{contextTaxon && <TaxonBubble taxonID={contextTaxon.taxon_id} />}</div>
+        <Typography variant="h6" className={classes.titleClass}>
+          {props.tableName}
+        </Typography>
+      </div>
       <Paper>
         <TableContainer className={props.dense ? classes.tableClassDense : classes.tableClass}>
           <Table size="small" stickyHeader>

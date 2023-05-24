@@ -29,6 +29,16 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
       fontWeight: globalTheme.typography.fontWeightMedium,
     },
   },
+  taxonNameClass: {
+    display: "inline-block",
+  },
+  headerGridClass: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    paddingBottom: globalTheme.spacing(1),
+    paddingTop: globalTheme.spacing(2),
+  },
 }));
 
 /*
@@ -52,6 +62,7 @@ export interface TableProps<T> {
 const QualitativeData = <T extends Record<string, string | number | null>>(props: TableProps<T>) => {
   //HOOKS
   const classes = useStyles();
+  const { contextTaxon } = useTaxon();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -70,18 +81,22 @@ const QualitativeData = <T extends Record<string, string | number | null>>(props
   //RETURN ELEMENT
   return (
     <div>
-      <Typography variant="h6" className={classes.titleClass}>
-        {props.tableName}
-      </Typography>
+      <div className={classes.headerGridClass}>
+        <div className={classes.taxonNameClass}>{contextTaxon && <TaxonBubble taxonID={contextTaxon.taxon_id} />}</div>
+        <Typography variant="h6" className={classes.titleClass}>
+          {props.tableName}
+        </Typography>
+      </div>
+
       <Paper>
         <TableContainer className={classes.tableClass}>
           <Table aria-label="collapsible table" size="small" stickyHeader>
             <TableHead>
               <TableRow className={classes.tableHeaderClass}>
-                <TableCell>Options</TableCell>
                 {props.columns.map((column) => (
                   <TableCell key={column.field as string}>{column.headerName}</TableCell>
                 ))}
+                <TableCell>Options</TableCell>
                 <TableCell>Actions</TableCell>
               </TableRow>
             </TableHead>

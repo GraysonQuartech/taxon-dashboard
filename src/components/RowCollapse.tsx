@@ -65,11 +65,6 @@ const TableRowCollapse = <T extends Record<string, string | number | null>>(prop
   return (
     <>
       <TableRow key={props.rowID}>
-        <TableCell>
-          <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
-            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-          </IconButton>
-        </TableCell>
         {props.columns.map((column, index) => (
           <TableCell key={column.field as string}>
             {column.field === "taxon_id" ? (
@@ -79,6 +74,11 @@ const TableRowCollapse = <T extends Record<string, string | number | null>>(prop
             )}
           </TableCell>
         ))}
+        <TableCell>
+          <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
+            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+          </IconButton>
+        </TableCell>
         <TableCell>
           <IconButton className={classes.iconClass} onClick={() => setOpenActions(!openActions)}>
             ...

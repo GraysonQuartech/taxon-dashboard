@@ -31,6 +31,7 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
     padding: globalTheme.spacing(1) + "!important",
     paddingLeft: globalTheme.spacing(2) + "!important",
     paddingRight: globalTheme.spacing(2) + "!important",
+    margin: "0px",
     fontFamily: globalTheme.typography.fontFamily,
   },
 }));

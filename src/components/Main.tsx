@@ -53,7 +53,8 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
   },
   infoContainerClass: {
     backgroundColor: globalTheme.palette.secondary.light,
-    padding: "0px",
+    padding: globalTheme.spacing(1),
+    marginTop: globalTheme.spacing(2),
   },
   titleClass: {
     alignSelf: "end",
@@ -126,16 +127,6 @@ const Main = () => {
         <FilterRow />
       </div>
       <Box className={classes.infoContainerClass}>
-        <div className={contextTaxon ? classes.labelEnabled : classes.labelDisabled}>
-          <Typography className={classes.titleClass} variant="h6">
-            Current Taxon
-          </Typography>
-          <Grid className={classes.displayGrid} columns={3}>
-            <TaxonDisplay title={"Latin Name"} value={contextTaxon?.taxon_name_latin} />
-            <TaxonDisplay title={"Taxon ID"} value={contextTaxon?.taxon_id} />
-            <TaxonDisplay title={"Updated"} value={contextTaxon?.update_timestamp} />
-          </Grid>
-        </div>
         <Grid columns={2} className={classes.gridClass}>
           <div className={quantitativeDataArray.length ? classes.tableEnabled : classes.tableDisabled}>
             <TableRegular<IquantitativeData>
