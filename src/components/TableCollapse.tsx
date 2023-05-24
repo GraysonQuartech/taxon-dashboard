@@ -2,20 +2,22 @@
 //IMPORT React and Child Components
 import React, { ReactNode } from "react";
 import RowCollapse from "./RowCollapse";
+import { useTaxon } from "../contexts/taxonContext";
 //IMPORT MUI packages
-import { Paper, TablePagination, Theme } from "@mui/material";
+import { Grid, Paper, TablePagination, Theme } from "@mui/material";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import Typography from "@mui/material/Typography";
 //IMPORT Datasets+Constants
 import { IColumn } from "../utils/constants";
+import TaxonBubble from "./TaxonBubble";
 //IMPORT helper functions
 
 const useStyles = makeStyles((globalTheme: Theme) => ({
   tableClass: {
     //height: "58vh",
-    maxHeight: "36vh",
-    minHeight: "36vh",
+    maxHeight: "50vh",
+    //minHeight: "36vh",
   },
   titleClass: {
     padding: globalTheme.spacing(1),
@@ -71,13 +73,12 @@ const QualitativeData = <T extends Record<string, string | number | null>>(props
       <Typography variant="h6" className={classes.titleClass}>
         {props.tableName}
       </Typography>
-
       <Paper>
         <TableContainer className={classes.tableClass}>
           <Table aria-label="collapsible table" size="small" stickyHeader>
             <TableHead>
               <TableRow className={classes.tableHeaderClass}>
-                <TableCell></TableCell>
+                <TableCell>Options</TableCell>
                 {props.columns.map((column) => (
                   <TableCell key={column.field as string}>{column.headerName}</TableCell>
                 ))}

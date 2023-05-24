@@ -3,7 +3,7 @@
 import React from "react";
 import RowRegular from "./RowRegular";
 //IMPORT MUI packages
-import { Paper, TablePagination, Theme } from "@mui/material";
+import { Grid, Paper, TablePagination, Theme } from "@mui/material";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import Typography from "@mui/material/Typography";
@@ -21,7 +21,7 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
     //height: "58vh",
     maxHeight: "36vh",
     width: "100%",
-    minHeight: "36vh",
+    //minHeight: "36vh",
   },
   tableHeaderClass: {
     backgroundColor: globalTheme.palette.secondary.light,
@@ -85,6 +85,7 @@ const RegularTable = <T extends Record<string, string | number | null>>(props: T
                 {props.columns.map((column) => (
                   <TableCell key={column.field as string}>{column.headerName}</TableCell>
                 ))}
+                <TableCell>Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

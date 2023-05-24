@@ -71,7 +71,7 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
   },
   gridClass: {
     display: "grid",
-    gridTemplateColumns: "1fr 1fr",
+    gridTemplateColumns: "1fr",
     justifyContent: "center",
   },
   tableEnabled: {
