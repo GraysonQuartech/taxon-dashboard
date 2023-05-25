@@ -11,7 +11,7 @@ import { TableCell, TableRow } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import { Edit, Delete } from "@mui/icons-material";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 //IMPORT Datasets+Constants + helpers
 import { IColumn } from "../utils/constants";
 
@@ -81,7 +81,7 @@ const TableRowCollapse = <T extends Record<string, string | number | null>>(prop
         </TableCell>
         <TableCell>
           <IconButton className={classes.iconClass} onClick={() => setOpenActions(!openActions)}>
-            ...
+            <MoreHorizIcon />
           </IconButton>
           {openActions && <RowActions rowID={props.rowID} />}
         </TableCell>

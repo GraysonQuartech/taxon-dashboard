@@ -7,6 +7,7 @@ import TaxonBubble from "./TaxonBubble";
 import { makeStyles } from "@mui/styles";
 import { IconButton, Theme } from "@mui/material";
 import { TableCell, TableRow } from "@mui/material";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 //IMPORT Datasets+Constants+Helpers
 import { IColumn } from "../utils/constants";
 import RowActions from "./RowActions";
@@ -81,7 +82,7 @@ const TableRowRegular = <T extends Record<string, string | number | null>>(props
       ))}
       <TableCell>
         <IconButton className={classes.iconClass} onClick={() => setOpenActions(!openActions)}>
-          ...
+          <MoreHorizIcon />
         </IconButton>
         {openActions && <RowActions rowID={props.rowID} />}
       </TableCell>
