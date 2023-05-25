@@ -135,7 +135,6 @@ const RegularTable = <T extends Record<string, string | number | null>>(props: T
           />
         </div>
       </Paper>
-      <AddRow />
     </div>
   );
 };

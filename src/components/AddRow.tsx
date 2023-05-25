@@ -1,35 +1,64 @@
 /** @format */
 
-//IMPORT React packages and components
 import React from "react";
-//IMPORT MUI packages
 import { makeStyles } from "@mui/styles";
-import { Card, Theme } from "@mui/material";
-//IMPORT Constants + Data + Helper Functions
+import { Card, Theme, TextField } from "@mui/material";
+import { IColumn } from "../utils/constants";
+import { MenuItem } from "@mui/material";
+import Select from "@mui/material/Select";
 
-/*
- * STYLE definitions for useStyles hook
- */
+interface IProps<T> {
+  columns: IColumn<T>[];
+}
+
 const useStyles = makeStyles((globalTheme: Theme) => ({
   cardClass: {
-    backgroundColor: "blue",
+    //backgroundColor: globalTheme.palette.secondary.light,
     width: "100%",
     height: "100%",
+    padding: "20px",
+    boxSizing: "border-box",
+    overflow: "auto",
+  },
+  inputContainer: {
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: "8px",
+  },
+  inputBox: {
+    flex: 1,
+    maxWidth: "calc(50% - 8px)",
   },
 }));
 
-/*
- * Main component Function.
- * This component maps data to MUI select components.
- */
-const AddRow = (): JSX.Element => {
-  //HOOKS here
+const AddRow = <T,>({ columns }: IProps<T>): JSX.Element => {
   const classes = useStyles();
 
-  //RETURN ELEMENT HERE
   return (
     <div className={classes.cardClass}>
-      <Card></Card>
+      <Card>
+        <div className={classes.inputContainer}>
+          {columns.map((column, index) => (
+            <React.Fragment key={column.field.toString()}>
+              {index === 0 && column.field === "taxon_id" ? (
+                <Select
+                  label={column.headerName}
+                  variant="outlined"
+                  className={classes.inputBox}
+                  defaultValue="Option 1" // Set the defaultValue to the value of the first option
+                >
+                  <MenuItem value="Option 1">Option 1</MenuItem>
+                  <MenuItem value="Option 2">Option 2</MenuItem>
+                  <MenuItem value="Option 3">Option 3</MenuItem>
+                </Select>
+              ) : (
+                <TextField label={column.headerName} variant="outlined" className={classes.inputBox} />
+              )}
+            </React.Fragment>
+          ))}
+        </div>
+      </Card>
     </div>
   );
 };
