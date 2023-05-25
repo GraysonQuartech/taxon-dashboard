@@ -86,7 +86,11 @@ const RegularTable = <T extends Record<string, string | number | null>>(props: T
   return (
     <div>
       <div className={classes.headerGridClass}>
-        <div className={classes.taxonNameClass}>{contextTaxon && <TaxonBubble taxonID={contextTaxon.taxon_id} />}</div>
+        {!props.dense && (
+          <div className={classes.taxonNameClass}>
+            {contextTaxon && <TaxonBubble taxonID={contextTaxon.taxon_id} />}
+          </div>
+        )}
         <Typography variant="h6" className={classes.titleClass}>
           {props.tableName}
         </Typography>
