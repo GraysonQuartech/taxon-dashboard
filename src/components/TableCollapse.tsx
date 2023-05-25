@@ -119,6 +119,7 @@ const QualitativeData = <T extends Record<string, string | number | null>>(props
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "2px" }}>
           <IconButton onClick={() => setOpenAddNewRow(!openAddNewRow)}>
             <AddIcon />
+            <Typography className={classes.titleClass}>Add Row</Typography>
           </IconButton>
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}

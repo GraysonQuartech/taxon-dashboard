@@ -34,15 +34,7 @@ interface CollapsibleRowProps<T> {
 }
 
 const AddRow = <T extends Record<string, string | number | null>>(props: CollapsibleRowProps<T>) => {
-  const [cellValues, setCellValues] = useState<Record<string, string>>({});
   const classes = useStyles();
-
-  const handleCellValueChange = (fieldName: string, value: string) => {
-    setCellValues((prevValues) => ({
-      ...prevValues,
-      [fieldName]: value,
-    }));
-  };
 
   return (
     <>
