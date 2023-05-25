@@ -26,9 +26,9 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    width: "34px", // Adjust the width to your desired value
-    height: "34px", // Adjust the height to your desired value
-    borderRadius: "50%", // Makes the IconButton a circle
+    width: "34px",
+    height: "34px",
+    borderRadius: "50%",
   },
 }));
 

@@ -17,11 +17,11 @@ import AddRow from "./AddRow";
 
 const useStyles = makeStyles((globalTheme: Theme) => ({
   tableClassDense: {
-    maxHeight: "58vh",
+    //maxHeight: "58vh",
     width: "100%",
   },
   tableClass: {
-    maxHeight: "58vh",
+    //maxHeight: "58vh",
     width: "100%",
   },
   tableHeaderClass: {
@@ -70,6 +70,7 @@ const RegularTable = <T extends Record<string, string | number | null>>(props: T
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const { contextTaxon } = useTaxon();
+  const [openAddNewRow, setOpenAddNewRow] = React.useState(false);
 
   const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
     setPage(newPage);
@@ -117,11 +118,12 @@ const RegularTable = <T extends Record<string, string | number | null>>(props: T
                   dense={props.dense}
                 />
               ))}
+              {openAddNewRow && <AddRow columns={props.columns} />}
             </TableBody>
           </Table>{" "}
         </TableContainer>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "2px" }}>
-          <IconButton>
+          <IconButton onClick={() => setOpenAddNewRow(!openAddNewRow)}>
             <AddIcon />
           </IconButton>
           <TablePagination

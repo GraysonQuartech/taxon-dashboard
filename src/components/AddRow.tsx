@@ -1,65 +1,60 @@
 /** @format */
-
-import React from "react";
+//IMPORT React and Child Components
+import React, { useState } from "react";
+//IMPORT packages
 import { makeStyles } from "@mui/styles";
-import { Card, Theme, TextField } from "@mui/material";
+import { Theme, TextField } from "@mui/material";
+import { TableCell, TableRow } from "@mui/material";
+//IMPORT Datasets+Constants
 import { IColumn } from "../utils/constants";
-import { MenuItem } from "@mui/material";
-import Select from "@mui/material/Select";
 
-interface IProps<T> {
-  columns: IColumn<T>[];
-}
-
+/*
+ * STYLE definitions for useStyles hook
+ * and global theme
+ */
 const useStyles = makeStyles((globalTheme: Theme) => ({
-  cardClass: {
-    //backgroundColor: globalTheme.palette.secondary.light,
-    width: "100%",
-    height: "100%",
-    padding: "20px",
-    boxSizing: "border-box",
-    overflow: "auto",
+  tableCellClass: {
+    fontWeight: globalTheme.typography.fontWeightMedium + "!important",
   },
-  inputContainer: {
+  iconClass: {
     display: "flex",
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: "8px",
-  },
-  inputBox: {
-    flex: 1,
-    maxWidth: "calc(50% - 8px)",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "34px",
+    height: "34px",
+    borderRadius: "50%",
   },
 }));
 
-const AddRow = <T,>({ columns }: IProps<T>): JSX.Element => {
+/*
+ *Parent components: table regular and table collapse
+ */
+interface CollapsibleRowProps<T> {
+  columns: IColumn<T>[];
+}
+
+const AddRow = <T extends Record<string, string | number | null>>(props: CollapsibleRowProps<T>) => {
+  const [cellValues, setCellValues] = useState<Record<string, string>>({});
   const classes = useStyles();
 
+  const handleCellValueChange = (fieldName: string, value: string) => {
+    setCellValues((prevValues) => ({
+      ...prevValues,
+      [fieldName]: value,
+    }));
+  };
+
   return (
-    <div className={classes.cardClass}>
-      <Card>
-        <div className={classes.inputContainer}>
-          {columns.map((column, index) => (
-            <React.Fragment key={column.field.toString()}>
-              {index === 0 && column.field === "taxon_id" ? (
-                <Select
-                  label={column.headerName}
-                  variant="outlined"
-                  className={classes.inputBox}
-                  defaultValue="Option 1" // Set the defaultValue to the value of the first option
-                >
-                  <MenuItem value="Option 1">Option 1</MenuItem>
-                  <MenuItem value="Option 2">Option 2</MenuItem>
-                  <MenuItem value="Option 3">Option 3</MenuItem>
-                </Select>
-              ) : (
-                <TextField label={column.headerName} variant="outlined" className={classes.inputBox} />
-              )}
-            </React.Fragment>
-          ))}
-        </div>
-      </Card>
-    </div>
+    <>
+      <TableRow>
+        {props.columns.map((column) => (
+          <TableCell>
+            <TextField />
+          </TableCell>
+        ))}
+        <TableCell></TableCell>
+      </TableRow>
+    </>
   );
 };
 

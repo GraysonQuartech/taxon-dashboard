@@ -12,12 +12,13 @@ import AddIcon from "@mui/icons-material/Add";
 //IMPORT Datasets+Constants
 import { IColumn } from "../utils/constants";
 import { useTaxon } from "../contexts/taxonContext";
+import AddRow from "./AddRow";
 //IMPORT helper functions
 
 const useStyles = makeStyles((globalTheme: Theme) => ({
   tableClass: {
     //height: "58vh",
-    maxHeight: "50vh",
+    //maxHeight: "50vh",
     //minHeight: "36vh",
   },
   titleClass: {
@@ -66,6 +67,7 @@ const QualitativeData = <T extends Record<string, string | number | null>>(props
   const { contextTaxon } = useTaxon();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [openAddNewRow, setOpenAddNewRow] = React.useState(false);
 
   const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
     setPage(newPage);
@@ -110,11 +112,12 @@ const QualitativeData = <T extends Record<string, string | number | null>>(props
                   renderSubTable={props.renderSubTable}
                 />
               ))}
+              {openAddNewRow && <AddRow columns={props.columns} />}
             </TableBody>
           </Table>
         </TableContainer>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "2px" }}>
-          <IconButton>
+          <IconButton onClick={() => setOpenAddNewRow(!openAddNewRow)}>
             <AddIcon />
           </IconButton>
           <TablePagination
