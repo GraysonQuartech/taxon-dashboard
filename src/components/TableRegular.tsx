@@ -12,6 +12,7 @@ import AddIcon from "@mui/icons-material/Add";
 //IMPORT Datasets+Constants
 import { IColumn } from "../utils/constants";
 import { useTaxon } from "../contexts/taxonContext";
+import AddRow from "./AddRow";
 //IMPORT helper functions
 
 const useStyles = makeStyles((globalTheme: Theme) => ({
@@ -134,6 +135,7 @@ const RegularTable = <T extends Record<string, string | number | null>>(props: T
           />
         </div>
       </Paper>
+      <AddRow />
     </div>
   );
 };
