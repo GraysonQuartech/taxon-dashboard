@@ -2,15 +2,16 @@
 //IMPORT React and Child Components
 import React, { ReactNode } from "react";
 import RowCollapse from "./RowCollapse";
-import { useTaxon } from "../contexts/taxonContext";
+import TaxonBubble from "./TaxonBubble";
 //IMPORT MUI packages
-import { Grid, Paper, TablePagination, Theme } from "@mui/material";
+import { Grid, IconButton, Paper, TablePagination, Theme } from "@mui/material";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import Typography from "@mui/material/Typography";
+import AddIcon from "@mui/icons-material/Add";
 //IMPORT Datasets+Constants
 import { IColumn } from "../utils/constants";
-import TaxonBubble from "./TaxonBubble";
+import { useTaxon } from "../contexts/taxonContext";
 //IMPORT helper functions
 
 const useStyles = makeStyles((globalTheme: Theme) => ({
@@ -112,15 +113,20 @@ const QualitativeData = <T extends Record<string, string | number | null>>(props
             </TableBody>
           </Table>
         </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={props.rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "2px" }}>
+          <IconButton>
+            <AddIcon />
+          </IconButton>
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={props.rows.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </div>
       </Paper>
     </div>
   );

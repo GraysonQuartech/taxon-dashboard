@@ -2,28 +2,26 @@
 //IMPORT React and Child Components
 import React from "react";
 import RowRegular from "./RowRegular";
+import TaxonBubble from "./TaxonBubble";
 //IMPORT MUI packages
-import { Grid, Paper, TablePagination, Theme } from "@mui/material";
+import { Paper, IconButton, TablePagination, Theme } from "@mui/material";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import Typography from "@mui/material/Typography";
+import AddIcon from "@mui/icons-material/Add";
 //IMPORT Datasets+Constants
 import { IColumn } from "../utils/constants";
 import { useTaxon } from "../contexts/taxonContext";
-import TaxonBubble from "./TaxonBubble";
 //IMPORT helper functions
 
 const useStyles = makeStyles((globalTheme: Theme) => ({
   tableClassDense: {
-    //height: "65vh",
     maxHeight: "58vh",
     width: "100%",
   },
   tableClass: {
-    //height: "58vh",
-    maxHeight: "36vh",
+    maxHeight: "58vh",
     width: "100%",
-    //minHeight: "36vh",
   },
   tableHeaderClass: {
     backgroundColor: globalTheme.palette.secondary.light,
@@ -117,15 +115,20 @@ const RegularTable = <T extends Record<string, string | number | null>>(props: T
             </TableBody>
           </Table>{" "}
         </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={props.rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "2px" }}>
+          <IconButton>
+            <AddIcon />
+          </IconButton>
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={props.rows.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </div>
       </Paper>
     </div>
   );
