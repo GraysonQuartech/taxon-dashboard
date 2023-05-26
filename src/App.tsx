@@ -7,6 +7,7 @@ import Main from "./components/Main";
 import { createTheme, ThemeProvider } from "@mui/material";
 import { blue, blueGrey } from "@mui/material/colors";
 import { TaxonContextProvider } from "./contexts/taxonContext";
+import { Header } from "./components/Header";
 
 const globalTheme = createTheme({
   palette: {
@@ -34,7 +35,9 @@ const App = (): JSX.Element => {
   return (
     <ThemeProvider theme={globalTheme}>
       <TaxonContextProvider>
+        <Header />
         <Main />
+        {/*Placeholder for footer */}
       </TaxonContextProvider>
     </ThemeProvider>
   );

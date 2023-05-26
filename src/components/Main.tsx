@@ -17,9 +17,17 @@ import {
   helperGetQualitativeDataArray,
   helperGetQualitativeOptions,
 } from "../utils/helper_functions";
-import { columnsQuantitative, columnsQualitative, columnsQualitativeOptions } from "../utils/constants";
+import {
+  columnsQuantitative,
+  columnsQualitative,
+  columnsQualitativeOptions,
+} from "../utils/constants";
 import dataSet from "../datasets/taxon_data.json";
-import { IqualitativeData, IquantitativeData, IqualitativeOptionData } from "../utils/datagrab";
+import {
+  IqualitativeData,
+  IquantitativeData,
+  IqualitativeOptionData,
+} from "../utils/datagrab";
 import gov3_bc_logo from "../images/gov3_bc_logo.png";
 
 /*
@@ -107,15 +115,14 @@ const Main = () => {
   );
 
   //Grabbing qualitative data
-  const qualitativeDataArray = helperGetQualitativeDataArray(contextTaxon, dataSet.xref_taxon_measurement_qualitative);
+  const qualitativeDataArray = helperGetQualitativeDataArray(
+    contextTaxon,
+    dataSet.xref_taxon_measurement_qualitative
+  );
 
   // RETURN ELEMENT HERE
   return (
     <div>
-      <header className={classes.headerClass}>
-        <img src={gov3_bc_logo} alt="BC Government Emblem" className={classes.logoClass} />
-        <Typography variant="h6">Critterbase Taxon Dashboard</Typography>
-      </header>
       <div className={classes.searchContainerClass}>
         <Grid className={classes.searchContainerGrid} columns={2}>
           <Typography className={classes.titleClass} variant="h6">
@@ -126,18 +133,34 @@ const Main = () => {
         <FilterRow />
       </div>
       <Box className={classes.infoContainerClass}>
-        <div className={contextTaxon ? classes.labelEnabled : classes.labelDisabled}>
+        <div
+          className={
+            contextTaxon ? classes.labelEnabled : classes.labelDisabled
+          }
+        >
           <Typography className={classes.titleClass} variant="h6">
             Current Taxon
           </Typography>
           <Grid className={classes.displayGrid} columns={3}>
-            <TaxonDisplay title={"Latin Name"} value={contextTaxon?.taxon_name_latin} />
+            <TaxonDisplay
+              title={"Latin Name"}
+              value={contextTaxon?.taxon_name_latin}
+            />
             <TaxonDisplay title={"Taxon ID"} value={contextTaxon?.taxon_id} />
-            <TaxonDisplay title={"Updated"} value={contextTaxon?.update_timestamp} />
+            <TaxonDisplay
+              title={"Updated"}
+              value={contextTaxon?.update_timestamp}
+            />
           </Grid>
         </div>
         <Grid columns={2} className={classes.gridClass}>
-          <div className={quantitativeDataArray.length ? classes.tableEnabled : classes.tableDisabled}>
+          <div
+            className={
+              quantitativeDataArray.length
+                ? classes.tableEnabled
+                : classes.tableDisabled
+            }
+          >
             <TableRegular<IquantitativeData>
               tableName={"Quantative Measurements"}
               rows={quantitativeDataArray}
@@ -146,7 +169,13 @@ const Main = () => {
               dense={false}
             />
           </div>
-          <div className={qualitativeDataArray.length ? classes.tableEnabled : classes.tableDisabled}>
+          <div
+            className={
+              qualitativeDataArray.length
+                ? classes.tableEnabled
+                : classes.tableDisabled
+            }
+          >
             <TableCollapse<IqualitativeData>
               tableName={"Qualitative Measurements"}
               rows={qualitativeDataArray}
@@ -159,12 +188,20 @@ const Main = () => {
                   dataSet.xref_taxon_measurement_qualitative_option
                 );
                 return (
-                  <div className={qualitativeOptionDataArray.length ? classes.tableEnabled : classes.tableDisabled}>
+                  <div
+                    className={
+                      qualitativeOptionDataArray.length
+                        ? classes.tableEnabled
+                        : classes.tableDisabled
+                    }
+                  >
                     <TableRegular<IqualitativeOptionData>
                       tableName={"Options"}
                       rows={qualitativeOptionDataArray}
                       columns={columnsQualitativeOptions}
-                      getRowID={(row: IqualitativeOptionData) => row.qualitative_option_id}
+                      getRowID={(row: IqualitativeOptionData) =>
+                        row.qualitative_option_id
+                      }
                       dense={true}
                     />
                   </div>
