@@ -7,6 +7,9 @@ import { Theme, TextField, Select, MenuItem } from "@mui/material";
 import { TableCell, TableRow } from "@mui/material";
 //IMPORT Datasets+Constants
 import { IColumn, TaxonLevel, classificationLevelArray } from "../utils/constants";
+import { useTaxon } from "../contexts/taxonContext";
+import TaxonBubble from "./TaxonBubble";
+import { helperGetTaxonParentIDArray } from "../utils/helper_functions";
 
 /*
  * STYLE definitions for useStyles hook
@@ -34,7 +37,9 @@ interface CollapsibleRowProps<T> {
 }
 
 const AddRow = <T extends Record<string, string | number | null>>(props: CollapsibleRowProps<T>) => {
+  //Hooks here
   const classes = useStyles();
+  const { contextTaxon } = useTaxon();
 
   return (
     <>
@@ -43,15 +48,13 @@ const AddRow = <T extends Record<string, string | number | null>>(props: Collaps
           <TableCell key={column.field as string}>
             {column.field === "taxon_id" ? (
               <Select size="small" defaultValue="">
-                {classificationLevelArray.map((level) => (
-                  <MenuItem key={level} value={level}>
-                    {level}
-                  </MenuItem>
+                {helperGetTaxonParentIDArray(contextTaxon).map((taxonID) => (
+                  <TaxonBubble taxonID={taxonID} />
                 ))}
               </Select>
             ) : column.field === "unit" ? (
               <Select size="small" defaultValue="">
-                {/* Add options for unit dropdown */}
+                {/* unit dropdown options */}
               </Select>
             ) : (
               <TextField size="small" />
@@ -59,6 +62,7 @@ const AddRow = <T extends Record<string, string | number | null>>(props: Collaps
           </TableCell>
         ))}
         <TableCell></TableCell>
+        <div></div>
       </TableRow>
     </>
   );
