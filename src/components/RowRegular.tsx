@@ -1,14 +1,16 @@
 /** @format */
 /** @format */
 //IMPORT React and Child Components
-import React from "react";
+import React, { useEffect } from "react";
 import TaxonBubble from "./TaxonBubble";
 //IMPORT MUI packages
 import { makeStyles } from "@mui/styles";
-import { Theme } from "@mui/material";
+import { IconButton, Theme } from "@mui/material";
 import { TableCell, TableRow } from "@mui/material";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 //IMPORT Datasets+Constants+Helpers
 import { IColumn } from "../utils/constants";
+import RowActions from "./RowActions";
 
 /*
  * STYLE definitions for useStyles hook
@@ -21,6 +23,14 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
   },
   tableCellClassDense: {
     fontWeight: globalTheme.typography.fontWeightMedium + "!important",
+  },
+  iconClass: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "34px",
+    height: "34px",
+    borderRadius: "50%",
   },
 }));
 
@@ -41,6 +51,20 @@ export interface RowProps<T> {
 const TableRowRegular = <T extends Record<string, string | number | null>>(props: RowProps<T>) => {
   //HOOKS
   const classes = useStyles();
+  const [openActions, setOpenActions] = React.useState(false);
+
+  // Effect to close the actionsCardClass when openActions becomes false
+  useEffect(() => {
+    const handleClickOutside = () => {
+      setOpenActions(false);
+    };
+    if (openActions) {
+      //document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      // document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [openActions]);
 
   //RETURN ELEMENT
   return (
@@ -56,6 +80,12 @@ const TableRowRegular = <T extends Record<string, string | number | null>>(props
           )}
         </TableCell>
       ))}
+      <TableCell>
+        <IconButton className={classes.iconClass} onClick={() => setOpenActions(!openActions)}>
+          <MoreHorizIcon />
+        </IconButton>
+        {openActions && <RowActions rowID={props.rowID} />}
+      </TableCell>
     </TableRow>
   );
 };

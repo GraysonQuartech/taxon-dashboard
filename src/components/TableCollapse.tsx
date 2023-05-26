@@ -2,19 +2,24 @@
 //IMPORT React and Child Components
 import React, { ReactNode } from "react";
 import RowCollapse from "./RowCollapse";
+import TaxonBubble from "./TaxonBubble";
 //IMPORT MUI packages
-import { Paper, Theme } from "@mui/material";
+import { Grid, IconButton, Paper, TablePagination, Theme } from "@mui/material";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import Typography from "@mui/material/Typography";
+import AddIcon from "@mui/icons-material/Add";
 //IMPORT Datasets+Constants
 import { IColumn } from "../utils/constants";
+import { useTaxon } from "../contexts/taxonContext";
+import AddRow from "./AddRow";
 //IMPORT helper functions
 
 const useStyles = makeStyles((globalTheme: Theme) => ({
   tableClass: {
-    height: "58vh",
-    maxHeight: "58vh",
+    //height: "58vh",
+    //maxHeight: "50vh",
+    //minHeight: "36vh",
   },
   titleClass: {
     padding: globalTheme.spacing(1),
@@ -25,6 +30,16 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
     "& th": {
       fontWeight: globalTheme.typography.fontWeightMedium,
     },
+  },
+  taxonNameClass: {
+    display: "inline-block",
+  },
+  headerGridClass: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    paddingBottom: globalTheme.spacing(1),
+    paddingTop: globalTheme.spacing(2),
   },
 }));
 
@@ -49,36 +64,74 @@ export interface TableProps<T> {
 const QualitativeData = <T extends Record<string, string | number | null>>(props: TableProps<T>) => {
   //HOOKS
   const classes = useStyles();
+  const { contextTaxon } = useTaxon();
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [openAddNewRow, setOpenAddNewRow] = React.useState(false);
+
+  const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  const startIndex = page * rowsPerPage;
+  const endIndex = startIndex + rowsPerPage;
 
   //RETURN ELEMENT
   return (
     <div>
-      <Typography variant="h6" className={classes.titleClass}>
-        {props.tableName}
-      </Typography>
+      <div className={classes.headerGridClass}>
+        <div className={classes.taxonNameClass}>{contextTaxon && <TaxonBubble taxonID={contextTaxon.taxon_id} />}</div>
+        <Typography variant="h6" className={classes.titleClass}>
+          {props.tableName}
+        </Typography>
+      </div>
 
-      <TableContainer component={Paper} className={classes.tableClass}>
-        <Table aria-label="collapsible table" size="small" stickyHeader>
-          <TableHead>
-            <TableRow className={classes.tableHeaderClass}>
-              <TableCell></TableCell>
-              {props.columns.map((column) => (
-                <TableCell key={column.field as string}>{column.headerName}</TableCell>
+      <Paper>
+        <TableContainer className={classes.tableClass}>
+          <Table aria-label="collapsible table" size="small" stickyHeader>
+            <TableHead>
+              <TableRow className={classes.tableHeaderClass}>
+                {props.columns.map((column) => (
+                  <TableCell key={column.field as string}>{column.headerName}</TableCell>
+                ))}
+                <TableCell>Options</TableCell>
+                <TableCell>Actions</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {props.rows.slice(startIndex, endIndex).map((row) => (
+                <RowCollapse
+                  row={row}
+                  columns={props.columns}
+                  rowID={props.getRowID(row)}
+                  renderSubTable={props.renderSubTable}
+                />
               ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {props.rows.map((row) => (
-              <RowCollapse
-                row={row}
-                columns={props.columns}
-                rowID={props.getRowID(row)}
-                renderSubTable={props.renderSubTable}
-              />
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+              {openAddNewRow && <AddRow columns={props.columns} />}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "2px" }}>
+          <IconButton onClick={() => setOpenAddNewRow(!openAddNewRow)}>
+            <AddIcon />
+            <Typography className={classes.titleClass}>Add Row</Typography>
+          </IconButton>
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={props.rows.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </div>
+      </Paper>
     </div>
   );
 };

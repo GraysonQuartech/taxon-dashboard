@@ -1,6 +1,6 @@
 /** @format */
 //IMPORT REACT packages
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 //IMPORT MUI packages
 import { Theme } from "@mui/material";
 import { makeStyles } from "@mui/styles";
@@ -31,6 +31,8 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
     padding: globalTheme.spacing(1) + "!important",
     paddingLeft: globalTheme.spacing(2) + "!important",
     paddingRight: globalTheme.spacing(2) + "!important",
+    margin: "0px",
+    fontFamily: globalTheme.typography.fontFamily,
   },
 }));
 
@@ -40,6 +42,10 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
 const TaxonBubble = (props: TaxonBubbleProps): JSX.Element => {
   const classes = useStyles();
   const [color, setColor] = useState(helperGetColorFromID(props.taxonID));
+
+  useEffect(() => {
+    setColor(helperGetColorFromID(props.taxonID));
+  }, [props.taxonID]);
 
   return (
     <div className={classes.bubbleClass} style={{ backgroundColor: color }}>

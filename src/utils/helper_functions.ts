@@ -239,3 +239,42 @@ export const helperGetColorFromID = (taxonID: string): string => {
   }
   return "#727272";
 };
+
+/*
+ * Accepts a taxon ID, and returns an array of the IDs for that taxon and its parents
+ */
+export const helperGetTaxonParentIDArray = (taxonData: taxonInterface | null): string[] => {
+  //const taxonData = helperGetTaxonData(taxonID);
+  const parentIDArray: string[] = [];
+
+  if (taxonData) {
+    // Check if the parent IDs exist and add them to the array
+    if (taxonData.kingdom_id) {
+      parentIDArray.push(taxonData.kingdom_id);
+    }
+    if (taxonData.phylum_id) {
+      parentIDArray.push(taxonData.phylum_id);
+    }
+    if (taxonData.class_id) {
+      parentIDArray.push(taxonData.class_id);
+    }
+    if (taxonData.order_id) {
+      parentIDArray.push(taxonData.order_id);
+    }
+    if (taxonData.family_id) {
+      parentIDArray.push(taxonData.family_id);
+    }
+    if (taxonData.genus_id) {
+      parentIDArray.push(taxonData.genus_id);
+    }
+    if (taxonData.species_id) {
+      parentIDArray.push(taxonData.species_id);
+    }
+    if (taxonData.sub_species_id) {
+      parentIDArray.push(taxonData.sub_species_id);
+    }
+    parentIDArray.push(taxonData.taxon_id); // Add the current taxon ID to the array
+  }
+
+  return parentIDArray;
+};
