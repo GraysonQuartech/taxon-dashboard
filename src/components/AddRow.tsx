@@ -49,7 +49,9 @@ const AddRow = <T extends Record<string, string | number | null>>(props: Collaps
             {column.field === "taxon_id" ? (
               <Select size="small" defaultValue="">
                 {helperGetTaxonParentIDArray(contextTaxon).map((taxonID) => (
-                  <TaxonBubble taxonID={taxonID} />
+                  <MenuItem key={taxonID} value={taxonID}>
+                    <TaxonBubble taxonID={taxonID} />
+                  </MenuItem>
                 ))}
               </Select>
             ) : column.field === "unit" ? (
