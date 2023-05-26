@@ -59,7 +59,7 @@ const AddRow = <T extends Record<string, string | number | null>>(props: Collaps
                 {/* unit dropdown options */}
               </Select>
             ) : (
-              <TextField size="small" />
+              <TextField size="small" placeholder={column.headerName.toString()} />
             )}
           </TableCell>
         ))}
