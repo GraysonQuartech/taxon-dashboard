@@ -3,10 +3,10 @@
 import React, { useState } from "react";
 //IMPORT packages
 import { makeStyles } from "@mui/styles";
-import { Theme, TextField } from "@mui/material";
+import { Theme, TextField, Select, MenuItem } from "@mui/material";
 import { TableCell, TableRow } from "@mui/material";
 //IMPORT Datasets+Constants
-import { IColumn } from "../utils/constants";
+import { IColumn, TaxonLevel, classificationLevelArray } from "../utils/constants";
 
 /*
  * STYLE definitions for useStyles hook
@@ -40,8 +40,22 @@ const AddRow = <T extends Record<string, string | number | null>>(props: Collaps
     <>
       <TableRow>
         {props.columns.map((column) => (
-          <TableCell>
-            <TextField />
+          <TableCell key={column.field as string}>
+            {column.field === "taxon_id" ? (
+              <Select size="small" defaultValue="">
+                {classificationLevelArray.map((level) => (
+                  <MenuItem key={level} value={level}>
+                    {level}
+                  </MenuItem>
+                ))}
+              </Select>
+            ) : column.field === "unit" ? (
+              <Select size="small" defaultValue="">
+                {/* Add options for unit dropdown */}
+              </Select>
+            ) : (
+              <TextField size="small" />
+            )}
           </TableCell>
         ))}
         <TableCell></TableCell>
