@@ -56,6 +56,14 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
     padding: globalTheme.spacing(1),
     marginTop: globalTheme.spacing(2),
   },
+  infoContainerClassDisabled: {
+    backgroundColor: globalTheme.palette.secondary.light,
+    padding: globalTheme.spacing(1),
+    marginTop: globalTheme.spacing(2),
+    opacity: "30%",
+    pointerEvents: "none",
+  },
+
   titleClass: {
     alignSelf: "end",
     display: "inline-block",
@@ -77,18 +85,6 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
   },
   tableEnabled: {
     opacity: "100%",
-    padding: globalTheme.spacing(1),
-  },
-  tableDisabled: {
-    opacity: "20%",
-    padding: globalTheme.spacing(1),
-  },
-  labelEnabled: {
-    opacity: "100%",
-    padding: globalTheme.spacing(1),
-  },
-  labelDisabled: {
-    opacity: "20%",
     padding: globalTheme.spacing(1),
   },
 }));
@@ -126,9 +122,9 @@ const Main = () => {
         </Grid>
         <FilterRow />
       </div>
-      <Box className={classes.infoContainerClass}>
+      <Box className={contextTaxon ? classes.infoContainerClass : classes.infoContainerClassDisabled}>
         <Grid columns={2} className={classes.gridClass}>
-          <div className={quantitativeDataArray.length ? classes.tableEnabled : classes.tableDisabled}>
+          <div className={classes.tableEnabled}>
             <TableRegular<IquantitativeData>
               tableName={"Quantative Measurements"}
               rows={quantitativeDataArray}
@@ -137,7 +133,7 @@ const Main = () => {
               dense={false}
             />
           </div>
-          <div className={qualitativeDataArray.length ? classes.tableEnabled : classes.tableDisabled}>
+          <div className={classes.tableEnabled}>
             <TableCollapse<IqualitativeData>
               tableName={"Qualitative Measurements"}
               rows={qualitativeDataArray}
@@ -150,7 +146,7 @@ const Main = () => {
                   dataSet.xref_taxon_measurement_qualitative_option
                 );
                 return (
-                  <div className={qualitativeOptionDataArray.length ? classes.tableEnabled : classes.tableDisabled}>
+                  <div className={classes.tableEnabled}>
                     <TableRegular<IqualitativeOptionData>
                       tableName={"Options"}
                       rows={qualitativeOptionDataArray}
