@@ -2,14 +2,13 @@
 //IMPORT React and Child Components
 import React, { useState } from "react";
 import TaxonBubble from "./TaxonBubble";
+import ActionCell from "./ActionCell";
 //IMPORT packages
 import { makeStyles } from "@mui/styles";
-import { Theme, TextField, Select, MenuItem, IconButton } from "@mui/material";
+import { Theme, TextField, Select, MenuItem } from "@mui/material";
 import { TableCell, TableRow } from "@mui/material";
-import CheckIcon from "@mui/icons-material/Check";
-import ClearIcon from "@mui/icons-material/Clear";
 //IMPORT Datasets+Constants
-import { IColumn, TaxonLevel, classificationLevelArray } from "../utils/constants";
+import { IColumn } from "../utils/constants";
 import { useTaxon } from "../contexts/taxonContext";
 import { helperGetTaxonParentIDArray } from "../utils/helper_functions";
 
@@ -72,12 +71,7 @@ const AddRow = <T extends Record<string, string | number | null>>(props: Collaps
           </TableCell>
         ))}
         <TableCell>
-          <IconButton>
-            <CheckIcon className={classes.checkIconClass}></CheckIcon>
-          </IconButton>
-          <IconButton>
-            <ClearIcon className={classes.clearIconClass}></ClearIcon>
-          </IconButton>
+          <ActionCell edit={false} subTable={false} check={true} delete={false} cancel={true} />
         </TableCell>
         <div></div>
       </TableRow>

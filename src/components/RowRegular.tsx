@@ -11,6 +11,7 @@ import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 //IMPORT Datasets+Constants+Helpers
 import { IColumn } from "../utils/constants";
 import RowActions from "./RowActions";
+import ActionCell from "./ActionCell";
 
 /*
  * STYLE definitions for useStyles hook
@@ -23,14 +24,6 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
   },
   tableCellClassDense: {
     fontWeight: globalTheme.typography.fontWeightMedium + "!important",
-  },
-  iconClass: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    width: "34px",
-    height: "34px",
-    borderRadius: "50%",
   },
 }));
 
@@ -81,10 +74,7 @@ const TableRowRegular = <T extends Record<string, string | number | null>>(props
         </TableCell>
       ))}
       <TableCell>
-        <IconButton className={classes.iconClass} onClick={() => setOpenActions(!openActions)}>
-          <MoreHorizIcon />
-        </IconButton>
-        {openActions && <RowActions rowID={props.rowID} />}
+        <ActionCell edit={true} subTable={true} check={false} delete={true} cancel={false} />
       </TableCell>
     </TableRow>
   );

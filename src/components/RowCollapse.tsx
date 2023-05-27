@@ -14,6 +14,7 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 //IMPORT Datasets+Constants + helpers
 import { IColumn } from "../utils/constants";
+import ActionCell from "./ActionCell";
 
 /*
  * STYLE definitions for useStyles hook
@@ -21,14 +22,6 @@ import { IColumn } from "../utils/constants";
 const useStyles = makeStyles((globalTheme: Theme) => ({
   tableCellClass: {
     fontWeight: globalTheme.typography.fontWeightMedium + "!important",
-  },
-  iconClass: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    width: "34px",
-    height: "34px",
-    borderRadius: "50%",
   },
 }));
 
@@ -75,15 +68,7 @@ const TableRowCollapse = <T extends Record<string, string | number | null>>(prop
           </TableCell>
         ))}
         <TableCell>
-          <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
-            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-          </IconButton>
-        </TableCell>
-        <TableCell>
-          <IconButton className={classes.iconClass} onClick={() => setOpenActions(!openActions)}>
-            <MoreHorizIcon />
-          </IconButton>
-          {openActions && <RowActions rowID={props.rowID} />}
+          <ActionCell edit={true} subTable={true} check={false} delete={true} cancel={false} />
         </TableCell>
       </TableRow>
       {open && (

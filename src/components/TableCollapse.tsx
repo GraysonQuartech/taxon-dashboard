@@ -41,6 +41,12 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
     paddingBottom: globalTheme.spacing(1),
     paddingTop: globalTheme.spacing(2),
   },
+  tableFooterClass: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: "2px",
+  },
 }));
 
 /*
@@ -99,7 +105,7 @@ const QualitativeData = <T extends Record<string, string | number | null>>(props
                 {props.columns.map((column) => (
                   <TableCell key={column.field as string}>{column.headerName}</TableCell>
                 ))}
-                <TableCell>Options</TableCell>
+
                 <TableCell>Actions</TableCell>
               </TableRow>
             </TableHead>
@@ -116,7 +122,7 @@ const QualitativeData = <T extends Record<string, string | number | null>>(props
             </TableBody>
           </Table>
         </TableContainer>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "2px" }}>
+        <div className={classes.tableFooterClass}>
           <IconButton onClick={() => setOpenAddNewRow(!openAddNewRow)}>
             <AddIcon />
             <Typography className={classes.titleClass}>Add Row</Typography>

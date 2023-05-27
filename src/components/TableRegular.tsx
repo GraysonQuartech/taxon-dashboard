@@ -44,6 +44,12 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
     paddingBottom: globalTheme.spacing(1),
     paddingTop: globalTheme.spacing(2),
   },
+  tableFooterClass: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: "2px",
+  },
 }));
 
 /*
@@ -122,7 +128,7 @@ const RegularTable = <T extends Record<string, string | number | null>>(props: T
             </TableBody>
           </Table>{" "}
         </TableContainer>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "2px" }}>
+        <div className={classes.tableFooterClass}>
           <IconButton onClick={() => setOpenAddNewRow(!openAddNewRow)}>
             <AddIcon />
             <Typography className={classes.titleClass}>Add Row</Typography>
