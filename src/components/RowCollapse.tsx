@@ -2,16 +2,11 @@
 //IMPORT React and Child Components
 import React, { ReactNode, useEffect } from "react";
 import TaxonBubble from "./TaxonBubble";
-import RowActions from "./RowActions";
 //IMPORT MUI packages
 import { makeStyles } from "@mui/styles";
 import { Card, Theme, Typography } from "@mui/material";
 import { Collapse } from "@mui/material";
 import { TableCell, TableRow } from "@mui/material";
-import IconButton from "@mui/material/IconButton";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 //IMPORT Datasets+Constants + helpers
 import { IColumn } from "../utils/constants";
 import ActionCell from "./ActionCell";
@@ -57,7 +52,10 @@ const TableRowCollapse = <T extends Record<string, string | number | null>>(prop
   const handleIconClick = (iconName: string) => {
     console.log("Icon clicked:", iconName);
     // Perform any desired action based on the iconName
-    setOpen(!open);
+    if (iconName === "subTable") {
+      setOpen(!open);
+    } else if (iconName === "delete") {
+    }
   };
 
   // RETURN ELEMENT
