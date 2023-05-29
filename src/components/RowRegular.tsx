@@ -81,7 +81,7 @@ const TableRowRegular = <T extends Record<string, string | number | null>>(props
       <TableCell>
         <ActionCell
           edit={true}
-          subTable={true}
+          subTable={false}
           check={false}
           delete={true}
           cancel={false}

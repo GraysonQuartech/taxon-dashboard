@@ -41,7 +41,7 @@ const TableRowCollapse = <T extends Record<string, string | number | null>>(prop
   const [openActions, setOpenActions] = React.useState(false);
   const classes = useStyles();
 
-  // Effect to close the actionsCardClass when openActions becomes false
+  //Effect to close the actionsCardClass when openActions becomes false
   useEffect(() => {
     const handleClickOutside = () => {
       setOpenActions(false);
@@ -57,6 +57,7 @@ const TableRowCollapse = <T extends Record<string, string | number | null>>(prop
   const handleIconClick = (iconName: string) => {
     console.log("Icon clicked:", iconName);
     // Perform any desired action based on the iconName
+    setOpen(!open);
   };
 
   // RETURN ELEMENT
