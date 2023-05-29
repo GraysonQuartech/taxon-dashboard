@@ -35,6 +35,7 @@ interface ActionCellProps {
   check: boolean;
   cancel: boolean;
   subTable: boolean;
+  onIconClick: (iconName: string) => void;
 }
 
 /*
@@ -44,31 +45,37 @@ interface ActionCellProps {
 const ActionCell = (props: ActionCellProps): JSX.Element => {
   //HOOKS here
   const classes = useStyles();
+
+  //EVENT Handlers here
+  const handleIconClick = (iconName: string) => {
+    props.onIconClick(iconName);
+  };
+
   //RETURN ELEMENT HERE
   return (
     <div className={classes.gridContainerClass}>
       {props.edit && (
-        <IconButton className={classes.iconClass}>
+        <IconButton className={classes.iconClass} onClick={() => handleIconClick("edit")}>
           <Edit />
         </IconButton>
       )}
       {props.delete && (
-        <IconButton className={classes.iconClass}>
+        <IconButton className={classes.iconClass} onClick={() => handleIconClick("delete")}>
           <Delete />
         </IconButton>
       )}
       {props.check && (
-        <IconButton className={classes.iconClass}>
+        <IconButton className={classes.iconClass} onClick={() => handleIconClick("check")}>
           <CheckIcon />
         </IconButton>
       )}
       {props.cancel && (
-        <IconButton className={classes.iconClass}>
+        <IconButton className={classes.iconClass} onClick={() => handleIconClick("cancel")}>
           <ClearIcon />
         </IconButton>
       )}
       {props.subTable && (
-        <IconButton className={classes.iconClass}>
+        <IconButton className={classes.iconClass} onClick={() => handleIconClick("subTable")}>
           <KeyboardArrowDownIcon />
         </IconButton>
       )}

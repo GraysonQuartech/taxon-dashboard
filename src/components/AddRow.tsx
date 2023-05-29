@@ -48,6 +48,13 @@ const AddRow = <T extends Record<string, string | number | null>>(props: Collaps
   const classes = useStyles();
   const { contextTaxon } = useTaxon();
 
+  //Event handlers here
+  const handleIconClick = (iconName: string) => {
+    console.log("Icon clicked:", iconName);
+    // Perform any desired action based on the iconName
+  };
+
+  //main component
   return (
     <>
       <TableRow>
@@ -71,7 +78,14 @@ const AddRow = <T extends Record<string, string | number | null>>(props: Collaps
           </TableCell>
         ))}
         <TableCell>
-          <ActionCell edit={false} subTable={false} check={true} delete={false} cancel={true} />
+          <ActionCell
+            edit={false}
+            subTable={false}
+            check={true}
+            delete={false}
+            cancel={true}
+            onIconClick={handleIconClick}
+          />
         </TableCell>
         <div></div>
       </TableRow>

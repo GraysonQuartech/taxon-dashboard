@@ -59,6 +59,11 @@ const TableRowRegular = <T extends Record<string, string | number | null>>(props
     };
   }, [openActions]);
 
+  const handleIconClick = (iconName: string) => {
+    console.log("Icon clicked:", iconName);
+    // Perform any desired action based on the iconName
+  };
+
   //RETURN ELEMENT
   return (
     <TableRow key={props.rowID}>
@@ -74,7 +79,14 @@ const TableRowRegular = <T extends Record<string, string | number | null>>(props
         </TableCell>
       ))}
       <TableCell>
-        <ActionCell edit={true} subTable={true} check={false} delete={true} cancel={false} />
+        <ActionCell
+          edit={true}
+          subTable={true}
+          check={false}
+          delete={true}
+          cancel={false}
+          onIconClick={handleIconClick}
+        />
       </TableCell>
     </TableRow>
   );
