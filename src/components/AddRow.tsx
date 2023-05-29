@@ -47,11 +47,14 @@ const AddRow = <T extends Record<string, string | number | null>>(props: Collaps
   //Hooks here
   const classes = useStyles();
   const { contextTaxon } = useTaxon();
+  const [textFieldValues, setTextFieldValues] = useState<Record<string, string>>({});
 
   //Event handlers here
   const handleIconClick = (iconName: string) => {
     console.log("Icon clicked:", iconName);
-    // Perform any desired action based on the iconName
+    if (iconName === "cancel") {
+      setTextFieldValues({});
+    }
   };
 
   //main component
@@ -73,7 +76,17 @@ const AddRow = <T extends Record<string, string | number | null>>(props: Collaps
                 {/* unit dropdown options */}
               </Select>
             ) : (
-              <TextField size="small" placeholder={column.headerName.toString()} />
+              <TextField
+                size="small"
+                placeholder={column.headerName.toString()}
+                value={textFieldValues[column.field as string] || ""}
+                onChange={(e) => {
+                  setTextFieldValues((prevValues) => ({
+                    ...prevValues,
+                    [column.field as string]: e.target.value,
+                  }));
+                }}
+              />
             )}
           </TableCell>
         ))}
