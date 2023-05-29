@@ -2,6 +2,8 @@
 //IMPORT React and Child Components
 import React, { ReactNode, useEffect } from "react";
 import TaxonBubble from "./TaxonBubble";
+import ActionCell from "./ActionCell";
+import DeleteConfirm from "./DeleteConfirm";
 //IMPORT MUI packages
 import { makeStyles } from "@mui/styles";
 import { Card, Theme, Typography } from "@mui/material";
@@ -9,7 +11,6 @@ import { Collapse } from "@mui/material";
 import { TableCell, TableRow } from "@mui/material";
 //IMPORT Datasets+Constants + helpers
 import { IColumn } from "../utils/constants";
-import ActionCell from "./ActionCell";
 
 /*
  * STYLE definitions for useStyles hook
@@ -35,6 +36,7 @@ const TableRowCollapse = <T extends Record<string, string | number | null>>(prop
   const [open, setOpen] = React.useState(false);
   const [openActions, setOpenActions] = React.useState(false);
   const classes = useStyles();
+  const [displayDeleteConfirmation, setDisplayDeleteConfirmation] = React.useState(false);
 
   //Effect to close the actionsCardClass when openActions becomes false
   useEffect(() => {
@@ -55,6 +57,7 @@ const TableRowCollapse = <T extends Record<string, string | number | null>>(prop
     if (iconName === "subTable") {
       setOpen(!open);
     } else if (iconName === "delete") {
+      setDisplayDeleteConfirmation(true);
     }
   };
 
@@ -91,6 +94,7 @@ const TableRowCollapse = <T extends Record<string, string | number | null>>(prop
           </TableCell>
         </TableRow>
       )}
+      {displayDeleteConfirmation && <DeleteConfirm rowID={props.rowID} />}
     </>
   );
 };

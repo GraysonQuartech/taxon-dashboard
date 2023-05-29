@@ -11,6 +11,7 @@ import { TableCell, TableRow } from "@mui/material";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 //IMPORT Datasets+Constants+Helpers
 import { IColumn } from "../utils/constants";
+import DeleteConfirm from "./DeleteConfirm";
 
 /*
  * STYLE definitions for useStyles hook
@@ -44,6 +45,7 @@ const TableRowRegular = <T extends Record<string, string | number | null>>(props
   //HOOKS
   const classes = useStyles();
   const [openActions, setOpenActions] = React.useState(false);
+  const [displayDeleteConfirmation, setDisplayDeleteConfirmation] = React.useState(false);
 
   // Effect to close the actionsCardClass when openActions becomes false
   useEffect(() => {
@@ -61,33 +63,39 @@ const TableRowRegular = <T extends Record<string, string | number | null>>(props
   const handleIconClick = (iconName: string) => {
     console.log("Icon clicked:", iconName);
     // Perform any desired action based on the iconName
+    if (iconName === "delete") {
+      setDisplayDeleteConfirmation(true);
+    }
   };
 
   //RETURN ELEMENT
   return (
-    <TableRow key={props.rowID}>
-      {props.columns.map((column, index) => (
-        <TableCell key={column.field as string}>
-          {column.field === "taxon_id" ? (
-            <TaxonBubble taxonID={props.row[column.field as keyof T] as string} />
-          ) : (
-            <div className={`${props.dense ? classes.tableCellClassDense : classes.tableCellClass}`}>
-              {props.row[column.field as keyof T]}
-            </div>
-          )}
+    <>
+      <TableRow key={props.rowID}>
+        {props.columns.map((column, index) => (
+          <TableCell key={column.field as string}>
+            {column.field === "taxon_id" ? (
+              <TaxonBubble taxonID={props.row[column.field as keyof T] as string} />
+            ) : (
+              <div className={`${props.dense ? classes.tableCellClassDense : classes.tableCellClass}`}>
+                {props.row[column.field as keyof T]}
+              </div>
+            )}
+          </TableCell>
+        ))}
+        <TableCell>
+          <ActionCell
+            edit={true}
+            subTable={false}
+            check={false}
+            delete={true}
+            cancel={false}
+            onIconClick={handleIconClick}
+          />
         </TableCell>
-      ))}
-      <TableCell>
-        <ActionCell
-          edit={true}
-          subTable={false}
-          check={false}
-          delete={true}
-          cancel={false}
-          onIconClick={handleIconClick}
-        />
-      </TableCell>
-    </TableRow>
+      </TableRow>
+      {displayDeleteConfirmation && <DeleteConfirm rowID={props.rowID} />}
+    </>
   );
 };
 export default TableRowRegular;
