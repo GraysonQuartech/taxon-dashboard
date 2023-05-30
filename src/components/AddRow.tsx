@@ -1,6 +1,6 @@
 /** @format */
 //IMPORT React and Child Components
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TaxonBubble from "./TaxonBubble";
 import ActionCell from "./ActionCell";
 //IMPORT packages
@@ -41,13 +41,20 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
  */
 interface CollapsibleRowProps<T> {
   columns: IColumn<T>[];
+  open: boolean;
 }
 
 const AddRow = <T extends Record<string, string | number | null>>(props: CollapsibleRowProps<T>) => {
   //Hooks here
   const classes = useStyles();
+  const { open } = props;
+  const [isOpen, setIsOpen] = useState(open);
   const { contextTaxon } = useTaxon();
   const [textFieldValues, setTextFieldValues] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    setIsOpen(open); // Update the state when the prop changes
+  }, [open]);
 
   //Event handlers here
   const handleIconClick = (iconName: string) => {
@@ -58,7 +65,7 @@ const AddRow = <T extends Record<string, string | number | null>>(props: Collaps
   };
 
   //main component
-  return (
+  return isOpen ? (
     <>
       <TableRow>
         {props.columns.map((column) => (
@@ -103,7 +110,7 @@ const AddRow = <T extends Record<string, string | number | null>>(props: Collaps
         <div></div>
       </TableRow>
     </>
-  );
+  ) : null;
 };
 
 export default AddRow;

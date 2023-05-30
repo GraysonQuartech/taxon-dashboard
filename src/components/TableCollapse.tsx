@@ -118,7 +118,7 @@ const QualitativeData = <T extends Record<string, string | number | null>>(props
                   renderSubTable={props.renderSubTable}
                 />
               ))}
-              {openAddNewRow && <AddRow columns={props.columns} />}
+              <AddRow open={openAddNewRow} columns={props.columns} />
             </TableBody>
           </Table>
         </TableContainer>

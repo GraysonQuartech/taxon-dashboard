@@ -124,7 +124,7 @@ const RegularTable = <T extends Record<string, string | number | null>>(props: T
                   dense={props.dense}
                 />
               ))}
-              {openAddNewRow && <AddRow columns={props.columns} />}
+              <AddRow open={openAddNewRow} columns={props.columns} />
             </TableBody>
           </Table>{" "}
         </TableContainer>
