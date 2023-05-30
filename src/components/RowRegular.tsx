@@ -94,7 +94,7 @@ const TableRowRegular = <T extends Record<string, string | number | null>>(props
           />
         </TableCell>
       </TableRow>
-      {displayDeleteConfirmation && <DeleteConfirm rowID={props.rowID} />}
+      <DeleteConfirm open={displayDeleteConfirmation} rowID={props.rowID} />
     </>
   );
 };

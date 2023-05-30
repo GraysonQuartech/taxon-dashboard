@@ -1,14 +1,9 @@
 /** @format */
-//IMPORT React and Child Components
-import React, { ReactNode } from "react";
-//IMPORT MUI packages
+
+import React, { ReactNode, useState, useEffect } from "react";
 import { makeStyles } from "@mui/styles";
 import { Card, Grid, Theme, Typography } from "@mui/material";
-//IMPORT Datasets+Constants + helpers
 
-/*
- * STYLE definitions for useStyles hook
- */
 const useStyles = makeStyles((globalTheme: Theme) => ({
   overlay: {
     position: "fixed",
@@ -62,30 +57,44 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
   },
 }));
 
-/*
- *props.. row id
- */
 interface RowActionsProps {
   rowID: string;
+  open: boolean;
 }
 
-/*
- *This component is the popup list of actions for a table row
- */
 const DeleteConfirm = (props: RowActionsProps) => {
+  const { open } = props;
   const classes = useStyles();
+  const [isOpen, setIsOpen] = useState(open); // State variable to manage open/close state
 
-  return (
+  useEffect(() => {
+    setIsOpen(open); // Update the state when the prop changes
+  }, [open]);
+
+  const handleCancel = () => {
+    setIsOpen(false); // Close the component
+  };
+
+  const handleDelete = () => {
+    setIsOpen(false); // Close the component
+    // Handle delete logic if needed
+  };
+
+  return isOpen ? (
     <div className={classes.overlay}>
       <Card className={classes.showDeleteConfirmation}>
         <Typography className={classes.titleClass}>Are you sure you want to delete this measurement?</Typography>
         <Grid className={classes.buttonsContainer}>
-          <button className={classes.deleteConfirmationButton}>Cancel</button>
-          <button className={classes.deleteConfirmationButton}>Delete</button>
+          <button className={classes.deleteConfirmationButton} onClick={handleCancel}>
+            Cancel
+          </button>
+          <button className={classes.deleteConfirmationButton} onClick={handleDelete}>
+            Delete
+          </button>
         </Grid>
       </Card>
     </div>
-  );
+  ) : null;
 };
 
 export default DeleteConfirm;

@@ -85,6 +85,7 @@ const TableRowCollapse = <T extends Record<string, string | number | null>>(prop
           />
         </TableCell>
       </TableRow>
+      <DeleteConfirm open={displayDeleteConfirmation} rowID={props.rowID} />
       {open && (
         <TableRow>
           <TableCell className={classes.tableCellClass} colSpan={props.columns.length + 1}>
@@ -94,7 +95,6 @@ const TableRowCollapse = <T extends Record<string, string | number | null>>(prop
           </TableCell>
         </TableRow>
       )}
-      {displayDeleteConfirmation && <DeleteConfirm rowID={props.rowID} />}
     </>
   );
 };
