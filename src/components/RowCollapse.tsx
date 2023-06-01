@@ -36,7 +36,7 @@ const TableRowCollapse = <T extends Record<string, string | number | null>>(prop
   const [open, setOpen] = React.useState(false);
   const [openActions, setOpenActions] = React.useState(false);
   const classes = useStyles();
-  const [displayDeleteConfirmation, setDisplayDeleteConfirmation] = React.useState(false);
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = React.useState(false);
 
   //Effect to close the actionsCardClass when openActions becomes false
   useEffect(() => {
@@ -57,7 +57,7 @@ const TableRowCollapse = <T extends Record<string, string | number | null>>(prop
     if (iconName === "subTable") {
       setOpen(!open);
     } else if (iconName === "delete") {
-      setDisplayDeleteConfirmation(true);
+      setDeleteConfirmOpen(true);
     }
   };
 
@@ -85,7 +85,7 @@ const TableRowCollapse = <T extends Record<string, string | number | null>>(prop
           />
         </TableCell>
       </TableRow>
-      <DeleteConfirm open={displayDeleteConfirmation} rowID={props.rowID} />
+      <DeleteConfirm open={deleteConfirmOpen} setOpen={setDeleteConfirmOpen} rowID={props.rowID} />
       {open && (
         <TableRow>
           <TableCell className={classes.tableCellClass} colSpan={props.columns.length + 1}>

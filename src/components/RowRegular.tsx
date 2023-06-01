@@ -45,7 +45,7 @@ const TableRowRegular = <T extends Record<string, string | number | null>>(props
   //HOOKS
   const classes = useStyles();
   const [openActions, setOpenActions] = React.useState(false);
-  const [displayDeleteConfirmation, setDisplayDeleteConfirmation] = React.useState(false);
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = React.useState(false);
 
   // Effect to close the actionsCardClass when openActions becomes false
   useEffect(() => {
@@ -64,7 +64,7 @@ const TableRowRegular = <T extends Record<string, string | number | null>>(props
     console.log("Icon clicked:", iconName);
     // Perform any desired action based on the iconName
     if (iconName === "delete") {
-      setDisplayDeleteConfirmation(true);
+      setDeleteConfirmOpen(true);
     }
   };
 
@@ -94,7 +94,7 @@ const TableRowRegular = <T extends Record<string, string | number | null>>(props
           />
         </TableCell>
       </TableRow>
-      <DeleteConfirm open={displayDeleteConfirmation} rowID={props.rowID} />
+      <DeleteConfirm open={deleteConfirmOpen} setOpen={setDeleteConfirmOpen} rowID={props.rowID} />
     </>
   );
 };

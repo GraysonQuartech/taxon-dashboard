@@ -60,27 +60,27 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
 interface RowActionsProps {
   rowID: string;
   open: boolean;
+  setOpen: (open: boolean) => void;
 }
 
 const DeleteConfirm = (props: RowActionsProps) => {
-  const { open } = props;
+  const { open, setOpen } = props;
   const classes = useStyles();
-  const [isOpen, setIsOpen] = useState(open); // State variable to manage open/close state
 
   useEffect(() => {
-    setIsOpen(open); // Update the state when the prop changes
+    setOpen(open); // Update the state when the prop changes
   }, [open]);
 
   const handleCancel = () => {
-    setIsOpen(false); // Close the component
+    setOpen(false);
   };
 
   const handleDelete = () => {
-    setIsOpen(false); // Close the component
+    setOpen(false); // Close the component
     // Handle delete logic if needed
   };
 
-  return isOpen ? (
+  return open ? (
     <div className={classes.overlay}>
       <Card className={classes.showDeleteConfirmation}>
         <Typography className={classes.titleClass}>Are you sure you want to delete this measurement?</Typography>
