@@ -48,3 +48,13 @@ export const columnsQualitativeOptions: IColumn<IqualitativeOptionData>[] = [
   { field: "option_value", headerName: "Value" },
   { field: "option_desc", headerName: "Description" },
 ];
+
+//quantitative measurement unit options
+export enum quantativeUnits {
+  Millimeter = "millimeter",
+  Centimeter = "centimeter",
+  Meter = "meter",
+  Milligram = "milligram",
+  Gram = "gram",
+  Kilogram = "kilogram",
+}

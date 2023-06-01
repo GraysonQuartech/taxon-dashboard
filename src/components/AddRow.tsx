@@ -8,7 +8,7 @@ import { makeStyles } from "@mui/styles";
 import { Theme, TextField, Select, MenuItem } from "@mui/material";
 import { TableCell, TableRow } from "@mui/material";
 //IMPORT Datasets+Constants
-import { IColumn } from "../utils/constants";
+import { IColumn, quantativeUnits } from "../utils/constants";
 import { useTaxon } from "../contexts/taxonContext";
 import { helperGetTaxonParentIDArray } from "../utils/helper_functions";
 
@@ -79,8 +79,12 @@ const AddRow = <T extends Record<string, string | number | null>>(props: Collaps
                 ))}
               </Select>
             ) : column.field === "unit" ? (
-              <Select size="small" defaultValue="">
-                {/* unit dropdown options */}
+              <Select size="small" defaultValue={Object.values(quantativeUnits)[0]}>
+                {Object.values(quantativeUnits).map((unit) => (
+                  <MenuItem key={unit} value={unit}>
+                    {unit}
+                  </MenuItem>
+                ))}
               </Select>
             ) : (
               <TextField
