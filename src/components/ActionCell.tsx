@@ -18,6 +18,8 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
   gridContainerClass: {
     display: "flex",
     flexDirection: "row",
+    justifyContent: "flex-end", // Aligns items to the right
+    // justifyContent: "flex-start", // Aligns items to the left
   },
   iconClass: {
     display: "flex",

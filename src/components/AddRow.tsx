@@ -20,20 +20,6 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
   tableCellClass: {
     fontWeight: globalTheme.typography.fontWeightMedium + "!important",
   },
-  iconClass: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    width: "34px",
-    height: "34px",
-    borderRadius: "50%",
-  },
-  checkIconClass: {
-    color: "green",
-  },
-  clearIconClass: {
-    color: "red",
-  },
 }));
 
 /*

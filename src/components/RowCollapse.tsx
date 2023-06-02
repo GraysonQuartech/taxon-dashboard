@@ -74,7 +74,7 @@ const TableRowCollapse = <T extends Record<string, string | number | null>>(prop
             )}
           </TableCell>
         ))}
-        <TableCell>
+        <TableCell align="right">
           <ActionCell
             edit={true}
             subTable={true}

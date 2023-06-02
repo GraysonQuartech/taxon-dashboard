@@ -114,7 +114,7 @@ const RegularTable = <T extends Record<string, string | number | null>>(props: T
                 {props.columns.map((column) => (
                   <TableCell key={column.field as string}>{column.headerName}</TableCell>
                 ))}
-                <TableCell>Actions</TableCell>
+                <TableCell align="right">Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

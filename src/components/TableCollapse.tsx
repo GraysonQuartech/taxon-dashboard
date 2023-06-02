@@ -109,7 +109,7 @@ const QualitativeData = <T extends Record<string, string | number | null>>(props
                   <TableCell key={column.field as string}>{column.headerName}</TableCell>
                 ))}
 
-                <TableCell>Actions</TableCell>
+                <TableCell align="right">Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
