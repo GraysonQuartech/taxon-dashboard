@@ -44,21 +44,7 @@ export interface RowProps<T> {
 const TableRowRegular = <T extends Record<string, string | number | null>>(props: RowProps<T>) => {
   //HOOKS
   const classes = useStyles();
-  const [openActions, setOpenActions] = React.useState(false);
   const [deleteConfirmOpen, setDeleteConfirmOpen] = React.useState(false);
-
-  // Effect to close the actionsCardClass when openActions becomes false
-  useEffect(() => {
-    const handleClickOutside = () => {
-      setOpenActions(false);
-    };
-    if (openActions) {
-      //document.addEventListener("mousedown", handleClickOutside);
-    }
-    return () => {
-      // document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [openActions]);
 
   const handleIconClick = (iconName: string) => {
     console.log("Icon clicked:", iconName);
