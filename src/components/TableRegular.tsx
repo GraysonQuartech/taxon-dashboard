@@ -144,7 +144,7 @@ const RegularTable = <T extends Record<string, string | number | null>>(props: T
           {!openAddNewRow && (
             <IconButton onClick={() => handleAddRowClick()}>
               <AddIcon />
-              <Typography className={classes.titleClass}>Add Row</Typography>
+              <Typography className={classes.titleClass}>Row</Typography>
             </IconButton>
           )}
         </div>
