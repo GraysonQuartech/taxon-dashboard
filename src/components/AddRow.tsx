@@ -42,18 +42,19 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
 interface CollapsibleRowProps<T> {
   columns: IColumn<T>[];
   open: boolean;
+  setOpen: (open: boolean) => void;
 }
 
 const AddRow = <T extends Record<string, string | number | null>>(props: CollapsibleRowProps<T>) => {
+  const { open, setOpen } = props;
+
   //Hooks here
   const classes = useStyles();
-  const { open } = props;
-  const [isOpen, setIsOpen] = useState(open);
   const { contextTaxon } = useTaxon();
   const [textFieldValues, setTextFieldValues] = useState<Record<string, string>>({});
 
   useEffect(() => {
-    setIsOpen(open); // Update the state when the prop changes
+    setOpen(open); // Update the state when the prop changes
   }, [open]);
 
   //Event handlers here
@@ -61,11 +62,12 @@ const AddRow = <T extends Record<string, string | number | null>>(props: Collaps
     console.log("Icon clicked:", iconName);
     if (iconName === "cancel") {
       setTextFieldValues({});
+      setOpen(false);
     }
   };
 
   //main component
-  return isOpen ? (
+  return open ? (
     <>
       <TableRow>
         {props.columns.map((column) => (

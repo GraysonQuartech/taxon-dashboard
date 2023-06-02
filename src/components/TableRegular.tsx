@@ -86,6 +86,9 @@ const RegularTable = <T extends Record<string, string | number | null>>(props: T
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+  const handleAddRowClick = () => {
+    setOpenAddNewRow(true);
+  };
 
   const startIndex = page * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
@@ -124,12 +127,12 @@ const RegularTable = <T extends Record<string, string | number | null>>(props: T
                   dense={props.dense}
                 />
               ))}
-              <AddRow open={openAddNewRow} columns={props.columns} />
+              <AddRow open={openAddNewRow} setOpen={setOpenAddNewRow} columns={props.columns} />
             </TableBody>
           </Table>{" "}
         </TableContainer>
         <div className={classes.tableFooterClass}>
-          <IconButton onClick={() => setOpenAddNewRow(!openAddNewRow)}>
+          <IconButton onClick={() => handleAddRowClick()}>
             <AddIcon />
             <Typography className={classes.titleClass}>Add Row</Typography>
           </IconButton>
