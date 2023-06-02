@@ -27,6 +27,12 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
     height: "34px",
     borderRadius: "50%",
   },
+  checkMarkClass: {
+    color: "green",
+  },
+  cancelClass: {
+    color: "red",
+  },
 }));
 
 interface ActionCellProps {
@@ -66,12 +72,12 @@ const ActionCell = (props: ActionCellProps): JSX.Element => {
       )}
       {props.check && (
         <IconButton className={classes.iconClass} onClick={() => handleIconClick("check")}>
-          <CheckIcon />
+          <CheckIcon className={classes.checkMarkClass} />
         </IconButton>
       )}
       {props.cancel && (
         <IconButton className={classes.iconClass} onClick={() => handleIconClick("cancel")}>
-          <ClearIcon />
+          <ClearIcon className={classes.cancelClass} />
         </IconButton>
       )}
       {props.subTable && (
