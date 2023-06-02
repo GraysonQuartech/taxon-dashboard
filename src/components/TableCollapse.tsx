@@ -45,7 +45,7 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: "2px",
+    padding: globalTheme.spacing(1),
   },
 }));
 
@@ -126,12 +126,6 @@ const QualitativeData = <T extends Record<string, string | number | null>>(props
           </Table>
         </TableContainer>
         <div className={classes.tableFooterClass}>
-          {!openAddNewRow && (
-            <IconButton onClick={() => handleAddRowClick()}>
-              <AddIcon />
-              <Typography className={classes.titleClass}>Add Row</Typography>
-            </IconButton>
-          )}
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
@@ -141,6 +135,12 @@ const QualitativeData = <T extends Record<string, string | number | null>>(props
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
+          {!openAddNewRow && (
+            <IconButton onClick={() => handleAddRowClick()}>
+              <AddIcon />
+              <Typography className={classes.titleClass}>Add Row</Typography>
+            </IconButton>
+          )}
         </div>
       </Paper>
     </div>
