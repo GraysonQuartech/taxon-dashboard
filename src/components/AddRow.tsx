@@ -64,6 +64,10 @@ const AddRow = <T extends Record<string, string | number | null>>(props: Collaps
       setTextFieldValues({});
       setOpen(false);
     }
+    if (iconName === "check") {
+      console.log("saving new measurement: ", textFieldValues);
+      setOpen(false);
+    }
   };
 
   //main component
