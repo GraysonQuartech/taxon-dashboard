@@ -132,10 +132,12 @@ const RegularTable = <T extends Record<string, string | number | null>>(props: T
           </Table>{" "}
         </TableContainer>
         <div className={classes.tableFooterClass}>
-          <IconButton onClick={() => handleAddRowClick()}>
-            <AddIcon />
-            <Typography className={classes.titleClass}>Add Row</Typography>
-          </IconButton>
+          {!openAddNewRow && (
+            <IconButton onClick={() => handleAddRowClick()}>
+              <AddIcon />
+              <Typography className={classes.titleClass}>Add Row</Typography>
+            </IconButton>
+          )}
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
