@@ -8,6 +8,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
 import { makeStyles } from "@mui/styles";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { IconButton, Theme } from "@mui/material";
 //IMPORT Constants + Data + Helper Functions
 
@@ -53,9 +54,13 @@ interface ActionCellProps {
 const ActionCell = (props: ActionCellProps): JSX.Element => {
   //HOOKS here
   const classes = useStyles();
+  const [arrowDirection, setArrowDirection] = React.useState("down");
 
   //EVENT Handlers here
   const handleIconClick = (iconName: string) => {
+    if (iconName === "subTable") {
+      setArrowDirection(arrowDirection === "down" ? "up" : "down");
+    }
     props.onIconClick(iconName);
   };
 
@@ -84,7 +89,7 @@ const ActionCell = (props: ActionCellProps): JSX.Element => {
       )}
       {props.subTable && (
         <IconButton className={classes.iconClass} onClick={() => handleIconClick("subTable")}>
-          <KeyboardArrowDownIcon />
+          {arrowDirection === "down" ? <KeyboardArrowDownIcon /> : <KeyboardArrowUpIcon />}
         </IconButton>
       )}
     </div>
