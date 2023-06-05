@@ -11,6 +11,7 @@ import { Collapse } from "@mui/material";
 import { TableCell, TableRow } from "@mui/material";
 //IMPORT Datasets+Constants + helpers
 import { IColumn } from "../utils/constants";
+import EditRow from "./EditRow";
 
 /*
  * STYLE definitions for useStyles hook
@@ -36,6 +37,7 @@ const TableRowCollapse = <T extends Record<string, string | number | null>>(prop
   const [open, setOpen] = React.useState(false);
   const classes = useStyles();
   const [deleteConfirmOpen, setDeleteConfirmOpen] = React.useState(false);
+  const [editRow, setEditRow] = React.useState(false);
 
   const handleIconClick = (iconName: string) => {
     console.log("Icon clicked:", iconName);
@@ -44,11 +46,17 @@ const TableRowCollapse = <T extends Record<string, string | number | null>>(prop
       setOpen(!open);
     } else if (iconName === "delete") {
       setDeleteConfirmOpen(true);
+    } else if (iconName === "edit") {
+      setEditRow(true);
     }
   };
 
   // RETURN ELEMENT
-  return (
+  return editRow ? (
+    <>
+      <EditRow key={props.rowID} row={props.row} columns={props.columns} rowID={props.rowID} dense={false} />
+    </>
+  ) : (
     <>
       <TableRow key={props.rowID}>
         {props.columns.map((column, index) => (

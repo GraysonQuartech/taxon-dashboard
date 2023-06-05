@@ -1,17 +1,20 @@
 /** @format */
 /** @format */
 //IMPORT React and Child Components
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import TaxonBubble from "./TaxonBubble";
 import ActionCell from "./ActionCell";
 //IMPORT MUI packages
 import { makeStyles } from "@mui/styles";
-import { IconButton, Theme } from "@mui/material";
+import { IconButton, MenuItem, Select, TextField, Theme } from "@mui/material";
 import { TableCell, TableRow } from "@mui/material";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 //IMPORT Datasets+Constants+Helpers
-import { IColumn } from "../utils/constants";
+import { IColumn, quantativeUnits } from "../utils/constants";
 import DeleteConfirm from "./DeleteConfirm";
+import { helperGetTaxonParentIDArray } from "../utils/helper_functions";
+import { useTaxon } from "../contexts/taxonContext";
+import EditRow from "./EditRow";
 
 /*
  * STYLE definitions for useStyles hook
@@ -45,17 +48,25 @@ const TableRowRegular = <T extends Record<string, string | number | null>>(props
   //HOOKS
   const classes = useStyles();
   const [deleteConfirmOpen, setDeleteConfirmOpen] = React.useState(false);
+  const [editRow, setEditRow] = React.useState(false);
 
+  // Perform any desired action based on the iconName
   const handleIconClick = (iconName: string) => {
     console.log("Icon clicked:", iconName);
-    // Perform any desired action based on the iconName
     if (iconName === "delete") {
       setDeleteConfirmOpen(true);
+    }
+    if (iconName === "edit") {
+      setEditRow(true);
     }
   };
 
   //RETURN ELEMENT
-  return (
+  return editRow ? (
+    <>
+      <EditRow key={props.rowID} row={props.row} columns={props.columns} rowID={props.rowID} dense={props.dense} />
+    </>
+  ) : (
     <>
       <TableRow key={props.rowID}>
         {props.columns.map((column, index) => (
