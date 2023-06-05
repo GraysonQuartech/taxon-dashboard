@@ -1,5 +1,4 @@
 /** @format */
-/** @format */
 //IMPORT React and Child Components
 import React, { useEffect, useState } from "react";
 import TaxonBubble from "./TaxonBubble";
@@ -21,7 +20,7 @@ const useStyles = makeStyles((globalTheme: Theme) => ({}));
 /*
  *Generic props. table rows and columns
  */
-export interface EditRow<T> {
+export interface EditRowProps<T> {
   row: T;
   rowID: string;
   columns: IColumn<T>[];
@@ -33,21 +32,37 @@ export interface EditRow<T> {
  * A non collapsible regular table row
  * Used by quantitative data component
  */
-const EditRow = <T extends Record<string, string | number | null>>(props: EditRow<T>) => {
+const EditRow = <T extends Record<string, string | number | null>>(props: EditRowProps<T>) => {
   //HOOKS
   const classes = useStyles();
   const [textFieldValues, setTextFieldValues] = useState<Record<string, string>>({});
   const { contextTaxon } = useTaxon();
 
+  // Perform any desired action based on the iconName
   const handleIconClick = (iconName: string) => {
     console.log("Icon clicked:", iconName);
-    // Perform any desired action based on the iconName
     if (iconName === "check") {
       props.setOpen(false);
     }
     if (iconName === "cancel") {
       props.setOpen(false);
     }
+  };
+
+  useEffect(() => {
+    // Set initial text field values based on props.row
+    const initialValues: Record<string, string> = {};
+    props.columns.forEach((column) => {
+      initialValues[column.field as string] = props.row[column.field as keyof T] as string;
+    });
+    setTextFieldValues(initialValues);
+  }, [props.row, props.columns]);
+
+  const handleTextFieldChange = (field: string, value: string) => {
+    setTextFieldValues((prevValues) => ({
+      ...prevValues,
+      [field]: value,
+    }));
   };
 
   //RETURN ELEMENT
@@ -75,14 +90,14 @@ const EditRow = <T extends Record<string, string | number | null>>(props: EditRo
             ) : (
               <TextField
                 size="small"
-                placeholder={column.headerName.toString()}
-                value={textFieldValues[column.field as string] || ""}
-                onChange={(e) => {
-                  setTextFieldValues((prevValues) => ({
-                    ...prevValues,
-                    [column.field as string]: e.target.value,
-                  }));
-                }}
+                placeholder={column.headerName !== null ? column.headerName.toString() : ""}
+                value={
+                  textFieldValues[column.field as string] !== undefined &&
+                  textFieldValues[column.field as string] !== null
+                    ? textFieldValues[column.field as string].toString()
+                    : ""
+                }
+                onChange={(e) => handleTextFieldChange(column.field as string, e.target.value)}
               />
             )}
           </TableCell>
@@ -101,4 +116,5 @@ const EditRow = <T extends Record<string, string | number | null>>(props: EditRo
     </>
   );
 };
+
 export default EditRow;
