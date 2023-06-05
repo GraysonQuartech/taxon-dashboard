@@ -26,6 +26,7 @@ export interface EditRow<T> {
   rowID: string;
   columns: IColumn<T>[];
   dense: boolean;
+  setOpen: (open: boolean) => void;
 }
 
 /*
@@ -42,8 +43,10 @@ const EditRow = <T extends Record<string, string | number | null>>(props: EditRo
     console.log("Icon clicked:", iconName);
     // Perform any desired action based on the iconName
     if (iconName === "check") {
+      props.setOpen(false);
     }
     if (iconName === "cancel") {
+      props.setOpen(false);
     }
   };
 

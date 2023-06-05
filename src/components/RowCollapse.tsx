@@ -36,8 +36,8 @@ const TableRowCollapse = <T extends Record<string, string | number | null>>(prop
   //HOOKS
   const [open, setOpen] = React.useState(false);
   const classes = useStyles();
-  const [deleteConfirmOpen, setDeleteConfirmOpen] = React.useState(false);
-  const [editRow, setEditRow] = React.useState(false);
+  const [openDeleteConfirm, setOpenDeleteConfirm] = React.useState(false);
+  const [openEditRow, setOpenEditRow] = React.useState(false);
 
   const handleIconClick = (iconName: string) => {
     console.log("Icon clicked:", iconName);
@@ -45,16 +45,23 @@ const TableRowCollapse = <T extends Record<string, string | number | null>>(prop
     if (iconName === "subTable") {
       setOpen(!open);
     } else if (iconName === "delete") {
-      setDeleteConfirmOpen(true);
+      setOpenDeleteConfirm(true);
     } else if (iconName === "edit") {
-      setEditRow(true);
+      setOpenEditRow(true);
     }
   };
 
   // RETURN ELEMENT
-  return editRow ? (
+  return openEditRow ? (
     <>
-      <EditRow key={props.rowID} row={props.row} columns={props.columns} rowID={props.rowID} dense={false} />
+      <EditRow
+        key={props.rowID}
+        row={props.row}
+        columns={props.columns}
+        rowID={props.rowID}
+        dense={false}
+        setOpen={setOpenEditRow}
+      />
     </>
   ) : (
     <>
@@ -79,7 +86,7 @@ const TableRowCollapse = <T extends Record<string, string | number | null>>(prop
           />
         </TableCell>
       </TableRow>
-      <DeleteConfirm open={deleteConfirmOpen} setOpen={setDeleteConfirmOpen} rowID={props.rowID} />
+      <DeleteConfirm open={openDeleteConfirm} setOpen={setOpenDeleteConfirm} rowID={props.rowID} />
       {open && (
         <TableRow>
           <TableCell className={classes.tableCellClass} colSpan={props.columns.length + 1}>

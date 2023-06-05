@@ -47,24 +47,31 @@ export interface RowProps<T> {
 const TableRowRegular = <T extends Record<string, string | number | null>>(props: RowProps<T>) => {
   //HOOKS
   const classes = useStyles();
-  const [deleteConfirmOpen, setDeleteConfirmOpen] = React.useState(false);
-  const [editRow, setEditRow] = React.useState(false);
+  const [openDeleteConfirm, setOpenDeleteConfirm] = React.useState(false);
+  const [openEditRow, setOpenEditRow] = React.useState(false);
 
   // Perform any desired action based on the iconName
   const handleIconClick = (iconName: string) => {
     console.log("Icon clicked:", iconName);
     if (iconName === "delete") {
-      setDeleteConfirmOpen(true);
+      setOpenDeleteConfirm(true);
     }
     if (iconName === "edit") {
-      setEditRow(true);
+      setOpenEditRow(true);
     }
   };
 
   //RETURN ELEMENT
-  return editRow ? (
+  return openEditRow ? (
     <>
-      <EditRow key={props.rowID} row={props.row} columns={props.columns} rowID={props.rowID} dense={props.dense} />
+      <EditRow
+        key={props.rowID}
+        row={props.row}
+        columns={props.columns}
+        rowID={props.rowID}
+        dense={props.dense}
+        setOpen={setOpenEditRow}
+      />
     </>
   ) : (
     <>
@@ -91,7 +98,7 @@ const TableRowRegular = <T extends Record<string, string | number | null>>(props
           />
         </TableCell>
       </TableRow>
-      <DeleteConfirm open={deleteConfirmOpen} setOpen={setDeleteConfirmOpen} rowID={props.rowID} />
+      <DeleteConfirm open={openDeleteConfirm} setOpen={setOpenDeleteConfirm} rowID={props.rowID} />
     </>
   );
 };
