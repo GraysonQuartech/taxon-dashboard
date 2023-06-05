@@ -42,9 +42,11 @@ const EditRow = <T extends Record<string, string | number | null>>(props: EditRo
   const handleIconClick = (iconName: string) => {
     console.log("Icon clicked:", iconName);
     if (iconName === "check") {
+      console.log("Saved Edit Row");
       props.setOpen(false);
     }
     if (iconName === "cancel") {
+      console.log("Cancel Edit Row");
       props.setOpen(false);
     }
   };
