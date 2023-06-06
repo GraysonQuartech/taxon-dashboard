@@ -3,6 +3,7 @@
 import React, { ReactNode, useState, useEffect } from "react";
 import { makeStyles } from "@mui/styles";
 import { Card, Grid, Theme, Typography } from "@mui/material";
+import { deleteConfirm } from "../utils/constants";
 
 const useStyles = makeStyles((globalTheme: Theme) => ({
   overlay: {
@@ -83,7 +84,7 @@ const DeleteConfirm = (props: RowActionsProps) => {
   return open ? (
     <div className={classes.overlay}>
       <Card className={classes.showDeleteConfirmation}>
-        <Typography className={classes.titleClass}>Are you sure you want to delete this measurement?</Typography>
+        <Typography className={classes.titleClass}>{deleteConfirm}</Typography>
         <Grid className={classes.buttonsContainer}>
           <button className={classes.deleteConfirmationButton} onClick={handleCancel}>
             Cancel

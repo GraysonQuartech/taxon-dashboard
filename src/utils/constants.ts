@@ -58,3 +58,5 @@ export enum quantativeUnits {
   Gram = "gram",
   Kilogram = "kilogram",
 }
+
+export const deleteConfirm: string = "Are you sure you want to delete this measurement?";
