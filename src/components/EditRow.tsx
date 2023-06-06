@@ -8,7 +8,7 @@ import { makeStyles } from "@mui/styles";
 import { IconButton, MenuItem, Select, TextField, Theme } from "@mui/material";
 import { TableCell, TableRow } from "@mui/material";
 //IMPORT Datasets+Constants+Helpers
-import { IColumn, quantativeUnits } from "../utils/constants";
+import { IColumn, IconName, quantativeUnits } from "../utils/constants";
 import { helperGetTaxonParentIDArray } from "../utils/helper_functions";
 import { useTaxon } from "../contexts/taxonContext";
 
@@ -39,7 +39,7 @@ const EditRow = <T extends Record<string, string | number | null>>(props: EditRo
   const { contextTaxon } = useTaxon();
 
   // Perform any desired action based on the iconName
-  const handleIconClick = (iconName: string) => {
+  const handleIconClick = (iconName: IconName) => {
     console.log("Icon clicked:", iconName);
     if (iconName === "check") {
       console.log("Saved Edit Row");

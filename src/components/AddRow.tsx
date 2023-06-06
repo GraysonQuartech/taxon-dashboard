@@ -8,7 +8,7 @@ import { makeStyles } from "@mui/styles";
 import { Theme, TextField, Select, MenuItem } from "@mui/material";
 import { TableCell, TableRow } from "@mui/material";
 //IMPORT Datasets+Constants
-import { IColumn, quantativeUnits } from "../utils/constants";
+import { IColumn, IconName, quantativeUnits } from "../utils/constants";
 import { useTaxon } from "../contexts/taxonContext";
 import { helperGetTaxonParentIDArray } from "../utils/helper_functions";
 
@@ -44,7 +44,7 @@ const AddRow = <T extends Record<string, string | number | null>>(props: Collaps
   }, [open]);
 
   //Event handlers here
-  const handleIconClick = (iconName: string) => {
+  const handleIconClick = (iconName: IconName) => {
     console.log("Icon clicked:", iconName);
     if (iconName === "cancel") {
       setTextFieldValues({});

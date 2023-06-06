@@ -10,7 +10,7 @@ import { IconButton, MenuItem, Select, TextField, Theme } from "@mui/material";
 import { TableCell, TableRow } from "@mui/material";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 //IMPORT Datasets+Constants+Helpers
-import { IColumn, quantativeUnits } from "../utils/constants";
+import { IColumn, IconName, quantativeUnits } from "../utils/constants";
 import DeleteConfirm from "./DeleteConfirm";
 import { helperGetTaxonParentIDArray } from "../utils/helper_functions";
 import { useTaxon } from "../contexts/taxonContext";
@@ -51,7 +51,7 @@ const TableRowRegular = <T extends Record<string, string | number | null>>(props
   const [openEditRow, setOpenEditRow] = React.useState(false);
 
   // Perform any desired action based on the iconName
-  const handleIconClick = (iconName: string) => {
+  const handleIconClick = (iconName: IconName) => {
     console.log("Icon clicked:", iconName);
     if (iconName === "delete") {
       setOpenDeleteConfirm(true);

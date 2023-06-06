@@ -10,7 +10,7 @@ import { Card, Theme, Typography } from "@mui/material";
 import { Collapse } from "@mui/material";
 import { TableCell, TableRow } from "@mui/material";
 //IMPORT Datasets+Constants + helpers
-import { IColumn } from "../utils/constants";
+import { IColumn, IconName } from "../utils/constants";
 import EditRow from "./EditRow";
 
 /*
@@ -39,7 +39,7 @@ const TableRowCollapse = <T extends Record<string, string | number | null>>(prop
   const [openDeleteConfirm, setOpenDeleteConfirm] = React.useState(false);
   const [openEditRow, setOpenEditRow] = React.useState(false);
 
-  const handleIconClick = (iconName: string) => {
+  const handleIconClick = (iconName: IconName) => {
     console.log("Icon clicked:", iconName);
     // Perform any desired action based on the iconName
     if (iconName === "subTable") {

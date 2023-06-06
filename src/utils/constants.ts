@@ -59,4 +59,8 @@ export enum quantativeUnits {
   Kilogram = "kilogram",
 }
 
+//delete confirm message that appears when user deletes a table row
 export const deleteConfirm: string = "Are you sure you want to delete this measurement?";
+
+//icon types for the actions component
+export type IconName = "edit" | "delete" | "subTable" | "check" | "cancel";
