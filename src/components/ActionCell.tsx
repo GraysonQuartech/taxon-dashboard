@@ -55,12 +55,12 @@ interface ActionCellProps {
 const ActionCell = (props: ActionCellProps): JSX.Element => {
   //HOOKS here
   const classes = useStyles();
-  const [arrowDirection, setArrowDirection] = React.useState("down");
+  const [arrowDirection, setArrowDirection] = React.useState(false);
 
   //EVENT Handlers here
   const handleIconClick = (iconName: IconName) => {
     if (iconName === "subTable") {
-      setArrowDirection(arrowDirection === "down" ? "up" : "down");
+      setArrowDirection(!arrowDirection);
     }
     props.onIconClick(iconName);
   };
@@ -90,7 +90,7 @@ const ActionCell = (props: ActionCellProps): JSX.Element => {
       )}
       {props.subTable && (
         <IconButton className={classes.iconClass} onClick={() => handleIconClick("subTable")}>
-          {arrowDirection === "down" ? <KeyboardArrowDownIcon /> : <KeyboardArrowUpIcon />}
+          {arrowDirection === false ? <KeyboardArrowDownIcon /> : <KeyboardArrowUpIcon />}
         </IconButton>
       )}
     </div>
