@@ -39,10 +39,6 @@ const AddRow = <T extends Record<string, string | number | null>>(props: Collaps
   const { contextTaxon } = useTaxon();
   const [textFieldValues, setTextFieldValues] = useState<Record<string, string>>({});
 
-  useEffect(() => {
-    setOpen(open); // Update the state when the prop changes
-  }, [open]);
-
   //Event handlers here
   const handleIconClick = (iconName: IconName) => {
     console.log("Icon clicked:", iconName);
