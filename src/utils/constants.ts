@@ -48,3 +48,19 @@ export const columnsQualitativeOptions: IColumn<IqualitativeOptionData>[] = [
   { field: "option_value", headerName: "Value" },
   { field: "option_desc", headerName: "Description" },
 ];
+
+//quantitative measurement unit options
+export enum quantativeUnits {
+  Millimeter = "millimeter",
+  Centimeter = "centimeter",
+  Meter = "meter",
+  Milligram = "milligram",
+  Gram = "gram",
+  Kilogram = "kilogram",
+}
+
+//delete confirm message that appears when user deletes a table row
+export const deleteConfirm: string = "Are you sure you want to delete this measurement?";
+
+//icon types for the actions component
+export type IconName = "edit" | "delete" | "subTable" | "check" | "cancel";

@@ -2,18 +2,16 @@
 //IMPORT React and Child Components
 import React, { ReactNode, useEffect } from "react";
 import TaxonBubble from "./TaxonBubble";
-import RowActions from "./RowActions";
+import ActionCell from "./ActionCell";
+import DeleteConfirm from "./DeleteConfirm";
 //IMPORT MUI packages
 import { makeStyles } from "@mui/styles";
 import { Card, Theme, Typography } from "@mui/material";
 import { Collapse } from "@mui/material";
 import { TableCell, TableRow } from "@mui/material";
-import IconButton from "@mui/material/IconButton";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 //IMPORT Datasets+Constants + helpers
-import { IColumn } from "../utils/constants";
+import { IColumn, IconName } from "../utils/constants";
+import EditRow from "./EditRow";
 
 /*
  * STYLE definitions for useStyles hook
@@ -21,14 +19,6 @@ import { IColumn } from "../utils/constants";
 const useStyles = makeStyles((globalTheme: Theme) => ({
   tableCellClass: {
     fontWeight: globalTheme.typography.fontWeightMedium + "!important",
-  },
-  iconClass: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    width: "34px",
-    height: "34px",
-    borderRadius: "50%",
   },
 }));
 
@@ -45,24 +35,35 @@ interface CollapsibleRowProps<T> {
 const TableRowCollapse = <T extends Record<string, string | number | null>>(props: CollapsibleRowProps<T>) => {
   //HOOKS
   const [open, setOpen] = React.useState(false);
-  const [openActions, setOpenActions] = React.useState(false);
   const classes = useStyles();
+  const [openDeleteConfirm, setOpenDeleteConfirm] = React.useState(false);
+  const [openEditRow, setOpenEditRow] = React.useState(false);
 
-  // Effect to close the actionsCardClass when openActions becomes false
-  useEffect(() => {
-    const handleClickOutside = () => {
-      setOpenActions(false);
-    };
-    if (openActions) {
-      //document.addEventListener("mousedown", handleClickOutside);
+  const handleIconClick = (iconName: IconName) => {
+    console.log("Icon clicked:", iconName);
+    // Perform any desired action based on the iconName
+    if (iconName === "subTable") {
+      setOpen(!open);
+    } else if (iconName === "delete") {
+      setOpenDeleteConfirm(true);
+    } else if (iconName === "edit") {
+      setOpenEditRow(true);
     }
-    return () => {
-      // document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [openActions]);
+  };
 
   // RETURN ELEMENT
-  return (
+  return openEditRow ? (
+    <>
+      <EditRow
+        key={props.rowID}
+        row={props.row}
+        columns={props.columns}
+        rowID={props.rowID}
+        dense={false}
+        setOpen={setOpenEditRow}
+      />
+    </>
+  ) : (
     <>
       <TableRow key={props.rowID}>
         {props.columns.map((column, index) => (
@@ -74,18 +75,18 @@ const TableRowCollapse = <T extends Record<string, string | number | null>>(prop
             )}
           </TableCell>
         ))}
-        <TableCell>
-          <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
-            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-          </IconButton>
-        </TableCell>
-        <TableCell>
-          <IconButton className={classes.iconClass} onClick={() => setOpenActions(!openActions)}>
-            <MoreHorizIcon />
-          </IconButton>
-          {openActions && <RowActions rowID={props.rowID} />}
+        <TableCell align="right">
+          <ActionCell
+            edit={true}
+            subTable={true}
+            check={false}
+            delete={true}
+            cancel={false}
+            onIconClick={handleIconClick}
+          />
         </TableCell>
       </TableRow>
+      <DeleteConfirm open={openDeleteConfirm} setOpen={setOpenDeleteConfirm} rowID={props.rowID} />
       {open && (
         <TableRow>
           <TableCell className={classes.tableCellClass} colSpan={props.columns.length + 1}>

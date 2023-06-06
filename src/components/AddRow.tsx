@@ -1,15 +1,14 @@
 /** @format */
 //IMPORT React and Child Components
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TaxonBubble from "./TaxonBubble";
+import ActionCell from "./ActionCell";
 //IMPORT packages
 import { makeStyles } from "@mui/styles";
-import { Theme, TextField, Select, MenuItem, IconButton } from "@mui/material";
+import { Theme, TextField, Select, MenuItem } from "@mui/material";
 import { TableCell, TableRow } from "@mui/material";
-import CheckIcon from "@mui/icons-material/Check";
-import ClearIcon from "@mui/icons-material/Clear";
 //IMPORT Datasets+Constants
-import { IColumn, TaxonLevel, classificationLevelArray } from "../utils/constants";
+import { IColumn, IconName, quantativeUnits } from "../utils/constants";
 import { useTaxon } from "../contexts/taxonContext";
 import { helperGetTaxonParentIDArray } from "../utils/helper_functions";
 
@@ -21,20 +20,6 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
   tableCellClass: {
     fontWeight: globalTheme.typography.fontWeightMedium + "!important",
   },
-  iconClass: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    width: "34px",
-    height: "34px",
-    borderRadius: "50%",
-  },
-  checkIconClass: {
-    color: "green",
-  },
-  clearIconClass: {
-    color: "red",
-  },
 }));
 
 /*
@@ -42,14 +27,33 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
  */
 interface CollapsibleRowProps<T> {
   columns: IColumn<T>[];
+  open: boolean;
+  setOpen: (open: boolean) => void;
 }
 
 const AddRow = <T extends Record<string, string | number | null>>(props: CollapsibleRowProps<T>) => {
+  const { open, setOpen } = props;
+
   //Hooks here
   const classes = useStyles();
   const { contextTaxon } = useTaxon();
+  const [textFieldValues, setTextFieldValues] = useState<Record<string, string>>({});
 
-  return (
+  //Event handlers here
+  const handleIconClick = (iconName: IconName) => {
+    console.log("Icon clicked:", iconName);
+    if (iconName === "cancel") {
+      setTextFieldValues({});
+      setOpen(false);
+    }
+    if (iconName === "check") {
+      console.log("saving new measurement: ", textFieldValues);
+      setOpen(false);
+    }
+  };
+
+  //main component
+  return open ? (
     <>
       <TableRow>
         {props.columns.map((column) => (
@@ -63,26 +67,42 @@ const AddRow = <T extends Record<string, string | number | null>>(props: Collaps
                 ))}
               </Select>
             ) : column.field === "unit" ? (
-              <Select size="small" defaultValue="">
-                {/* unit dropdown options */}
+              <Select size="small" defaultValue={Object.values(quantativeUnits)[0]}>
+                {Object.values(quantativeUnits).map((unit) => (
+                  <MenuItem key={unit} value={unit}>
+                    {unit}
+                  </MenuItem>
+                ))}
               </Select>
             ) : (
-              <TextField size="small" placeholder={column.headerName.toString()} />
+              <TextField
+                size="small"
+                placeholder={column.headerName.toString()}
+                value={textFieldValues[column.field as string] || ""}
+                onChange={(e) => {
+                  setTextFieldValues((prevValues) => ({
+                    ...prevValues,
+                    [column.field as string]: e.target.value,
+                  }));
+                }}
+              />
             )}
           </TableCell>
         ))}
         <TableCell>
-          <IconButton>
-            <CheckIcon className={classes.checkIconClass}></CheckIcon>
-          </IconButton>
-          <IconButton>
-            <ClearIcon className={classes.clearIconClass}></ClearIcon>
-          </IconButton>
+          <ActionCell
+            edit={false}
+            subTable={false}
+            check={true}
+            delete={false}
+            cancel={true}
+            onIconClick={handleIconClick}
+          />
         </TableCell>
         <div></div>
       </TableRow>
     </>
-  );
+  ) : null;
 };
 
 export default AddRow;

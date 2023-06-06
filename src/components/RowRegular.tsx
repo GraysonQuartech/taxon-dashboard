@@ -1,16 +1,20 @@
 /** @format */
 /** @format */
 //IMPORT React and Child Components
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import TaxonBubble from "./TaxonBubble";
+import ActionCell from "./ActionCell";
 //IMPORT MUI packages
 import { makeStyles } from "@mui/styles";
-import { IconButton, Theme } from "@mui/material";
+import { IconButton, MenuItem, Select, TextField, Theme } from "@mui/material";
 import { TableCell, TableRow } from "@mui/material";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 //IMPORT Datasets+Constants+Helpers
-import { IColumn } from "../utils/constants";
-import RowActions from "./RowActions";
+import { IColumn, IconName, quantativeUnits } from "../utils/constants";
+import DeleteConfirm from "./DeleteConfirm";
+import { helperGetTaxonParentIDArray } from "../utils/helper_functions";
+import { useTaxon } from "../contexts/taxonContext";
+import EditRow from "./EditRow";
 
 /*
  * STYLE definitions for useStyles hook
@@ -23,14 +27,6 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
   },
   tableCellClassDense: {
     fontWeight: globalTheme.typography.fontWeightMedium + "!important",
-  },
-  iconClass: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    width: "34px",
-    height: "34px",
-    borderRadius: "50%",
   },
 }));
 
@@ -51,42 +47,59 @@ export interface RowProps<T> {
 const TableRowRegular = <T extends Record<string, string | number | null>>(props: RowProps<T>) => {
   //HOOKS
   const classes = useStyles();
-  const [openActions, setOpenActions] = React.useState(false);
+  const [openDeleteConfirm, setOpenDeleteConfirm] = React.useState(false);
+  const [openEditRow, setOpenEditRow] = React.useState(false);
 
-  // Effect to close the actionsCardClass when openActions becomes false
-  useEffect(() => {
-    const handleClickOutside = () => {
-      setOpenActions(false);
-    };
-    if (openActions) {
-      //document.addEventListener("mousedown", handleClickOutside);
+  // Perform any desired action based on the iconName
+  const handleIconClick = (iconName: IconName) => {
+    console.log("Icon clicked:", iconName);
+    if (iconName === "delete") {
+      setOpenDeleteConfirm(true);
     }
-    return () => {
-      // document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [openActions]);
+    if (iconName === "edit") {
+      setOpenEditRow(true);
+    }
+  };
 
   //RETURN ELEMENT
-  return (
-    <TableRow key={props.rowID}>
-      {props.columns.map((column, index) => (
-        <TableCell key={column.field as string}>
-          {column.field === "taxon_id" ? (
-            <TaxonBubble taxonID={props.row[column.field as keyof T] as string} />
-          ) : (
-            <div className={`${props.dense ? classes.tableCellClassDense : classes.tableCellClass}`}>
-              {props.row[column.field as keyof T]}
-            </div>
-          )}
+  return openEditRow ? (
+    <>
+      <EditRow
+        key={props.rowID}
+        row={props.row}
+        columns={props.columns}
+        rowID={props.rowID}
+        dense={props.dense}
+        setOpen={setOpenEditRow}
+      />
+    </>
+  ) : (
+    <>
+      <TableRow key={props.rowID}>
+        {props.columns.map((column, index) => (
+          <TableCell key={column.field as string}>
+            {column.field === "taxon_id" ? (
+              <TaxonBubble taxonID={props.row[column.field as keyof T] as string} />
+            ) : (
+              <div className={`${props.dense ? classes.tableCellClassDense : classes.tableCellClass}`}>
+                {props.row[column.field as keyof T]}
+              </div>
+            )}
+          </TableCell>
+        ))}
+        <TableCell align="right">
+          <ActionCell
+            edit={true}
+            subTable={false}
+            check={false}
+            delete={true}
+            cancel={false}
+            onIconClick={handleIconClick}
+          />
         </TableCell>
-      ))}
-      <TableCell>
-        <IconButton className={classes.iconClass} onClick={() => setOpenActions(!openActions)}>
-          <MoreHorizIcon />
-        </IconButton>
-        {openActions && <RowActions rowID={props.rowID} />}
-      </TableCell>
-    </TableRow>
+      </TableRow>
+      <DeleteConfirm open={openDeleteConfirm} setOpen={setOpenDeleteConfirm} rowID={props.rowID} />
+    </>
   );
 };
 export default TableRowRegular;

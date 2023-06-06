@@ -44,6 +44,12 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
     paddingBottom: globalTheme.spacing(1),
     paddingTop: globalTheme.spacing(2),
   },
+  tableFooterClass: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: globalTheme.spacing(1),
+  },
 }));
 
 /*
@@ -80,6 +86,9 @@ const RegularTable = <T extends Record<string, string | number | null>>(props: T
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+  const handleAddRowClick = () => {
+    setOpenAddNewRow(true);
+  };
 
   const startIndex = page * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
@@ -105,7 +114,7 @@ const RegularTable = <T extends Record<string, string | number | null>>(props: T
                 {props.columns.map((column) => (
                   <TableCell key={column.field as string}>{column.headerName}</TableCell>
                 ))}
-                <TableCell>Actions</TableCell>
+                <TableCell align="right">Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -118,15 +127,11 @@ const RegularTable = <T extends Record<string, string | number | null>>(props: T
                   dense={props.dense}
                 />
               ))}
-              {openAddNewRow && <AddRow columns={props.columns} />}
+              <AddRow open={openAddNewRow} setOpen={setOpenAddNewRow} columns={props.columns} />
             </TableBody>
           </Table>{" "}
         </TableContainer>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "2px" }}>
-          <IconButton onClick={() => setOpenAddNewRow(!openAddNewRow)}>
-            <AddIcon />
-            <Typography className={classes.titleClass}>Add Row</Typography>
-          </IconButton>
+        <div className={classes.tableFooterClass}>
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
@@ -136,6 +141,12 @@ const RegularTable = <T extends Record<string, string | number | null>>(props: T
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
+          {!openAddNewRow && (
+            <IconButton onClick={() => handleAddRowClick()}>
+              <AddIcon />
+              <Typography className={classes.titleClass}>Row</Typography>
+            </IconButton>
+          )}
         </div>
       </Paper>
     </div>
