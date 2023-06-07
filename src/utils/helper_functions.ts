@@ -5,7 +5,7 @@
  */
 
 import dataSet from "../datasets/taxon_data.json";
-import { TaxonLevel, classificationLevelArray } from "./constants";
+import { IColumn, TaxonLevel, classificationLevelArray } from "./constants";
 import { IquantitativeData, taxonInterface, IqualitativeData, IqualitativeOptionData } from "./datagrab";
 
 /*
@@ -277,4 +277,15 @@ export const helperGetTaxonParentIDArray = (taxonData: taxonInterface | null): s
   }
 
   return parentIDArray;
+};
+
+//Called when user saves an row edit they made
+//accepts the row and the measurement id
+export const helperEditMeasurement = <T>(
+  taxon_measurement_id: string | number | null,
+  columns: IColumn<T>[],
+  row: T
+) => {
+  console.log(row);
+  // SUBMIT MEASUREMENT HERE TO DATABASE
 };

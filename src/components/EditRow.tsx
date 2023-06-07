@@ -9,7 +9,7 @@ import { IconButton, MenuItem, Select, TextField, Theme } from "@mui/material";
 import { TableCell, TableRow } from "@mui/material";
 //IMPORT Datasets+Constants+Helpers
 import { IColumn, IconName, quantativeUnits } from "../utils/constants";
-import { helperGetTaxonParentIDArray } from "../utils/helper_functions";
+import { helperEditMeasurement, helperGetTaxonParentIDArray } from "../utils/helper_functions";
 import { useTaxon } from "../contexts/taxonContext";
 
 /*
@@ -43,6 +43,7 @@ const EditRow = <T extends Record<string, string | number | null>>(props: EditRo
     console.log("Icon clicked:", iconName);
     if (iconName === "check") {
       console.log("Saved Edit Row");
+      helperEditMeasurement(props.row.taxon_measurement_id, props.columns, props.row);
       props.setOpen(false);
     }
     if (iconName === "cancel") {
