@@ -36,15 +36,15 @@ export interface IquantitativeDataArray {
 export interface IquantitativeData extends Record<string, string | number | null> {
   taxon_measurement_id: string;
   taxon_id: string;
-  measurement_name: string | null;
-  measurement_desc: string | null;
-  min_value: number | null;
-  max_value: number | null;
-  unit: string | null;
-  create_user: string | null;
-  update_user: string | null;
-  create_timestamp: string | null;
-  update_timestamp: string | null;
+  measurement_name: string;
+  measurement_desc: string;
+  min_value: number;
+  max_value: number;
+  unit: string;
+  create_user: string;
+  update_user: string;
+  create_timestamp: string;
+  update_timestamp: string;
 }
 
 export interface IqualitativeDataArray {

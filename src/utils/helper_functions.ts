@@ -281,11 +281,14 @@ export const helperGetTaxonParentIDArray = (taxonData: taxonInterface | null): s
 
 //Called when user saves an row edit they made
 //accepts the row and the measurement id
-export const helperEditMeasurement = <T>(
-  taxon_measurement_id: string | number | null,
-  columns: IColumn<T>[],
-  row: T
-) => {
+export const helperEditMeasurement = <T>(measurementID: string | number | null, columns: IColumn<T>[], row: T) => {
   console.log(row);
-  // SUBMIT MEASUREMENT HERE TO DATABASE
+
+  for (const measurement of dataSet.xref_taxon_measurement_quantitative) {
+    const rowTyped = row as IquantitativeData;
+    if (measurement.taxon_measurement_id === measurementID) {
+      dataSet.xref_taxon_measurement_quantitative[0] = rowTyped;
+    }
+  }
+  // SUBMIT MEASUREMENT HERE TO JSON
 };
