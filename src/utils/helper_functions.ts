@@ -4,9 +4,11 @@
  * @format
  */
 
-import dataSet from "../datasets/taxon_data.json";
+import data from "../datasets/taxon_data.json";
 import { IColumn, TaxonLevel, classificationLevelArray } from "./constants";
 import { IquantitativeData, taxonInterface, IqualitativeData, IqualitativeOptionData } from "./datagrab";
+
+export let dataSet = data;
 
 /*
  * Accepts a single lk_taxon element, which is
@@ -282,13 +284,24 @@ export const helperGetTaxonParentIDArray = (taxonData: taxonInterface | null): s
 //Called when user saves an row edit they made
 //accepts the row and the measurement id
 export const helperEditMeasurement = <T>(measurementID: string | number | null, columns: IColumn<T>[], row: T) => {
-  console.log(row);
+  //console.log(row);
 
+  let index = 0;
   for (const measurement of dataSet.xref_taxon_measurement_quantitative) {
     const rowTyped = row as IquantitativeData;
     if (measurement.taxon_measurement_id === measurementID) {
-      dataSet.xref_taxon_measurement_quantitative[0] = rowTyped;
+      dataSet.xref_taxon_measurement_quantitative[index] = rowTyped;
+      console.log(dataSet.xref_taxon_measurement_quantitative);
     }
+    index += 1;
   }
-  // SUBMIT MEASUREMENT HERE TO JSON
+
+  index = 0;
+  for (const measurement of dataSet.xref_taxon_measurement_qualitative) {
+    const rowTyped = row as IqualitativeData;
+    if (measurement.taxon_measurement_id === measurementID) {
+      dataSet.xref_taxon_measurement_qualitative[index] = rowTyped;
+    }
+    index += 1;
+  }
 };

@@ -53,12 +53,12 @@ export interface IqualitativeDataArray {
 export interface IqualitativeData extends Record<string, string | number | null> {
   taxon_measurement_id: string;
   taxon_id: string;
-  measurement_name: string | null;
-  measurement_desc: string | null;
-  create_user: string | null;
-  update_user: string | null;
-  create_timestamp: string | null;
-  update_timestamp: string | null;
+  measurement_name: string;
+  measurement_desc: string;
+  create_user: string;
+  update_user: string;
+  create_timestamp: string;
+  update_timestamp: string;
 }
 
 export interface IqualitativeOptionDataArray {
@@ -67,11 +67,11 @@ export interface IqualitativeOptionDataArray {
 export interface IqualitativeOptionData extends Record<string, string | number | null> {
   qualitative_option_id: string;
   taxon_measurement_id: string;
-  option_label: string | null;
+  option_label: string;
   option_value: number;
-  option_desc: string | null;
-  create_user: string | null;
-  update_user: string | null;
-  create_timestamp: string | null;
-  update_timestamp: string | null;
+  option_desc: string;
+  create_user: string;
+  update_user: string;
+  create_timestamp: string;
+  update_timestamp: string;
 }
