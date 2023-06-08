@@ -5,7 +5,13 @@
  * @format
  */
 
-import data from "../datasets/taxon_data.json";
+//interface for entire JSON dataset
+export interface dataSetInterface {
+  lk_taxon: taxonInterfaceArray;
+  xref_taxon_measurement_quantitative: IquantitativeDataArray;
+  xref_taxon_measurement_qualitative: IqualitativeDataArray;
+  xref_taxon_measurement_qualitative_option: IqualitativeOptionDataArray;
+}
 
 export interface taxonInterfaceArray {
   lk_taxon: taxonInterface[];
