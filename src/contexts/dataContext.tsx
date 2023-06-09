@@ -9,13 +9,15 @@ const TAXON_DATASET = "TAXON_DATASET";
 // Define the interface for the data context
 interface IDataContext {
   contextData: dataSetInterface;
-  setContextData: (measurementID: string | number | null, row: any) => void;
+  editRowContextData: (measurementID: string | number | null, row: any) => void;
+  deleteRowContextData: (rowID: string | number | null) => void;
 }
 
 // Create the data context using createContext
 export const DataContext = createContext<IDataContext>({
   contextData: taxon_data as unknown as dataSetInterface, // Set the initial value for contextData using taxon_data
-  setContextData: () => {}, // Define a dummy function for setContextData
+  editRowContextData: () => {}, // Define a dummy function for editRowContextData
+  deleteRowContextData: () => {},
 });
 
 // Custom hook for using the data context
@@ -57,9 +59,10 @@ export const DataContextProvider = (props: PropsWithChildren<{}>) => {
   //const contextData = getTaxonDataset() ?? getDefaultTaxonDataSet();
 
   /*
-   * Call this when updating the dataset
+   * Call this when editing the dataset
+   * Receives the row data and the IDs. made generic to handle any row type
    */
-  const setContextData = (rowID: string | number | null, row: any) => {
+  const editRowContextData = (rowID: string | number | null, row: any) => {
     // Copy the current context data
     const updatedDataSet = { ...contextData };
     console.log("ATTEMPTING SET CONTEXT DATA");
@@ -98,9 +101,33 @@ export const DataContextProvider = (props: PropsWithChildren<{}>) => {
     setTaxonDataset(updatedDataSet);
   };
 
+  /*
+   *Receives row ID and handles deleting that row from the temp data set
+   */
+  const deleteRowContextData = (rowID: string | number | null) => {
+    const updatedDataSet = { ...contextData };
+
+    updatedDataSet.xref_taxon_measurement_quantitative = updatedDataSet.xref_taxon_measurement_quantitative.filter(
+      (measurement) => measurement.taxon_measurement_id !== rowID
+    );
+
+    updatedDataSet.xref_taxon_measurement_qualitative = updatedDataSet.xref_taxon_measurement_qualitative.filter(
+      (measurement) => measurement.taxon_measurement_id !== rowID
+    );
+
+    updatedDataSet.xref_taxon_measurement_qualitative_option =
+      updatedDataSet.xref_taxon_measurement_qualitative_option.filter(
+        (measurement) => measurement.qualitative_option_id !== rowID
+      );
+
+    setTaxonDataset(updatedDataSet);
+  };
+
   // Provide the data context value and render the children components
   return (
-    <DataContext.Provider value={{ contextData: getTaxonDataset() ?? getDefaultTaxonDataSet(), setContextData }}>
+    <DataContext.Provider
+      value={{ contextData: getTaxonDataset() ?? getDefaultTaxonDataSet(), editRowContextData, deleteRowContextData }}
+    >
       {props.children}
     </DataContext.Provider>
   );

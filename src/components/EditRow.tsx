@@ -54,7 +54,7 @@ const EditRow = <T extends Record<string, string | number | null>>(props: EditRo
     console.log("Icon clicked:", iconName);
     if (iconName === "check") {
       const updatedRow = { ...props.row, ...inputValues };
-      dataContext.setContextData(props.rowID, updatedRow);
+      dataContext.editRowContextData(props.rowID, updatedRow);
       props.setOpen(false);
     }
     if (iconName === "cancel") {
