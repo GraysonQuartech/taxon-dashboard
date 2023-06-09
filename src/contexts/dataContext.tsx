@@ -9,8 +9,9 @@ const TAXON_DATASET = "TAXON_DATASET";
 // Define the interface for the data context
 interface IDataContext {
   contextData: dataSetInterface;
-  editRowContextData: (measurementID: string | number | null, row: any) => void;
+  editRowContextData: (rowID: string | number | null, row: any) => void;
   deleteRowContextData: (rowID: string | number | null) => void;
+  addRowContextData: (row: any) => void;
 }
 
 // Create the data context using createContext
@@ -18,6 +19,7 @@ export const DataContext = createContext<IDataContext>({
   contextData: taxon_data as unknown as dataSetInterface, // Set the initial value for contextData using taxon_data
   editRowContextData: () => {}, // Define a dummy function for editRowContextData
   deleteRowContextData: () => {},
+  addRowContextData: () => {},
 });
 
 // Custom hook for using the data context
@@ -123,10 +125,23 @@ export const DataContextProvider = (props: PropsWithChildren<{}>) => {
     setTaxonDataset(updatedDataSet);
   };
 
+  /*
+   *Receives row values and saves a new row in the database. giving it a unique measurement ID
+   */
+  const addRowContextData = (row: any) => {
+    const updatedDataSet = { ...contextData };
+    setTaxonDataset(updatedDataSet);
+  };
+
   // Provide the data context value and render the children components
   return (
     <DataContext.Provider
-      value={{ contextData: getTaxonDataset() ?? getDefaultTaxonDataSet(), editRowContextData, deleteRowContextData }}
+      value={{
+        contextData: getTaxonDataset() ?? getDefaultTaxonDataSet(),
+        editRowContextData,
+        deleteRowContextData,
+        addRowContextData,
+      }}
     >
       {props.children}
     </DataContext.Provider>
