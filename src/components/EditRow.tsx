@@ -58,13 +58,12 @@ const EditRow = <T extends Record<string, string | number | null>>(props: EditRo
       console.log(updatedRow);
       //if not a subtable
       if (!props.dense) {
-        dataContext.setContextData(props.row.taxon_measurement_id, updatedRow);
+        dataContext.setContextData(props.rowID, updatedRow);
       }
       //if a subtable. ID is handled differently
       else {
+        dataContext.setContextData(props.row.qualitative_option_id, updatedRow);
       }
-      //
-
       props.setOpen(false);
     }
     if (iconName === "cancel") {

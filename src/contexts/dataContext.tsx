@@ -2,7 +2,7 @@
 
 import React, { useEffect, PropsWithChildren, createContext, useContext, useMemo } from "react";
 import taxon_data from "../datasets/taxon_data.json";
-import { IqualitativeData, IquantitativeData, dataSetInterface } from "../utils/datagrab";
+import { IqualitativeData, IqualitativeOptionData, IquantitativeData, dataSetInterface } from "../utils/datagrab";
 
 const TAXON_DATASET = "TAXON_DATASET";
 
@@ -59,14 +59,14 @@ export const DataContextProvider = (props: PropsWithChildren<{}>) => {
   /*
    * Call this when updating the dataset
    */
-  const setContextData = (measurementID: string | number | null, row: any) => {
+  const setContextData = (rowID: string | number | null, row: any) => {
     // Copy the current context data
     const updatedDataSet = { ...contextData };
     console.log("ATTEMPTING SET CONTEXT DATA");
     let index = 0;
     for (const measurement of updatedDataSet.xref_taxon_measurement_quantitative) {
       const rowTyped = row as IquantitativeData;
-      if (measurement.taxon_measurement_id === measurementID) {
+      if (measurement.taxon_measurement_id === rowID) {
         rowTyped.taxon_id = rowTyped.taxon_id[0];
         updatedDataSet.xref_taxon_measurement_quantitative[index] = rowTyped;
         console.log("Context data set to this row: ");
@@ -78,9 +78,18 @@ export const DataContextProvider = (props: PropsWithChildren<{}>) => {
     index = 0;
     for (const measurement of updatedDataSet.xref_taxon_measurement_qualitative) {
       const rowTyped = row as IqualitativeData;
-      if (measurement.taxon_measurement_id === measurementID) {
+      if (measurement.taxon_measurement_id === rowID) {
         rowTyped.taxon_id = rowTyped.taxon_id[0];
         updatedDataSet.xref_taxon_measurement_qualitative[index] = rowTyped;
+      }
+      index += 1;
+    }
+
+    index = 0;
+    for (const option of updatedDataSet.xref_taxon_measurement_qualitative_option) {
+      const rowTyped = row as IqualitativeOptionData;
+      if (option.qualitative_option_id === rowID) {
+        updatedDataSet.xref_taxon_measurement_qualitative_option[index] = rowTyped;
       }
       index += 1;
     }
