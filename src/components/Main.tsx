@@ -98,10 +98,6 @@ const Main = () => {
   const classes = useStyles();
   const dataContext = useContext(DataContext);
 
-  // Check the type and properties of dropDownTaxons array
-  console.log("Grabbing qualitative and quantitative measurements and passing down from main");
-  console.log(dataContext.contextData); // Check if it is an array
-  // ... Check other properties and methods as needed
   // RETURN ELEMENT HERE
   return (
     <div>

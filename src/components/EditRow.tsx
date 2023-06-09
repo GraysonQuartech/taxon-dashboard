@@ -53,17 +53,8 @@ const EditRow = <T extends Record<string, string | number | null>>(props: EditRo
   const handleIconClick = (iconName: IconName) => {
     console.log("Icon clicked:", iconName);
     if (iconName === "check") {
-      console.log("Saved Edit Row");
       const updatedRow = { ...props.row, ...inputValues };
-      console.log(updatedRow);
-      //if not a subtable
-      if (!props.dense) {
-        dataContext.setContextData(props.rowID, updatedRow);
-      }
-      //if a subtable. ID is handled differently
-      else {
-        dataContext.setContextData(props.row.qualitative_option_id, updatedRow);
-      }
+      dataContext.setContextData(props.rowID, updatedRow);
       props.setOpen(false);
     }
     if (iconName === "cancel") {
