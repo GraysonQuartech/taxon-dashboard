@@ -1,16 +1,17 @@
 /** @format */
 //IMPORT React and Child Components
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import TaxonBubble from "./TaxonBubble";
 import ActionCell from "./ActionCell";
 //IMPORT MUI packages
 import { makeStyles } from "@mui/styles";
-import { IconButton, MenuItem, Select, TextField, Theme } from "@mui/material";
+import { MenuItem, Select, TextField, Theme } from "@mui/material";
 import { TableCell, TableRow } from "@mui/material";
 //IMPORT Datasets+Constants+Helpers
 import { IColumn, IconName, quantativeUnits } from "../utils/constants";
-import { helperEditMeasurement, helperGetTaxonParentIDArray } from "../utils/helper_functions";
+import { helperGetTaxonParentIDArray } from "../utils/helper_functions";
 import { useTaxon } from "../contexts/taxonContext";
+import { DataContext } from "../contexts/dataContext";
 
 /*
  * STYLE definitions for useStyles hook
@@ -37,6 +38,7 @@ const EditRow = <T extends Record<string, string | number | null>>(props: EditRo
   const classes = useStyles();
   const [inputValues, setInputValues] = useState<Record<string, (string | null)[]>>({});
   const { contextTaxon } = useTaxon();
+  const dataContext = useContext(DataContext);
 
   useEffect(() => {
     // Set initial text field values based on props.row
@@ -53,7 +55,16 @@ const EditRow = <T extends Record<string, string | number | null>>(props: EditRo
     if (iconName === "check") {
       console.log("Saved Edit Row");
       const updatedRow = { ...props.row, ...inputValues };
-      helperEditMeasurement(props.row.taxon_measurement_id, props.columns, updatedRow);
+      console.log(updatedRow);
+      //if not a subtable
+      if (!props.dense) {
+        dataContext.setContextData(props.row.taxon_measurement_id, updatedRow);
+      }
+      //if a subtable. ID is handled differently
+      else {
+      }
+      //
+
       props.setOpen(false);
     }
     if (iconName === "cancel") {

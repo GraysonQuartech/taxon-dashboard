@@ -8,7 +8,7 @@ import TextField from "@mui/material/TextField";
 import { makeStyles } from "@mui/styles";
 import { Theme } from "@mui/material";
 //IMPORT Datasets+Constants
-import { taxonInterface } from "../utils/datagrab";
+import { taxonInterface, taxonInterfaceArray } from "../utils/datagrab";
 import { classificationLevelArray } from "../utils/constants";
 //IMPORT helper functions
 import { helperGetClassificationLevel } from "../utils/helper_functions";
@@ -35,7 +35,7 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
  *      All dropDownTaxon options within dataset
  */
 interface FilterProps {
-  dropDownTaxons: taxonInterface[];
+  dropDownTaxons: taxonInterfaceArray;
 }
 
 /*

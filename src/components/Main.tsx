@@ -1,7 +1,7 @@
 /** @format */
 
 // IMPORT React packages and components
-import React from "react";
+import React, { useContext } from "react";
 import { useTaxon } from "../contexts/taxonContext";
 import FilterRow from "./FilterRow";
 import TaxonDisplay from "./TaxonDisplay";
@@ -18,9 +18,9 @@ import {
   helperGetQualitativeOptions,
 } from "../utils/helper_functions";
 import { columnsQuantitative, columnsQualitative, columnsQualitativeOptions } from "../utils/constants";
-import dataSet from "../datasets/taxon_data.json";
 import { IqualitativeData, IquantitativeData, IqualitativeOptionData } from "../utils/datagrab";
 import gov3_bc_logo from "../images/gov3_bc_logo.png";
+import { DataContext } from "../contexts/dataContext";
 
 /*
  * STYLE definitions for useStyles hook
@@ -96,16 +96,12 @@ const Main = () => {
   // HOOKS here
   const { contextTaxon } = useTaxon();
   const classes = useStyles();
+  const dataContext = useContext(DataContext);
 
-  //Grabbing quantitative data
-  const quantitativeDataArray = helperGetQuantitativeDataArray(
-    contextTaxon,
-    dataSet.xref_taxon_measurement_quantitative
-  );
-
-  //Grabbing qualitative data
-  const qualitativeDataArray = helperGetQualitativeDataArray(contextTaxon, dataSet.xref_taxon_measurement_qualitative);
-
+  // Check the type and properties of dropDownTaxons array
+  console.log("Grabbing qualitative and quantitative measurements and passing down from main");
+  console.log(dataContext.contextData); // Check if it is an array
+  // ... Check other properties and methods as needed
   // RETURN ELEMENT HERE
   return (
     <div>
@@ -118,7 +114,7 @@ const Main = () => {
           <Typography className={classes.titleClass} variant="h6">
             Taxon Selection
           </Typography>
-          <SearchAll dropDownTaxons={dataSet.lk_taxon} />
+          <SearchAll dropDownTaxons={dataContext.contextData.lk_taxon} />
         </Grid>
         <FilterRow />
       </div>
@@ -127,7 +123,10 @@ const Main = () => {
           <div className={classes.tableEnabled}>
             <TableRegular<IquantitativeData>
               tableName={"Quantative Measurements"}
-              rows={quantitativeDataArray}
+              rows={helperGetQuantitativeDataArray(
+                contextTaxon,
+                dataContext.contextData.xref_taxon_measurement_quantitative
+              )}
               columns={columnsQuantitative}
               getRowID={(row: IquantitativeData) => row.taxon_measurement_id}
               dense={false}
@@ -136,14 +135,17 @@ const Main = () => {
           <div className={classes.tableEnabled}>
             <TableCollapse<IqualitativeData>
               tableName={"Qualitative Measurements"}
-              rows={qualitativeDataArray}
+              rows={helperGetQualitativeDataArray(
+                contextTaxon,
+                dataContext.contextData.xref_taxon_measurement_qualitative
+              )}
               columns={columnsQualitative}
               getRowID={(row: IqualitativeData) => row.taxon_measurement_id}
               renderSubTable={(row: IqualitativeData) => {
                 //Grabbing qualitative data
                 const qualitativeOptionDataArray = helperGetQualitativeOptions(
                   row.taxon_measurement_id,
-                  dataSet.xref_taxon_measurement_qualitative_option
+                  dataContext.contextData.xref_taxon_measurement_qualitative_option
                 );
                 return (
                   <div className={classes.tableEnabled}>

@@ -13,9 +13,8 @@ export interface dataSetInterface {
   xref_taxon_measurement_qualitative_option: IqualitativeOptionDataArray;
 }
 
-export interface taxonInterfaceArray {
-  lk_taxon: taxonInterface[];
-}
+export interface taxonInterfaceArray extends Array<taxonInterface> {}
+
 export interface taxonInterface {
   taxon_id: string;
   kingdom_id: string | null;
@@ -36,9 +35,8 @@ export interface taxonInterface {
   update_timestamp: string;
 }
 
-export interface IquantitativeDataArray {
-  xref_taxon_measurement_quantitative: IquantitativeData[];
-}
+export interface IquantitativeDataArray extends Array<IquantitativeData> {}
+
 export interface IquantitativeData extends Record<string, string | number | null> {
   taxon_measurement_id: string;
   taxon_id: string;
@@ -53,9 +51,8 @@ export interface IquantitativeData extends Record<string, string | number | null
   update_timestamp: string;
 }
 
-export interface IqualitativeDataArray {
-  xref_taxon_measurement_qualitative: IqualitativeData[];
-}
+export interface IqualitativeDataArray extends Array<IqualitativeData> {}
+
 export interface IqualitativeData extends Record<string, string | number | null> {
   taxon_measurement_id: string;
   taxon_id: string;
@@ -67,9 +64,8 @@ export interface IqualitativeData extends Record<string, string | number | null>
   update_timestamp: string;
 }
 
-export interface IqualitativeOptionDataArray {
-  xref_taxon_measurement_qualitative_option: IqualitativeOptionData[];
-}
+export interface IqualitativeOptionDataArray extends Array<IqualitativeOptionData> {}
+
 export interface IqualitativeOptionData extends Record<string, string | number | null> {
   qualitative_option_id: string;
   taxon_measurement_id: string;

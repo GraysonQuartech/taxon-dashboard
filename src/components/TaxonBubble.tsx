@@ -1,6 +1,7 @@
 /** @format */
 //IMPORT REACT packages
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { DataContext } from "../contexts/dataContext";
 //IMPORT MUI packages
 import { Theme } from "@mui/material";
 import { makeStyles } from "@mui/styles";
@@ -41,15 +42,16 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
  */
 const TaxonBubble = (props: TaxonBubbleProps): JSX.Element => {
   const classes = useStyles();
-  const [color, setColor] = useState(helperGetColorFromID(props.taxonID));
+  const dataContext = useContext(DataContext);
+  const [color, setColor] = useState(helperGetColorFromID(props.taxonID, dataContext.contextData));
 
   useEffect(() => {
-    setColor(helperGetColorFromID(props.taxonID));
+    setColor(helperGetColorFromID(props.taxonID, dataContext.contextData));
   }, [props.taxonID]);
 
   return (
     <div className={classes.bubbleClass} style={{ backgroundColor: color }}>
-      {helperGetLatinNameFromID(props.taxonID)}
+      {helperGetLatinNameFromID(props.taxonID, dataContext.contextData)}
     </div>
   );
 };
