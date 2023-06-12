@@ -79,8 +79,7 @@ const AddRow = <T extends Record<string, string | number | null>>(props: AddRowP
             {column.field === "taxon_id" ? (
               <Select
                 size="small"
-                defaultValue={helperGetTaxonParentIDArray(contextTaxon).slice(-1)[0]}
-                value={formValues[column.field as string] || ""}
+                value={formValues[column.field as string] || helperGetTaxonParentIDArray(contextTaxon).slice(-1)[0]}
                 onChange={(e) => handleChange(column.field as string, e.target.value)}
               >
                 {helperGetTaxonParentIDArray(contextTaxon).map((taxonID) => (
@@ -92,8 +91,7 @@ const AddRow = <T extends Record<string, string | number | null>>(props: AddRowP
             ) : column.field === "unit" ? (
               <Select
                 size="small"
-                defaultValue={Object.values(quantativeUnits)[0]}
-                value={formValues[column.field as string] || ""}
+                value={formValues[column.field as string] || Object.values(quantativeUnits)[0]}
                 onChange={(e) => handleChange(column.field as string, e.target.value)}
               >
                 {Object.values(quantativeUnits).map((unit) => (
