@@ -4,7 +4,7 @@ import React, { ReactNode } from "react";
 import RowCollapse from "./RowCollapse";
 import TaxonBubble from "./TaxonBubble";
 //IMPORT MUI packages
-import { Grid, IconButton, Paper, TablePagination, Theme } from "@mui/material";
+import { IconButton, Paper, TablePagination, Theme } from "@mui/material";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import Typography from "@mui/material/Typography";
@@ -115,6 +115,7 @@ const QualitativeData = <T extends Record<string, string | number | null>>(props
             <TableBody>
               {props.rows.slice(startIndex, endIndex).map((row) => (
                 <RowCollapse
+                  key={props.getRowID(row)}
                   row={row}
                   columns={props.columns}
                   rowID={props.getRowID(row)}
