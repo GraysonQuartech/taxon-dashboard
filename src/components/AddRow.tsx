@@ -37,7 +37,7 @@ const AddRow = <T extends Record<string, string | number | null>>(props: AddRowP
   //Hooks here
   const classes = useStyles();
   const { contextTaxon } = useTaxon();
-  const [textFieldValues, setTextFieldValues] = useState<Record<string, string>>({});
+  const [formValues, setFormValues] = useState<Record<string, string>>({});
 
   //closes the add row popup when a new taxon is selected
   useEffect(() => {
@@ -48,19 +48,26 @@ const AddRow = <T extends Record<string, string | number | null>>(props: AddRowP
   const handleIconClick = (iconName: IconName) => {
     console.log("Icon clicked:", iconName);
     if (iconName === "cancel") {
-      setTextFieldValues({});
+      setFormValues({});
       setOpen(false);
     }
     if (iconName === "check") {
       const addRowValues: Partial<T> = {};
       let index = 0;
       for (const column of props.columns) {
-        addRowValues[column.field as keyof T] = textFieldValues[column.field as string] as T[keyof T];
+        addRowValues[column.field as keyof T] = formValues[column.field as string] as T[keyof T];
         index += 1;
       }
       console.log(addRowValues);
       setOpen(false);
     }
+  };
+
+  const handleChange = (fieldName: string, value: string) => {
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      [fieldName]: value,
+    }));
   };
 
   //main component
@@ -70,7 +77,12 @@ const AddRow = <T extends Record<string, string | number | null>>(props: AddRowP
         {props.columns.map((column) => (
           <TableCell key={column.field as string}>
             {column.field === "taxon_id" ? (
-              <Select size="small" defaultValue={helperGetTaxonParentIDArray(contextTaxon).slice(-1)[0]}>
+              <Select
+                size="small"
+                defaultValue={helperGetTaxonParentIDArray(contextTaxon).slice(-1)[0]}
+                value={formValues[column.field as string] || ""}
+                onChange={(e) => handleChange(column.field as string, e.target.value)}
+              >
                 {helperGetTaxonParentIDArray(contextTaxon).map((taxonID) => (
                   <MenuItem key={taxonID} value={taxonID}>
                     <TaxonBubble taxonID={taxonID} />
@@ -78,7 +90,12 @@ const AddRow = <T extends Record<string, string | number | null>>(props: AddRowP
                 ))}
               </Select>
             ) : column.field === "unit" ? (
-              <Select size="small" defaultValue={Object.values(quantativeUnits)[0]}>
+              <Select
+                size="small"
+                defaultValue={Object.values(quantativeUnits)[0]}
+                value={formValues[column.field as string] || ""}
+                onChange={(e) => handleChange(column.field as string, e.target.value)}
+              >
                 {Object.values(quantativeUnits).map((unit) => (
                   <MenuItem key={unit} value={unit}>
                     {unit}
@@ -89,13 +106,8 @@ const AddRow = <T extends Record<string, string | number | null>>(props: AddRowP
               <TextField
                 size="small"
                 placeholder={column.headerName.toString()}
-                value={textFieldValues[column.field as string] || ""}
-                onChange={(e) => {
-                  setTextFieldValues((prevValues) => ({
-                    ...prevValues,
-                    [column.field as string]: e.target.value,
-                  }));
-                }}
+                value={formValues[column.field as string] || ""}
+                onChange={(e) => handleChange(column.field as string, e.target.value)}
               />
             )}
           </TableCell>
