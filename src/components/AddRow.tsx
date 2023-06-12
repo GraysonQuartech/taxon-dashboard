@@ -69,10 +69,17 @@ const AddRow = <T extends Record<string, string | number | null>>(props: AddRowP
         addRowValues[column.field as keyof T] = formValues[column.field as string] as T[keyof T];
         index += 1;
       }
-      //console.log(addRowValues);
+
       dataContext.addRowContextData(addRowValues, props.tableType);
 
       setOpen(false);
+      //reset state variables values
+      setFormValues({});
+      setFormValues((prevValues) => ({
+        ...prevValues,
+        taxon_id: helperGetTaxonParentIDArray(contextTaxon).slice(-1)[0],
+        unit: Object.values(quantativeUnits)[0],
+      }));
     }
   };
 
