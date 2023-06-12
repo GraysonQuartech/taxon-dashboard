@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useEffect, PropsWithChildren, createContext, useContext, useMemo } from "react";
+import React, { useEffect, PropsWithChildren, createContext, useContext, useMemo, useState } from "react";
 import taxon_data from "../datasets/taxon_data.json";
 import { IqualitativeData, IqualitativeOptionData, IquantitativeData, dataSetInterface } from "../utils/datagrab";
 
@@ -27,55 +27,46 @@ export const DataContext = createContext<IDataContext>({
 
 // Data context provider component
 export const DataContextProvider = (props: PropsWithChildren<{}>) => {
-  useEffect(() => {
-    console.log("context use effect");
+  const [dataset, setDataset] = useState<dataSetInterface>(taxon_data as unknown as dataSetInterface);
 
+  useEffect(() => {
     const taxonData = getTaxonDataset();
 
     if (!taxonData) {
-      setTaxonDataset(getDefaultTaxonDataSet()); // Set the initial dataset to taxon_data if it doesn't exist in localStorage
+      setTaxonDataset(getDefaultTaxonDataSet());
     }
-  });
+  }, []);
 
   const getTaxonDataset = (): dataSetInterface | null => {
-    const temp = localStorage.getItem(TAXON_DATASET);
-    return temp ? JSON.parse(temp) : null;
+    return dataset;
   };
 
   const getDefaultTaxonDataSet = (): dataSetInterface => {
     return taxon_data as unknown as dataSetInterface;
   };
 
-  // Save the dataset to localStorage
   const setTaxonDataset = (taxonData: dataSetInterface) => {
     localStorage.setItem(TAXON_DATASET, JSON.stringify(taxonData));
-    console.log("Setting local storage to: ");
-    console.log(taxonData.xref_taxon_measurement_quantitative);
+    setDataset(taxonData);
   };
 
   const contextData = useMemo(() => {
-    console.log("useMemo()");
     return getTaxonDataset() ?? getDefaultTaxonDataSet();
-  }, [localStorage]);
-
-  //const contextData = getTaxonDataset() ?? getDefaultTaxonDataSet();
+  }, [dataset]);
 
   /*
    * Call this when editing the dataset
    * Receives the row data and the IDs. made generic to handle any row type
    */
   const editRowContextData = (rowID: string | number | null, row: any) => {
-    // Copy the current context data
     const updatedDataSet = { ...contextData };
-    console.log("ATTEMPTING SET CONTEXT DATA");
+
     let index = 0;
     for (const measurement of updatedDataSet.xref_taxon_measurement_quantitative) {
       const rowTyped = row as IquantitativeData;
       if (measurement.taxon_measurement_id === rowID) {
         rowTyped.taxon_id = rowTyped.taxon_id[0];
         updatedDataSet.xref_taxon_measurement_quantitative[index] = rowTyped;
-        console.log("Context data set to this row: ");
-        console.log(rowTyped);
       }
       index += 1;
     }
@@ -99,12 +90,12 @@ export const DataContextProvider = (props: PropsWithChildren<{}>) => {
       index += 1;
     }
 
-    // Update the current context data by saving the updated dataset to localStorage
     setTaxonDataset(updatedDataSet);
   };
 
   /*
-   *Receives row ID and handles deleting that row from the temp data set
+   * Call this when deleteing a row in the dataset
+   * Receives the row  IDs.
    */
   const deleteRowContextData = (rowID: string | number | null) => {
     const updatedDataSet = { ...contextData };
@@ -125,19 +116,18 @@ export const DataContextProvider = (props: PropsWithChildren<{}>) => {
     setTaxonDataset(updatedDataSet);
   };
 
-  /*
-   *Receives row values and saves a new row in the database. giving it a unique measurement ID
-   */
   const addRowContextData = (row: any) => {
     const updatedDataSet = { ...contextData };
+    // Add your logic to add the new row to the dataset
+    // ...
+
     setTaxonDataset(updatedDataSet);
   };
 
-  // Provide the data context value and render the children components
   return (
     <DataContext.Provider
       value={{
-        contextData: getTaxonDataset() ?? getDefaultTaxonDataSet(),
+        contextData,
         editRowContextData,
         deleteRowContextData,
         addRowContextData,
