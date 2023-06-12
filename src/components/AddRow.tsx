@@ -39,6 +39,11 @@ const AddRow = <T extends Record<string, string | number | null>>(props: AddRowP
   const { contextTaxon } = useTaxon();
   const [textFieldValues, setTextFieldValues] = useState<Record<string, string>>({});
 
+  //closes the add row popup when a new taxon is selected
+  useEffect(() => {
+    setOpen(false);
+  }, [contextTaxon]);
+
   //Event handlers here
   const handleIconClick = (iconName: IconName) => {
     console.log("Icon clicked:", iconName);
