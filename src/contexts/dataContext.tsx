@@ -3,6 +3,7 @@
 import React, { useEffect, PropsWithChildren, createContext, useContext, useMemo, useState } from "react";
 import taxon_data from "../datasets/taxon_data.json";
 import { IqualitativeData, IqualitativeOptionData, IquantitativeData, dataSetInterface } from "../utils/datagrab";
+import { TableType } from "../utils/constants";
 
 const TAXON_DATASET = "TAXON_DATASET";
 
@@ -11,7 +12,7 @@ interface IDataContext {
   contextData: dataSetInterface;
   editRowContextData: (rowID: string | number | null, row: any) => void;
   deleteRowContextData: (rowID: string | number | null) => void;
-  addRowContextData: (row: any) => void;
+  addRowContextData: (row: any, tableType: TableType) => void;
 }
 
 // Create the data context using createContext
@@ -116,10 +117,74 @@ export const DataContextProvider = (props: PropsWithChildren<{}>) => {
     setTaxonDataset(updatedDataSet);
   };
 
-  const addRowContextData = (row: any) => {
+  /*
+   *Called when user adding row to the dataset
+   */
+  const addRowContextData = (row: any, tableType: TableType) => {
+    //temporary ID generator
+    function generateRandomId(): string {
+      const characters = "abcdefghijklmnopqrstuvwxyz0123456789";
+      let randomId = "";
+
+      for (let i = 0; i < 10; i++) {
+        const randomIndex = Math.floor(Math.random() * characters.length);
+        randomId += characters[randomIndex];
+      }
+
+      return randomId;
+    }
+    /////temp
+
     const updatedDataSet = { ...contextData };
-    // Add your logic to add the new row to the dataset
-    // ...
+    console.log(row);
+
+    if (tableType === "QuantitativeTable") {
+      const quantitativeData: IquantitativeData = {
+        taxon_measurement_id: generateRandomId(),
+        taxon_id: row.taxon_id,
+        measurement_name: row.measurement_name,
+        measurement_desc: row.measurement_desc,
+        min_value: row.min_value,
+        max_value: row.max_value,
+        unit: row.unit,
+        create_user: "Grayson",
+        update_user: "Grayson",
+        create_timestamp: "2023-03-10T00:00:16.661Z",
+        update_timestamp: "2023-03-10T00:00:16.661Z",
+      };
+      updatedDataSet.xref_taxon_measurement_quantitative.push(quantitativeData);
+    }
+
+    if (tableType === "QualitativeTable") {
+      const qualitativeData: IqualitativeData = {
+        taxon_measurement_id: generateRandomId(),
+        taxon_id: row.taxon_id,
+        measurement_name: row.measurement_name,
+        measurement_desc: row.measurement_desc,
+        create_user: "Grayson",
+        update_user: "Grayson",
+        create_timestamp: "2023-03-10T20:51:27.708Z",
+        update_timestamp: "2023-03-10T20:51:27.708Z",
+      };
+      updatedDataSet.xref_taxon_measurement_qualitative.push(qualitativeData);
+    }
+
+    if (tableType === "QualitativeOptionTable") {
+      /*
+    const qualitativeOptionData: IqualitativeOptionData = {
+
+        qualitative_option_id: 
+        taxon_measurement_id: 
+        option_label: 
+        option_value:
+        option_desc: ,
+        create_user:
+        update_user: 
+        create_timestamp: 
+        update_timestamp: 
+    },
+    */
+    }
 
     setTaxonDataset(updatedDataSet);
   };

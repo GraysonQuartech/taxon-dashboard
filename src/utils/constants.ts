@@ -25,6 +25,8 @@ export interface IColumn<T> {
   headerName: string;
 }
 
+export type TableType = "QualitativeTable" | "QuantitativeTable" | "QualitativeOptionTable";
+
 //quantitative data columns
 export const columnsQuantitative: IColumn<IquantitativeData>[] = [
   { field: "taxon_id", headerName: "Taxon" },

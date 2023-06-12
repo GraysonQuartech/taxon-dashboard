@@ -1,6 +1,6 @@
 /** @format */
 //IMPORT React and Child Components
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import TaxonBubble from "./TaxonBubble";
 import ActionCell from "./ActionCell";
 //IMPORT packages
@@ -8,9 +8,10 @@ import { makeStyles } from "@mui/styles";
 import { Theme, TextField, Select, MenuItem } from "@mui/material";
 import { TableCell, TableRow } from "@mui/material";
 //IMPORT Datasets+Constants
-import { IColumn, IconName, quantativeUnits } from "../utils/constants";
+import { IColumn, IconName, TableType, quantativeUnits } from "../utils/constants";
 import { useTaxon } from "../contexts/taxonContext";
 import { helperGetTaxonParentIDArray } from "../utils/helper_functions";
+import { DataContext } from "../contexts/dataContext";
 
 /*
  * STYLE definitions for useStyles hook
@@ -29,6 +30,7 @@ interface AddRowProps<T> {
   columns: IColumn<T>[];
   open: boolean;
   setOpen: (open: boolean) => void;
+  tableType: TableType;
 }
 
 const AddRow = <T extends Record<string, string | number | null>>(props: AddRowProps<T>) => {
@@ -38,6 +40,15 @@ const AddRow = <T extends Record<string, string | number | null>>(props: AddRowP
   const classes = useStyles();
   const { contextTaxon } = useTaxon();
   const [formValues, setFormValues] = useState<Record<string, string>>({});
+  const dataContext = useContext(DataContext);
+
+  useEffect(() => {
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      taxon_id: helperGetTaxonParentIDArray(contextTaxon).slice(-1)[0],
+      unit: Object.values(quantativeUnits)[0],
+    }));
+  }, [contextTaxon, quantativeUnits]);
 
   //closes the add row popup when a new taxon is selected
   useEffect(() => {
@@ -58,7 +69,9 @@ const AddRow = <T extends Record<string, string | number | null>>(props: AddRowP
         addRowValues[column.field as keyof T] = formValues[column.field as string] as T[keyof T];
         index += 1;
       }
-      console.log(addRowValues);
+      //console.log(addRowValues);
+      dataContext.addRowContextData(addRowValues, props.tableType);
+
       setOpen(false);
     }
   };

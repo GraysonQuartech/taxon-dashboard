@@ -118,6 +118,7 @@ const Main = () => {
         <Grid columns={2} className={classes.gridClass}>
           <div className={classes.tableEnabled}>
             <TableRegular<IquantitativeData>
+              tableType={"QuantitativeTable"}
               tableName={"Quantative Measurements"}
               rows={helperGetQuantitativeDataArray(
                 contextTaxon,
@@ -130,6 +131,7 @@ const Main = () => {
           </div>
           <div className={classes.tableEnabled}>
             <TableCollapse<IqualitativeData>
+              tableType={"QualitativeTable"}
               tableName={"Qualitative Measurements"}
               rows={helperGetQualitativeDataArray(
                 contextTaxon,
@@ -146,6 +148,7 @@ const Main = () => {
                 return (
                   <div className={classes.tableEnabled}>
                     <TableRegular<IqualitativeOptionData>
+                      tableType={"QualitativeOptionTable"}
                       tableName={"Options"}
                       rows={qualitativeOptionDataArray}
                       columns={columnsQualitativeOptions}

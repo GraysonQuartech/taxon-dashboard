@@ -10,7 +10,7 @@ import { makeStyles } from "@mui/styles";
 import Typography from "@mui/material/Typography";
 import AddIcon from "@mui/icons-material/Add";
 //IMPORT Datasets+Constants
-import { IColumn } from "../utils/constants";
+import { IColumn, TableType } from "../utils/constants";
 import { useTaxon } from "../contexts/taxonContext";
 import AddRow from "./AddRow";
 //IMPORT helper functions
@@ -56,6 +56,7 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
  *Generic props. table rows and columns
  */
 export interface TableProps<T> {
+  tableType: TableType;
   tableName: string;
   rows: T[];
   columns: IColumn<T>[];
@@ -127,7 +128,12 @@ const RegularTable = <T extends Record<string, string | number | null>>(props: T
                   dense={props.dense}
                 />
               ))}
-              <AddRow open={openAddNewRow} setOpen={setOpenAddNewRow} columns={props.columns} />
+              <AddRow
+                open={openAddNewRow}
+                setOpen={setOpenAddNewRow}
+                columns={props.columns}
+                tableType={props.tableType}
+              />
             </TableBody>
           </Table>{" "}
         </TableContainer>
