@@ -25,13 +25,13 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
 /*
  *Parent components: table regular and table collapse
  */
-interface CollapsibleRowProps<T> {
+interface AddRowProps<T> {
   columns: IColumn<T>[];
   open: boolean;
   setOpen: (open: boolean) => void;
 }
 
-const AddRow = <T extends Record<string, string | number | null>>(props: CollapsibleRowProps<T>) => {
+const AddRow = <T extends Record<string, string | number | null>>(props: AddRowProps<T>) => {
   const { open, setOpen } = props;
 
   //Hooks here
@@ -47,7 +47,13 @@ const AddRow = <T extends Record<string, string | number | null>>(props: Collaps
       setOpen(false);
     }
     if (iconName === "check") {
-      console.log("saving new measurement: ", textFieldValues);
+      const addRowValues: Partial<T> = {};
+      let index = 0;
+      for (const column of props.columns) {
+        addRowValues[column.field as keyof T] = textFieldValues[column.field as string] as T[keyof T];
+        index += 1;
+      }
+      console.log(addRowValues);
       setOpen(false);
     }
   };
@@ -99,7 +105,6 @@ const AddRow = <T extends Record<string, string | number | null>>(props: Collaps
             onIconClick={handleIconClick}
           />
         </TableCell>
-        <div></div>
       </TableRow>
     </>
   ) : null;

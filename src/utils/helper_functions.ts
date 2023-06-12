@@ -154,7 +154,6 @@ export const helperGetQuantitativeDataArray = (
   contextTaxon: taxonInterface | null,
   data: IquantitativeDataArray
 ): IquantitativeDataArray => {
-  console.log("Getting quantitative data: ");
   let quantitativeDataArray: IquantitativeData[] = [];
   if (contextTaxon) {
     for (const quantitativeData of data) {
@@ -179,7 +178,7 @@ export const helperGetQuantitativeDataArray = (
       }
     }
   }
-  console.log(quantitativeDataArray);
+
   return quantitativeDataArray;
 };
 
