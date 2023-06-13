@@ -31,6 +31,7 @@ interface AddRowProps<T> {
   open: boolean;
   setOpen: (open: boolean) => void;
   tableType: TableType;
+  subTableID: string;
 }
 
 const AddRow = <T extends Record<string, string | number | null>>(props: AddRowProps<T>) => {
@@ -70,7 +71,7 @@ const AddRow = <T extends Record<string, string | number | null>>(props: AddRowP
         index += 1;
       }
 
-      dataContext.addRowContextData(addRowValues, props.tableType);
+      dataContext.addRowContextData(addRowValues, props.tableType, props.subTableID);
 
       setOpen(false);
       //reset state variables values

@@ -128,6 +128,7 @@ const QualitativeData = <T extends Record<string, string | number | null>>(props
                 setOpen={setOpenAddNewRow}
                 columns={props.columns}
                 tableType={props.tableType}
+                subTableID={""}
               />
             </TableBody>
           </Table>

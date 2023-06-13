@@ -127,6 +127,7 @@ const Main = () => {
               columns={columnsQuantitative}
               getRowID={(row: IquantitativeData) => row.taxon_measurement_id}
               dense={false}
+              subTableID={""}
             />
           </div>
           <div className={classes.tableEnabled}>
@@ -141,6 +142,7 @@ const Main = () => {
               getRowID={(row: IqualitativeData) => row.taxon_measurement_id}
               renderSubTable={(row: IqualitativeData) => {
                 //Grabbing qualitative data
+
                 const qualitativeOptionDataArray = helperGetQualitativeOptions(
                   row.taxon_measurement_id,
                   dataContext.contextData.xref_taxon_measurement_qualitative_option
@@ -154,6 +156,7 @@ const Main = () => {
                       columns={columnsQualitativeOptions}
                       getRowID={(row: IqualitativeOptionData) => row.qualitative_option_id}
                       dense={true}
+                      subTableID={row.taxon_measurement_id} // used for adding sub table rows
                     />
                   </div>
                 );

@@ -12,7 +12,7 @@ interface IDataContext {
   contextData: dataSetInterface;
   editRowContextData: (rowID: string | number | null, row: any) => void;
   deleteRowContextData: (rowID: string | number | null) => void;
-  addRowContextData: (row: any, tableType: TableType) => void;
+  addRowContextData: (row: any, tableType: TableType, subTableID: string) => void;
 }
 
 // Create the data context using createContext
@@ -120,7 +120,7 @@ export const DataContextProvider = (props: PropsWithChildren<{}>) => {
   /*
    *Called when user adding row to the dataset
    */
-  const addRowContextData = (row: any, tableType: TableType) => {
+  const addRowContextData = (row: any, tableType: TableType, subTableID: string) => {
     //temporary ID generator
     function generateRandomId(): string {
       const characters = "abcdefghijklmnopqrstuvwxyz0123456789";
@@ -169,9 +169,10 @@ export const DataContextProvider = (props: PropsWithChildren<{}>) => {
 
     //(tableType === "QualitativeOptionTable")
     else {
+      console.log(subTableID);
       const qualitativeOptionData: IqualitativeOptionData = {
         qualitative_option_id: generateRandomId(),
-        taxon_measurement_id: "sdf",
+        taxon_measurement_id: subTableID,
         option_label: row.option_label,
         option_value: row.option_value,
         option_desc: row.option_desc,

@@ -62,6 +62,7 @@ export interface TableProps<T> {
   columns: IColumn<T>[];
   getRowID: (row: T) => string;
   dense: boolean;
+  subTableID: string;
 }
 
 /*
@@ -133,6 +134,7 @@ const RegularTable = <T extends Record<string, string | number | null>>(props: T
                 setOpen={setOpenAddNewRow}
                 columns={props.columns}
                 tableType={props.tableType}
+                subTableID={props.subTableID}
               />
             </TableBody>
           </Table>{" "}
