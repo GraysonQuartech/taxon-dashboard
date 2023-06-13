@@ -9,7 +9,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 import { makeStyles } from "@mui/styles";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import { IconButton, Theme } from "@mui/material";
+import { IconButton, Theme, Tooltip } from "@mui/material";
 //IMPORT Constants + Data + Helper Functions
 import { IconName } from "../utils/constants";
 
@@ -20,8 +20,7 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
   gridContainerClass: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "flex-end", // Aligns items to the right
-    // justifyContent: "flex-start", // Aligns items to the left
+    justifyContent: "flex-end",
   },
   iconClass: {
     display: "flex",
@@ -69,29 +68,39 @@ const ActionCell = (props: ActionCellProps): JSX.Element => {
   return (
     <div className={classes.gridContainerClass}>
       {props.edit && (
-        <IconButton className={classes.iconClass} onClick={() => handleIconClick("edit")}>
-          <Edit />
-        </IconButton>
+        <Tooltip title="Edit">
+          <IconButton className={classes.iconClass} onClick={() => handleIconClick("edit")}>
+            <Edit />
+          </IconButton>
+        </Tooltip>
       )}
       {props.delete && (
-        <IconButton className={classes.iconClass} onClick={() => handleIconClick("delete")}>
-          <Delete />
-        </IconButton>
+        <Tooltip title="Delete">
+          <IconButton className={classes.iconClass} onClick={() => handleIconClick("delete")}>
+            <Delete />
+          </IconButton>
+        </Tooltip>
       )}
       {props.check && (
-        <IconButton className={classes.iconClass} onClick={() => handleIconClick("check")}>
-          <CheckIcon className={classes.checkMarkClass} />
-        </IconButton>
+        <Tooltip title="Save">
+          <IconButton className={classes.iconClass} onClick={() => handleIconClick("check")}>
+            <CheckIcon className={classes.checkMarkClass} />
+          </IconButton>
+        </Tooltip>
       )}
       {props.cancel && (
-        <IconButton className={classes.iconClass} onClick={() => handleIconClick("cancel")}>
-          <ClearIcon className={classes.cancelClass} />
-        </IconButton>
+        <Tooltip title="Cancel">
+          <IconButton className={classes.iconClass} onClick={() => handleIconClick("cancel")}>
+            <ClearIcon className={classes.cancelClass} />
+          </IconButton>
+        </Tooltip>
       )}
       {props.subTable && (
-        <IconButton className={classes.iconClass} onClick={() => handleIconClick("subTable")}>
-          {arrowDirection === false ? <KeyboardArrowDownIcon /> : <KeyboardArrowUpIcon />}
-        </IconButton>
+        <Tooltip title={arrowDirection ? "Collapse" : "Expand"}>
+          <IconButton className={classes.iconClass} onClick={() => handleIconClick("subTable")}>
+            {arrowDirection ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+          </IconButton>
+        </Tooltip>
       )}
     </div>
   );
