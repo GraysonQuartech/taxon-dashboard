@@ -119,7 +119,7 @@ const Main = () => {
           <div className={classes.tableEnabled}>
             <TableRegular<IquantitativeData>
               tableType={"QuantitativeTable"}
-              tableName={"Quantative Measurements"}
+              tableName={"Quantitative Measurements"}
               rows={helperGetQuantitativeDataArray(
                 contextTaxon,
                 dataContext.contextData.xref_taxon_measurement_quantitative
