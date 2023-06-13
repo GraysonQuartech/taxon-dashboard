@@ -59,11 +59,11 @@ const AddRow = <T extends Record<string, string | number | null>>(props: AddRowP
   //Event handlers here
   const handleIconClick = (iconName: IconName) => {
     console.log("Icon clicked:", iconName);
-    if (iconName === "cancel") {
+    if (iconName === "Cancel") {
       setFormValues({});
       setOpen(false);
     }
-    if (iconName === "check") {
+    if (iconName === "Check") {
       const addRowValues: Partial<T> = {};
       let index = 0;
       for (const column of props.columns) {
@@ -133,11 +133,11 @@ const AddRow = <T extends Record<string, string | number | null>>(props: AddRowP
         ))}
         <TableCell>
           <ActionCell
-            edit={false}
-            subTable={false}
-            check={true}
-            delete={false}
-            cancel={true}
+            Edit={false}
+            SubTable={false}
+            Check={true}
+            Delete={false}
+            Cancel={true}
             onIconClick={handleIconClick}
           />
         </TableCell>

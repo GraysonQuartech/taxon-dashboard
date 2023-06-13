@@ -42,11 +42,11 @@ const TableRowCollapse = <T extends Record<string, string | number | null>>(prop
   const handleIconClick = (iconName: IconName) => {
     console.log("Icon clicked:", iconName);
     // Perform any desired action based on the iconName
-    if (iconName === "subTable") {
+    if (iconName === "SubTable") {
       setOpen(!open);
-    } else if (iconName === "delete") {
+    } else if (iconName === "Delete") {
       setOpenDeleteConfirm(true);
-    } else if (iconName === "edit") {
+    } else if (iconName === "Edit") {
       setOpenEditRow(true);
     }
   };
@@ -77,11 +77,11 @@ const TableRowCollapse = <T extends Record<string, string | number | null>>(prop
         ))}
         <TableCell align="right">
           <ActionCell
-            edit={true}
-            subTable={true}
-            check={false}
-            delete={true}
-            cancel={false}
+            Edit={true}
+            SubTable={true}
+            Check={false}
+            Delete={true}
+            Cancel={false}
             onIconClick={handleIconClick}
           />
         </TableCell>

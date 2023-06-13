@@ -65,4 +65,4 @@ export enum quantativeUnits {
 export const deleteConfirm: string = "Are you sure you want to delete this measurement?";
 
 //icon types for the actions component
-export type IconName = "edit" | "delete" | "subTable" | "check" | "cancel";
+export type IconName = "Edit" | "Delete" | "SubTable" | "Check" | "Cancel";

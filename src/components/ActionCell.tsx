@@ -39,11 +39,11 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
 }));
 
 interface ActionCellProps {
-  edit: boolean;
-  delete: boolean;
-  check: boolean;
-  cancel: boolean;
-  subTable: boolean;
+  Edit: boolean;
+  Delete: boolean;
+  Check: boolean;
+  Cancel: boolean;
+  SubTable: boolean;
   onIconClick: (iconName: IconName) => void;
 }
 
@@ -52,56 +52,44 @@ interface ActionCellProps {
  * This component is a grid of action icons which updates depending on state
  */
 const ActionCell = (props: ActionCellProps): JSX.Element => {
-  //HOOKS here
   const classes = useStyles();
   const [arrowDirection, setArrowDirection] = React.useState(false);
 
   //EVENT Handlers here
   const handleIconClick = (iconName: IconName) => {
-    if (iconName === "subTable") {
+    if (iconName === "SubTable") {
       setArrowDirection(!arrowDirection);
     }
     props.onIconClick(iconName);
   };
 
+  // Load props except for onIconClick into an array
+  const actionProps = [
+    { name: "Edit" as IconName, icon: <Edit />, title: "Edit" },
+    { name: "Delete" as IconName, icon: <Delete />, title: "Delete" },
+    { name: "Check" as IconName, icon: <CheckIcon className={classes.checkMarkClass} />, title: "Save" },
+    { name: "Cancel" as IconName, icon: <ClearIcon className={classes.cancelClass} />, title: "Cancel" },
+    {
+      name: "SubTable" as IconName,
+      icon: arrowDirection ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />,
+      title: arrowDirection ? "Collapse" : "Expand",
+    },
+  ];
   //RETURN ELEMENT HERE
   return (
     <div className={classes.gridContainerClass}>
-      {props.edit && (
-        <Tooltip title="Edit">
-          <IconButton className={classes.iconClass} onClick={() => handleIconClick("edit")}>
-            <Edit />
-          </IconButton>
-        </Tooltip>
-      )}
-      {props.delete && (
-        <Tooltip title="Delete">
-          <IconButton className={classes.iconClass} onClick={() => handleIconClick("delete")}>
-            <Delete />
-          </IconButton>
-        </Tooltip>
-      )}
-      {props.check && (
-        <Tooltip title="Save">
-          <IconButton className={classes.iconClass} onClick={() => handleIconClick("check")}>
-            <CheckIcon className={classes.checkMarkClass} />
-          </IconButton>
-        </Tooltip>
-      )}
-      {props.cancel && (
-        <Tooltip title="Cancel">
-          <IconButton className={classes.iconClass} onClick={() => handleIconClick("cancel")}>
-            <ClearIcon className={classes.cancelClass} />
-          </IconButton>
-        </Tooltip>
-      )}
-      {props.subTable && (
-        <Tooltip title={arrowDirection ? "Collapse" : "Expand"}>
-          <IconButton className={classes.iconClass} onClick={() => handleIconClick("subTable")}>
-            {arrowDirection ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-          </IconButton>
-        </Tooltip>
-      )}
+      {actionProps.map((actionProp) => {
+        if (props[actionProp.name]) {
+          return (
+            <Tooltip key={actionProp.name} title={actionProp.title}>
+              <IconButton className={classes.iconClass} onClick={() => handleIconClick(actionProp.name)}>
+                {actionProp.icon}
+              </IconButton>
+            </Tooltip>
+          );
+        }
+        return null;
+      })}
     </div>
   );
 };

@@ -52,12 +52,12 @@ const EditRow = <T extends Record<string, string | number | null>>(props: EditRo
   // Perform any desired action based on the iconName
   const handleIconClick = (iconName: IconName) => {
     console.log("Icon clicked:", iconName);
-    if (iconName === "check") {
+    if (iconName === "Check") {
       const updatedRow = { ...props.row, ...inputValues };
       dataContext.editRowContextData(props.rowID, updatedRow);
       props.setOpen(false);
     }
-    if (iconName === "cancel") {
+    if (iconName === "Cancel") {
       console.log("Cancel Edit Row");
       props.setOpen(false);
     }
@@ -116,11 +116,11 @@ const EditRow = <T extends Record<string, string | number | null>>(props: EditRo
         ))}
         <TableCell align="right">
           <ActionCell
-            edit={false}
-            subTable={false}
-            check={true}
-            delete={false}
-            cancel={true}
+            Edit={false}
+            SubTable={false}
+            Check={true}
+            Delete={false}
+            Cancel={true}
             onIconClick={handleIconClick}
           />
         </TableCell>

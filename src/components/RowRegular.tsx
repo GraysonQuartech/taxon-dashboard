@@ -53,10 +53,10 @@ const TableRowRegular = <T extends Record<string, string | number | null>>(props
   // Perform any desired action based on the iconName
   const handleIconClick = (iconName: IconName) => {
     console.log("Icon clicked:", iconName);
-    if (iconName === "delete") {
+    if (iconName === "Delete") {
       setOpenDeleteConfirm(true);
     }
-    if (iconName === "edit") {
+    if (iconName === "Edit") {
       setOpenEditRow(true);
     }
   };
@@ -89,11 +89,11 @@ const TableRowRegular = <T extends Record<string, string | number | null>>(props
         ))}
         <TableCell align="right">
           <ActionCell
-            edit={true}
-            subTable={false}
-            check={false}
-            delete={true}
-            cancel={false}
+            Edit={true}
+            SubTable={false}
+            Check={false}
+            Delete={true}
+            Cancel={false}
             onIconClick={handleIconClick}
           />
         </TableCell>
