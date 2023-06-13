@@ -43,7 +43,7 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
   },
   searchContainerClass: {
     //backgroundColor: globalTheme.palette.secondary.light,
-    padding: globalTheme.spacing(1),
+    padding: globalTheme.spacing(4),
   },
   searchContainerGrid: {
     width: "100%",
@@ -53,13 +53,17 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
   },
   infoContainerClass: {
     backgroundColor: globalTheme.palette.secondary.light,
-    padding: globalTheme.spacing(1),
-    marginTop: globalTheme.spacing(2),
+    paddingLeft: globalTheme.spacing(4),
+    paddingRight: globalTheme.spacing(4),
+    paddingBottom: globalTheme.spacing(4),
+    //marginTop: globalTheme.spacing(2),
   },
   infoContainerClassDisabled: {
     backgroundColor: globalTheme.palette.secondary.light,
-    padding: globalTheme.spacing(1),
-    marginTop: globalTheme.spacing(2),
+    paddingLeft: globalTheme.spacing(4),
+    paddingRight: globalTheme.spacing(4),
+    paddingBottom: globalTheme.spacing(4),
+    //marginTop: globalTheme.spacing(2),
     opacity: "30%",
     pointerEvents: "none",
   },
