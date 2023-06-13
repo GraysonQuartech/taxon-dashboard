@@ -24,7 +24,7 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
     //maxHeight: "58vh",
     width: "100%",
   },
-  tableHeaderClass: {
+  tableHeaderColumnsClass: {
     backgroundColor: globalTheme.palette.secondary.light,
     "& th": {
       fontWeight: globalTheme.typography.fontWeightMedium,
@@ -41,6 +41,7 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "space-between",
     paddingBottom: globalTheme.spacing(1),
     paddingTop: globalTheme.spacing(2),
   },
@@ -99,19 +100,19 @@ const RegularTable = <T extends Record<string, string | number | null>>(props: T
   return (
     <div>
       <div className={classes.headerGridClass}>
+        <Typography variant="h6" className={classes.titleClass}>
+          {props.tableName}
+        </Typography>
         {!props.dense && (
           <div className={classes.taxonNameClass}>
             {contextTaxon && <TaxonBubble taxonID={contextTaxon.taxon_id} />}
           </div>
         )}
-        <Typography variant="h6" className={classes.titleClass}>
-          {props.tableName}
-        </Typography>
       </div>
       <Paper>
         <TableContainer className={props.dense ? classes.tableClassDense : classes.tableClass}>
           <Table size="small" stickyHeader>
-            <TableHead className={classes.tableHeaderClass}>
+            <TableHead className={classes.tableHeaderColumnsClass}>
               <TableRow>
                 {props.columns.map((column) => (
                   <TableCell key={column.field as string}>{column.headerName}</TableCell>
@@ -140,6 +141,13 @@ const RegularTable = <T extends Record<string, string | number | null>>(props: T
           </Table>{" "}
         </TableContainer>
         <div className={classes.tableFooterClass}>
+          {!openAddNewRow && (
+            <IconButton onClick={() => handleAddRowClick()}>
+              <AddIcon />
+              <Typography className={classes.titleClass}>Row</Typography>
+            </IconButton>
+          )}
+          {openAddNewRow && <div> </div>}
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
@@ -149,12 +157,6 @@ const RegularTable = <T extends Record<string, string | number | null>>(props: T
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
-          {!openAddNewRow && (
-            <IconButton onClick={() => handleAddRowClick()}>
-              <AddIcon />
-              <Typography className={classes.titleClass}>Row</Typography>
-            </IconButton>
-          )}
         </div>
       </Paper>
     </div>

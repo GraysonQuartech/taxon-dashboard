@@ -25,7 +25,7 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
     padding: globalTheme.spacing(1),
     color: globalTheme.palette.secondary.dark,
   },
-  tableHeaderClass: {
+  tableHeaderColumnsClass: {
     backgroundColor: globalTheme.palette.secondary.light,
     "& th": {
       fontWeight: globalTheme.typography.fontWeightMedium,
@@ -35,6 +35,7 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
     display: "inline-block",
   },
   headerGridClass: {
+    justifyContent: "space-between",
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
@@ -95,17 +96,17 @@ const QualitativeData = <T extends Record<string, string | number | null>>(props
   return (
     <div>
       <div className={classes.headerGridClass}>
-        <div className={classes.taxonNameClass}>{contextTaxon && <TaxonBubble taxonID={contextTaxon.taxon_id} />}</div>
         <Typography variant="h6" className={classes.titleClass}>
           {props.tableName}
         </Typography>
+        <div className={classes.taxonNameClass}>{contextTaxon && <TaxonBubble taxonID={contextTaxon.taxon_id} />}</div>
       </div>
 
       <Paper>
         <TableContainer className={classes.tableClass}>
           <Table aria-label="collapsible table" size="small" stickyHeader>
             <TableHead>
-              <TableRow className={classes.tableHeaderClass}>
+              <TableRow className={classes.tableHeaderColumnsClass}>
                 {props.columns.map((column) => (
                   <TableCell key={column.field as string}>{column.headerName}</TableCell>
                 ))}
@@ -134,6 +135,13 @@ const QualitativeData = <T extends Record<string, string | number | null>>(props
           </Table>
         </TableContainer>
         <div className={classes.tableFooterClass}>
+          {!openAddNewRow && (
+            <IconButton onClick={() => handleAddRowClick()}>
+              <AddIcon />
+              <Typography className={classes.titleClass}>Row</Typography>
+            </IconButton>
+          )}
+          {openAddNewRow && <div> </div>}
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
@@ -143,12 +151,6 @@ const QualitativeData = <T extends Record<string, string | number | null>>(props
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
-          {!openAddNewRow && (
-            <IconButton onClick={() => handleAddRowClick()}>
-              <AddIcon />
-              <Typography className={classes.titleClass}>Row</Typography>
-            </IconButton>
-          )}
         </div>
       </Paper>
     </div>
