@@ -4,13 +4,13 @@ import React, { ReactNode } from "react";
 import RowCollapse from "./RowCollapse";
 import TaxonBubble from "./TaxonBubble";
 //IMPORT MUI packages
-import { Grid, IconButton, Paper, TablePagination, Theme } from "@mui/material";
+import { IconButton, Paper, TablePagination, Theme } from "@mui/material";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import Typography from "@mui/material/Typography";
 import AddIcon from "@mui/icons-material/Add";
 //IMPORT Datasets+Constants
-import { IColumn } from "../utils/constants";
+import { IColumn, TableType } from "../utils/constants";
 import { useTaxon } from "../contexts/taxonContext";
 import AddRow from "./AddRow";
 //IMPORT helper functions
@@ -53,6 +53,7 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
  *Generic props. table rows and columns
  */
 export interface TableProps<T> {
+  tableType: TableType;
   tableName: string;
   rows: T[];
   columns: IColumn<T>[];
@@ -115,13 +116,20 @@ const QualitativeData = <T extends Record<string, string | number | null>>(props
             <TableBody>
               {props.rows.slice(startIndex, endIndex).map((row) => (
                 <RowCollapse
+                  key={props.getRowID(row)}
                   row={row}
                   columns={props.columns}
                   rowID={props.getRowID(row)}
                   renderSubTable={props.renderSubTable}
                 />
               ))}
-              <AddRow open={openAddNewRow} setOpen={setOpenAddNewRow} columns={props.columns} />
+              <AddRow
+                open={openAddNewRow}
+                setOpen={setOpenAddNewRow}
+                columns={props.columns}
+                tableType={props.tableType}
+                subTableID={""}
+              />
             </TableBody>
           </Table>
         </TableContainer>

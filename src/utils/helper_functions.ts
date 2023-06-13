@@ -4,9 +4,15 @@
  * @format
  */
 
-import dataSet from "../datasets/taxon_data.json";
 import { TaxonLevel, classificationLevelArray } from "./constants";
-import { IquantitativeData, taxonInterface, IqualitativeData, IqualitativeOptionData } from "./datagrab";
+import {
+  IquantitativeData,
+  taxonInterface,
+  IqualitativeData,
+  IqualitativeOptionData,
+  dataSetInterface,
+  IquantitativeDataArray,
+} from "./datagrab";
 
 /*
  * Accepts a single lk_taxon element, which is
@@ -20,7 +26,7 @@ export const getCurrentTaxonID = (currTaxonArray: taxonInterface): string => {
 /*
  * Accepts a taxon ID, and returns the latin name associated to it
  */
-export const helperGetLatinNameFromID = (taxonId: string | null): string | null => {
+export const helperGetLatinNameFromID = (taxonId: string | null, dataSet: dataSetInterface): string | null => {
   for (let i = 0; i < dataSet.lk_taxon.length; i++) {
     const taxon = dataSet.lk_taxon[i];
     if (taxon.taxon_id === taxonId) {
@@ -90,18 +96,19 @@ export const helperGetClassificationLevel = (taxon: taxonInterface): TaxonLevel 
  */
 export const helperGetNextAvailableTaxon = (
   prevContextTaxon: taxonInterface,
-  classificationLevelOfSelected: TaxonLevel
+  classificationLevelOfSelected: TaxonLevel,
+  dataSet: dataSetInterface
 ): taxonInterface | null => {
   const index = classificationLevelArray.indexOf(classificationLevelOfSelected) - 1;
   const newClassLevel = classificationLevelArray[index];
-  return helperGetTaxonData(helperGetClassificationLevelID(newClassLevel, prevContextTaxon));
+  return helperGetTaxonData(helperGetClassificationLevelID(newClassLevel, prevContextTaxon), dataSet);
 };
 
 /*
  * accepts a taxon ID, and returns the Taxon interface associated to it
  * ie accepts "123" and returns an interface with kingdom id, phylum id, etc
  */
-export const helperGetTaxonData = (taxon_id: string | null): taxonInterface | null => {
+export const helperGetTaxonData = (taxon_id: string | null, dataSet: dataSetInterface): taxonInterface | null => {
   if (taxon_id !== null) {
     for (const taxon of dataSet.lk_taxon) {
       if (taxon.taxon_id === taxon_id) {
@@ -116,7 +123,10 @@ export const helperGetTaxonData = (taxon_id: string | null): taxonInterface | nu
  * Accepts a taxon classification Level Kingdom, phylum etc
  * Returns an array of taxons associated to that classification level
  */
-export const helperGetTaxonsForClassificationLevel = (classificationLevel: TaxonLevel | null): taxonInterface[] => {
+export const helperGetTaxonsForClassificationLevel = (
+  classificationLevel: TaxonLevel | null,
+  dataSet: dataSetInterface
+): taxonInterface[] => {
   //init empty taxon object array
   const taxonArray: taxonInterface[] = [];
   const dataSetLength = dataSet.lk_taxon.length;
@@ -127,7 +137,7 @@ export const helperGetTaxonsForClassificationLevel = (classificationLevel: Taxon
     const taxon_id = taxon.taxon_id;
 
     if (helperGetClassificationLevel(taxon) === classificationLevel) {
-      const name = helperGetLatinNameFromID(taxon_id);
+      const name = helperGetLatinNameFromID(taxon_id, dataSet);
       if (name !== null) {
         taxonArray.push(taxon);
       }
@@ -140,7 +150,10 @@ export const helperGetTaxonsForClassificationLevel = (classificationLevel: Taxon
 /*
  * accepts a taxon ID, and returns an array of Quantitative Data associated to it and its parent taxon levels
  */
-export const helperGetQuantitativeDataArray = (contextTaxon: taxonInterface | null, data: any): IquantitativeData[] => {
+export const helperGetQuantitativeDataArray = (
+  contextTaxon: taxonInterface | null,
+  data: IquantitativeDataArray
+): IquantitativeDataArray => {
   let quantitativeDataArray: IquantitativeData[] = [];
   if (contextTaxon) {
     for (const quantitativeData of data) {
@@ -165,6 +178,7 @@ export const helperGetQuantitativeDataArray = (contextTaxon: taxonInterface | nu
       }
     }
   }
+
   return quantitativeDataArray;
 };
 
@@ -212,8 +226,8 @@ export const helperGetQualitativeOptions = (taxon_measurement_id: string, data: 
   return qualitativeOptionDataArray;
 };
 
-export const helperGetColorFromID = (taxonID: string): string => {
-  const taxon = helperGetTaxonData(taxonID);
+export const helperGetColorFromID = (taxonID: string, dataSet: dataSetInterface): string => {
+  const taxon = helperGetTaxonData(taxonID, dataSet);
   if (taxon) {
     const classLevel = helperGetClassificationLevel(taxon);
     switch (classLevel) {

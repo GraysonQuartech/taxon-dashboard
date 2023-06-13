@@ -9,6 +9,7 @@ import "./utils/globalStyles.css";
 import { createTheme, ThemeProvider } from "@mui/material";
 import { blue, blueGrey } from "@mui/material/colors";
 import { TaxonContextProvider } from "./contexts/taxonContext";
+import { DataContextProvider } from "./contexts/dataContext";
 
 const globalTheme = createTheme({
   palette: {
@@ -35,9 +36,11 @@ const globalTheme = createTheme({
 const App = (): JSX.Element => {
   return (
     <ThemeProvider theme={globalTheme}>
-      <TaxonContextProvider>
-        <Main />
-      </TaxonContextProvider>
+      <DataContextProvider>
+        <TaxonContextProvider>
+          <Main />
+        </TaxonContextProvider>
+      </DataContextProvider>
     </ThemeProvider>
   );
 };

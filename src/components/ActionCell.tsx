@@ -9,7 +9,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 import { makeStyles } from "@mui/styles";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import { IconButton, Theme } from "@mui/material";
+import { IconButton, Theme, Tooltip } from "@mui/material";
 //IMPORT Constants + Data + Helper Functions
 import { IconName } from "../utils/constants";
 
@@ -20,8 +20,7 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
   gridContainerClass: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "flex-end", // Aligns items to the right
-    // justifyContent: "flex-start", // Aligns items to the left
+    justifyContent: "flex-end",
   },
   iconClass: {
     display: "flex",
@@ -40,11 +39,11 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
 }));
 
 interface ActionCellProps {
-  edit: boolean;
-  delete: boolean;
-  check: boolean;
-  cancel: boolean;
-  subTable: boolean;
+  Edit: boolean;
+  Delete: boolean;
+  Check: boolean;
+  Cancel: boolean;
+  SubTable: boolean;
   onIconClick: (iconName: IconName) => void;
 }
 
@@ -53,46 +52,44 @@ interface ActionCellProps {
  * This component is a grid of action icons which updates depending on state
  */
 const ActionCell = (props: ActionCellProps): JSX.Element => {
-  //HOOKS here
   const classes = useStyles();
   const [arrowDirection, setArrowDirection] = React.useState(false);
 
   //EVENT Handlers here
   const handleIconClick = (iconName: IconName) => {
-    if (iconName === "subTable") {
+    if (iconName === "SubTable") {
       setArrowDirection(!arrowDirection);
     }
     props.onIconClick(iconName);
   };
 
+  // Load props except for onIconClick into an array
+  const actionProps = [
+    { name: "Edit" as IconName, icon: <Edit />, title: "Edit" },
+    { name: "Delete" as IconName, icon: <Delete />, title: "Delete" },
+    { name: "Check" as IconName, icon: <CheckIcon className={classes.checkMarkClass} />, title: "Save" },
+    { name: "Cancel" as IconName, icon: <ClearIcon className={classes.cancelClass} />, title: "Cancel" },
+    {
+      name: "SubTable" as IconName,
+      icon: arrowDirection ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />,
+      title: arrowDirection ? "Collapse" : "Expand",
+    },
+  ];
   //RETURN ELEMENT HERE
   return (
     <div className={classes.gridContainerClass}>
-      {props.edit && (
-        <IconButton className={classes.iconClass} onClick={() => handleIconClick("edit")}>
-          <Edit />
-        </IconButton>
-      )}
-      {props.delete && (
-        <IconButton className={classes.iconClass} onClick={() => handleIconClick("delete")}>
-          <Delete />
-        </IconButton>
-      )}
-      {props.check && (
-        <IconButton className={classes.iconClass} onClick={() => handleIconClick("check")}>
-          <CheckIcon className={classes.checkMarkClass} />
-        </IconButton>
-      )}
-      {props.cancel && (
-        <IconButton className={classes.iconClass} onClick={() => handleIconClick("cancel")}>
-          <ClearIcon className={classes.cancelClass} />
-        </IconButton>
-      )}
-      {props.subTable && (
-        <IconButton className={classes.iconClass} onClick={() => handleIconClick("subTable")}>
-          {arrowDirection === false ? <KeyboardArrowDownIcon /> : <KeyboardArrowUpIcon />}
-        </IconButton>
-      )}
+      {actionProps.map((actionProp) => {
+        if (props[actionProp.name]) {
+          return (
+            <Tooltip key={actionProp.name} title={actionProp.title}>
+              <IconButton className={classes.iconClass} onClick={() => handleIconClick(actionProp.name)}>
+                {actionProp.icon}
+              </IconButton>
+            </Tooltip>
+          );
+        }
+        return null;
+      })}
     </div>
   );
 };

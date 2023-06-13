@@ -5,11 +5,16 @@
  * @format
  */
 
-import data from "../datasets/taxon_data.json";
-
-export interface taxonInterfaceArray {
-  lk_taxon: taxonInterface[];
+//interface for entire JSON dataset
+export interface dataSetInterface {
+  lk_taxon: taxonInterfaceArray;
+  xref_taxon_measurement_quantitative: IquantitativeDataArray;
+  xref_taxon_measurement_qualitative: IqualitativeDataArray;
+  xref_taxon_measurement_qualitative_option: IqualitativeOptionDataArray;
 }
+
+export interface taxonInterfaceArray extends Array<taxonInterface> {}
+
 export interface taxonInterface {
   taxon_id: string;
   kingdom_id: string | null;
@@ -30,48 +35,45 @@ export interface taxonInterface {
   update_timestamp: string;
 }
 
-export interface IquantitativeDataArray {
-  xref_taxon_measurement_quantitative: IquantitativeData[];
-}
+export interface IquantitativeDataArray extends Array<IquantitativeData> {}
+
 export interface IquantitativeData extends Record<string, string | number | null> {
   taxon_measurement_id: string;
   taxon_id: string;
-  measurement_name: string | null;
-  measurement_desc: string | null;
-  min_value: number | null;
-  max_value: number | null;
-  unit: string | null;
-  create_user: string | null;
-  update_user: string | null;
-  create_timestamp: string | null;
-  update_timestamp: string | null;
+  measurement_name: string;
+  measurement_desc: string;
+  min_value: number;
+  max_value: number;
+  unit: string;
+  create_user: string;
+  update_user: string;
+  create_timestamp: string;
+  update_timestamp: string;
 }
 
-export interface IqualitativeDataArray {
-  xref_taxon_measurement_qualitative: IqualitativeData[];
-}
+export interface IqualitativeDataArray extends Array<IqualitativeData> {}
+
 export interface IqualitativeData extends Record<string, string | number | null> {
   taxon_measurement_id: string;
   taxon_id: string;
-  measurement_name: string | null;
-  measurement_desc: string | null;
-  create_user: string | null;
-  update_user: string | null;
-  create_timestamp: string | null;
-  update_timestamp: string | null;
+  measurement_name: string;
+  measurement_desc: string;
+  create_user: string;
+  update_user: string;
+  create_timestamp: string;
+  update_timestamp: string;
 }
 
-export interface IqualitativeOptionDataArray {
-  xref_taxon_measurement_qualitative_option: IqualitativeOptionData[];
-}
+export interface IqualitativeOptionDataArray extends Array<IqualitativeOptionData> {}
+
 export interface IqualitativeOptionData extends Record<string, string | number | null> {
   qualitative_option_id: string;
   taxon_measurement_id: string;
-  option_label: string | null;
+  option_label: string;
   option_value: number;
-  option_desc: string | null;
-  create_user: string | null;
-  update_user: string | null;
-  create_timestamp: string | null;
-  update_timestamp: string | null;
+  option_desc: string;
+  create_user: string;
+  update_user: string;
+  create_timestamp: string;
+  update_timestamp: string;
 }

@@ -1,7 +1,9 @@
 /** @format */
 //IMPORT React and Child Components
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useTaxon } from "../contexts/taxonContext";
+import { DataContext } from "../contexts/dataContext";
+
 //IMPORT packages
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
@@ -60,6 +62,7 @@ interface FilterProps {
 const Filter = (props: FilterProps) => {
   //HOOKS here
   let { contextTaxon, setContextTaxon } = useTaxon();
+  const dataContext = useContext(DataContext);
   const [filterTaxon, setFilterTaxon] = useState<taxonInterface | null>(null);
   //console.log(filterTaxon);
   let classes = useStyles({ filterTaxon });
@@ -87,7 +90,7 @@ const Filter = (props: FilterProps) => {
     if (contextTaxon) {
       const tempTaxon = contextTaxonData[classificationLevel];
       if (tempTaxon !== undefined) {
-        setFilterTaxon(helperGetTaxonData(tempTaxon));
+        setFilterTaxon(helperGetTaxonData(tempTaxon, dataContext.contextData));
       }
 
       //handle contextTaxon level. which will be NULL in the dataset. but have correct taxonID
@@ -110,7 +113,7 @@ const Filter = (props: FilterProps) => {
     //become the next classification level up before its info is reset
     if (selectedTaxon === null && contextTaxon !== null) {
       //set next level up here before info is gone..
-      selectedTaxon = helperGetNextAvailableTaxon(contextTaxon, classificationLevel);
+      selectedTaxon = helperGetNextAvailableTaxon(contextTaxon, classificationLevel, dataContext.contextData);
     }
     setContextTaxon(selectedTaxon);
   };
@@ -134,7 +137,7 @@ const Filter = (props: FilterProps) => {
               root: classes.labelClass,
             },
             style: {
-              backgroundColor: filterTaxon ? helperGetColorFromID(filterTaxon.taxon_id) : "",
+              backgroundColor: filterTaxon ? helperGetColorFromID(filterTaxon.taxon_id, dataContext.contextData) : "",
               color: filterTaxon ? "white" : "inherit",
               opacity: filterTaxon ? 1 : 0.5,
             },

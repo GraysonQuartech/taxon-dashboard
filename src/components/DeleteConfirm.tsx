@@ -1,9 +1,10 @@
 /** @format */
 
-import React, { ReactNode, useState, useEffect } from "react";
+import React, { ReactNode, useState, useEffect, useContext } from "react";
 import { makeStyles } from "@mui/styles";
 import { Card, Grid, Theme, Typography } from "@mui/material";
 import { deleteConfirm } from "../utils/constants";
+import { DataContext } from "../contexts/dataContext";
 
 const useStyles = makeStyles((globalTheme: Theme) => ({
   overlay: {
@@ -66,6 +67,7 @@ interface RowActionsProps {
 
 const DeleteConfirm = (props: RowActionsProps) => {
   const { open, setOpen } = props;
+  const dataContext = useContext(DataContext);
   const classes = useStyles();
 
   useEffect(() => {
@@ -78,7 +80,7 @@ const DeleteConfirm = (props: RowActionsProps) => {
 
   const handleDelete = () => {
     setOpen(false); // Close the component
-    // Handle delete logic if needed
+    dataContext.deleteRowContextData(props.rowID);
   };
 
   return open ? (
