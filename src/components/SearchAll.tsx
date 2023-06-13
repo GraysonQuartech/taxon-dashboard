@@ -22,7 +22,8 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
     width: "100%",
   },
   selectBox: {
-    padding: globalTheme.spacing(1),
+    paddingBottom: globalTheme.spacing(1),
+    paddingTop: globalTheme.spacing(1),
     backgroundColor: "#ffffff",
     borderRadius: "5px",
   },
