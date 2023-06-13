@@ -153,9 +153,7 @@ export const DataContextProvider = (props: PropsWithChildren<{}>) => {
         update_timestamp: "2023-03-10T00:00:16.661Z",
       };
       updatedDataSet.xref_taxon_measurement_quantitative.push(quantitativeData);
-    }
-
-    if (tableType === "QualitativeTable") {
+    } else if (tableType === "QualitativeTable") {
       const qualitativeData: IqualitativeData = {
         taxon_measurement_id: generateRandomId(),
         taxon_id: row.taxon_id,
@@ -169,21 +167,20 @@ export const DataContextProvider = (props: PropsWithChildren<{}>) => {
       updatedDataSet.xref_taxon_measurement_qualitative.push(qualitativeData);
     }
 
-    if (tableType === "QualitativeOptionTable") {
-      /*
-    const qualitativeOptionData: IqualitativeOptionData = {
-
-        qualitative_option_id: 
-        taxon_measurement_id: 
-        option_label: 
-        option_value:
-        option_desc: ,
-        create_user:
-        update_user: 
-        create_timestamp: 
-        update_timestamp: 
-    },
-    */
+    //(tableType === "QualitativeOptionTable")
+    else {
+      const qualitativeOptionData: IqualitativeOptionData = {
+        qualitative_option_id: generateRandomId(),
+        taxon_measurement_id: "sdf",
+        option_label: row.option_label,
+        option_value: row.option_value,
+        option_desc: row.option_desc,
+        create_user: "Grayson",
+        update_user: "Grayson",
+        create_timestamp: "2023-03-10T20:51:27.708Z",
+        update_timestamp: "2023-03-10T20:51:27.708Z",
+      };
+      updatedDataSet.xref_taxon_measurement_qualitative_option.push(qualitativeOptionData);
     }
 
     setTaxonDataset(updatedDataSet);
