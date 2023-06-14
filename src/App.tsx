@@ -19,7 +19,7 @@ const globalTheme = createTheme({
       dark: "#003366", // BC ID: corporate blue
     },
     secondary: {
-      main: blueGrey[600],
+      main: "#f5f5f5",
       light: blueGrey[50],
       dark: "#999999",
     },

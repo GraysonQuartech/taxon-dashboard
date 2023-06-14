@@ -52,7 +52,7 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
     padding: globalTheme.spacing(1),
   },
   infoContainerClass: {
-    backgroundColor: globalTheme.palette.secondary.light,
+    backgroundColor: globalTheme.palette.secondary.main,
     paddingLeft: globalTheme.spacing(4),
     paddingRight: globalTheme.spacing(4),
     paddingBottom: globalTheme.spacing(4),
