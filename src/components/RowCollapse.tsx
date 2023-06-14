@@ -6,7 +6,7 @@ import ActionCell from "./ActionCell";
 import DeleteConfirm from "./DeleteConfirm";
 //IMPORT MUI packages
 import { makeStyles } from "@mui/styles";
-import { Card, Theme, Typography } from "@mui/material";
+import { Card, TextField, Theme, Typography } from "@mui/material";
 import { Collapse } from "@mui/material";
 import { TableCell, TableRow } from "@mui/material";
 //IMPORT Datasets+Constants + helpers
@@ -71,7 +71,20 @@ const TableRowCollapse = <T extends Record<string, string | number | null>>(prop
             {column.field === "taxon_id" ? (
               <TaxonBubble taxonID={props.row[column.field as keyof T] as string} />
             ) : (
-              props.row[column.field as keyof T]
+              <TextField
+                //InputProps={{ readOnly: true }}
+                size="small"
+                value={props.row[column.field as keyof T]}
+                multiline
+                maxRows={1}
+                //variant="outlined"
+                className={classes.tableCellClass}
+                variant="standard"
+                InputProps={{
+                  disableUnderline: true,
+                }}
+                inputProps={{ style: { fontSize: 14 }, readOnly: true }}
+              ></TextField>
             )}
           </TableCell>
         ))}

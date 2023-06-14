@@ -23,7 +23,6 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
   tableCellClass: {
     display: "flex",
     alignItems: "center",
-    minHeight: "34px",
   },
   tableCellClassDense: {
     fontWeight: globalTheme.typography.fontWeightMedium + "!important",
@@ -81,9 +80,19 @@ const TableRowRegular = <T extends Record<string, string | number | null>>(props
             {column.field === "taxon_id" ? (
               <TaxonBubble taxonID={props.row[column.field as keyof T] as string} />
             ) : (
-              <div className={`${props.dense ? classes.tableCellClassDense : classes.tableCellClass}`}>
-                {props.row[column.field as keyof T]}
-              </div>
+              <TextField
+                size="small"
+                value={props.row[column.field as keyof T]}
+                multiline
+                maxRows={1}
+                //variant="outlined"
+                className={`${props.dense ? classes.tableCellClassDense : classes.tableCellClass}`}
+                variant="standard"
+                InputProps={{
+                  disableUnderline: true,
+                }}
+                inputProps={{ style: { fontSize: 14 }, readOnly: true, disableUnderline: true }}
+              ></TextField>
             )}
           </TableCell>
         ))}
