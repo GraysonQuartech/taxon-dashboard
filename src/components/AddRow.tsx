@@ -10,7 +10,7 @@ import { TableCell, TableRow } from "@mui/material";
 //IMPORT Datasets+Constants
 import { IColumn, IconName, TableType, quantativeUnits } from "../utils/constants";
 import { useTaxon } from "../contexts/taxonContext";
-import { helperGetTaxonParentIDArray } from "../utils/helper_functions";
+import { helperGetTaxonParentIDArray, helperVerifyTextField } from "../utils/helper_functions";
 import { DataContext } from "../contexts/dataContext";
 
 /*
@@ -87,25 +87,6 @@ const AddRow = <T extends Record<string, string | number | null>>(props: AddRowP
     }));
   };
 
-  /*
-   * This function is called by the input text fields and handles whether
-   * or not they throw an error based on the input
-   */
-  const verifyTextField = (fieldVal: string, columnType: string | number | symbol): string => {
-    if (columnType === "measurement_name" && fieldVal === "") {
-      return "Cannot be empty";
-    } else if (columnType === "min_value" && (fieldVal as unknown as number) < 0) {
-      return "Must be greater than 0";
-    } else if (columnType === "max_value" && (fieldVal as unknown as number) < 0) {
-      return "Must be greater than 0";
-    } else if (columnType === "option_label" && fieldVal === "") {
-      return "Cannot be empty";
-    } else if (columnType === "option_value" && (fieldVal as unknown as number) < 0) {
-      return "Must be greater than 0";
-    }
-    return "";
-  };
-
   //main component
   return open ? (
     <>
@@ -142,8 +123,8 @@ const AddRow = <T extends Record<string, string | number | null>>(props: AddRowP
                 placeholder={column.headerName.toString()}
                 value={formValues[column.field as string] || ""}
                 onChange={(e) => handleChange(column.field as string, e.target.value)}
-                error={verifyTextField(formValues[column.field as string], column.field) !== ""}
-                helperText={verifyTextField(formValues[column.field as string], column.field)}
+                error={helperVerifyTextField(formValues[column.field as string], column.field) !== ""}
+                helperText={helperVerifyTextField(formValues[column.field as string], column.field)}
               />
             )}
           </TableCell>

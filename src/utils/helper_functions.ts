@@ -292,3 +292,22 @@ export const helperGetTaxonParentIDArray = (taxonData: taxonInterface | null): s
 
   return parentIDArray;
 };
+
+/*
+ * This function is called by the input text fields and handles whether
+ * or not they throw an error based on the input
+ */
+export const helperVerifyTextField = (fieldVal: string, columnType: string | number | symbol): string => {
+  if (columnType === "measurement_name" && fieldVal === "") {
+    return "Cannot be empty";
+  } else if (columnType === "min_value" && (fieldVal as unknown as number) < 0) {
+    return "Must be greater than 0";
+  } else if (columnType === "max_value" && (fieldVal as unknown as number) < 0) {
+    return "Must be greater than 0";
+  } else if (columnType === "option_label" && fieldVal === "") {
+    return "Cannot be empty";
+  } else if (columnType === "option_value" && (fieldVal as unknown as number) < 0) {
+    return "Must be greater than 0";
+  }
+  return "";
+};

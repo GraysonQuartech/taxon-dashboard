@@ -9,7 +9,7 @@ import { MenuItem, Select, TextField, Theme } from "@mui/material";
 import { TableCell, TableRow } from "@mui/material";
 //IMPORT Datasets+Constants+Helpers
 import { IColumn, IconName, quantativeUnits } from "../utils/constants";
-import { helperGetTaxonParentIDArray } from "../utils/helper_functions";
+import { helperGetTaxonParentIDArray, helperVerifyTextField } from "../utils/helper_functions";
 import { useTaxon } from "../contexts/taxonContext";
 import { DataContext } from "../contexts/dataContext";
 
@@ -110,6 +110,8 @@ const EditRow = <T extends Record<string, string | number | null>>(props: EditRo
                     : ""
                 }
                 onChange={(e) => handleTextFieldChange(column.field as string, e.target.value)}
+                error={helperVerifyTextField(String(inputValues[column.field as string]), column.field) !== ""}
+                helperText={helperVerifyTextField(String(inputValues[column.field as string]), column.field)}
               />
             )}
           </TableCell>
