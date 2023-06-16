@@ -59,10 +59,6 @@ const AddRow = <T extends Record<string, string | number | null>>(props: AddRowP
       setFormValues({});
       setOpen(false);
     }
-    const measurementName = formValues["measurement_name"];
-    const optionLabel = formValues["option_label"];
-    const minValue = Number(formValues["min_value"]) || 0;
-    const maxValue = Number(formValues["max_value"]) || 0;
 
     if (iconName === "Check") {
       const addRowValues: Partial<T> = {};
@@ -89,6 +85,26 @@ const AddRow = <T extends Record<string, string | number | null>>(props: AddRowP
       ...prevValues,
       [fieldName]: value,
     }));
+  };
+
+  /*
+   * This function is called by the input text fields and handles whether
+   * or not they throw an error based on the input
+   */
+  const verifyTextField = (fieldVal: string, columnType: string | number | symbol): boolean => {
+    if (columnType === "measurement_name" && fieldVal === "") {
+      return true;
+    } else if (columnType === "min_value" && (fieldVal as unknown as number) < 0) {
+      return true;
+    } else if (columnType === "max_value" && (fieldVal as unknown as number) < 0) {
+      return true;
+    } else if (columnType === "option_label" && fieldVal === "") {
+      return true;
+    } else if (columnType === "option_value" && (fieldVal as unknown as number) < 0) {
+      return true;
+    }
+
+    return false;
   };
   //main component
   return open ? (
@@ -122,10 +138,12 @@ const AddRow = <T extends Record<string, string | number | null>>(props: AddRowP
               </Select>
             ) : (
               <TextField
+                //helperText="Incorrect entry."
                 size="small"
                 placeholder={column.headerName.toString()}
                 value={formValues[column.field as string] || ""}
                 onChange={(e) => handleChange(column.field as string, e.target.value)}
+                error={verifyTextField(formValues[column.field as string], column.field)}
               />
             )}
           </TableCell>
