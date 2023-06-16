@@ -54,6 +54,15 @@ const EditRow = <T extends Record<string, string | number | null>>(props: EditRo
     console.log("Icon clicked:", iconName);
     if (iconName === "Check") {
       const updatedRow = { ...props.row, ...inputValues };
+
+      const errorExists = props.columns.some((column) => {
+        return helperVerifyTextField(String(updatedRow[column.field as string]), column.field) !== "";
+      });
+      if (errorExists) {
+        alert("Cannot save row with errors!");
+        return; // Return early if there is an error
+      }
+
       dataContext.editRowContextData(props.rowID, updatedRow);
       props.setOpen(false);
     }
