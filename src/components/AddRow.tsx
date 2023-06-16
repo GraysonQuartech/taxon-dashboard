@@ -65,6 +65,7 @@ const AddRow = <T extends Record<string, string | number | null>>(props: AddRowP
         return helperVerifyTextField(formValues[column.field as string], column.field) !== "";
       });
       if (errorExists) {
+        alert("Cannot add row with errors!");
         return; // Return early if there is an error
       }
 
