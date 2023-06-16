@@ -61,6 +61,13 @@ const AddRow = <T extends Record<string, string | number | null>>(props: AddRowP
     }
 
     if (iconName === "Check") {
+      const errorExists = props.columns.some((column) => {
+        return helperVerifyTextField(formValues[column.field as string], column.field) !== "";
+      });
+      if (errorExists) {
+        return; // Return early if there is an error
+      }
+
       const addRowValues: Partial<T> = {};
       let index = 0;
       for (const column of props.columns) {
