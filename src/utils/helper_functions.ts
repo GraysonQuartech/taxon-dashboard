@@ -298,7 +298,7 @@ export const helperGetTaxonParentIDArray = (taxonData: taxonInterface | null): s
  * or not they throw an error based on the input
  */
 export const helperVerifyTextField = (fieldVal: string, columnType: string | number | symbol): string => {
-  if (columnType === "measurement_name" && fieldVal === "") {
+  if (columnType === "measurement_name" && (fieldVal === "" || fieldVal === undefined)) {
     return "Cannot be empty";
   } else if (columnType === "min_value") {
     if (fieldVal !== "" && (fieldVal as unknown as number) < 0) {
@@ -312,7 +312,7 @@ export const helperVerifyTextField = (fieldVal: string, columnType: string | num
     } else if (fieldVal !== "" && fieldVal !== undefined && isNaN(Number(fieldVal))) {
       return "Must be a number";
     }
-  } else if (columnType === "option_label" && fieldVal === "") {
+  } else if (columnType === "option_label" && (fieldVal === "" || fieldVal === undefined)) {
     return "Cannot be empty";
   } else if (columnType === "option_value") {
     if (fieldVal !== "" && (fieldVal as unknown as number) < 0) {
