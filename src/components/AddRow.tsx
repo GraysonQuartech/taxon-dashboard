@@ -65,34 +65,22 @@ const AddRow = <T extends Record<string, string | number | null>>(props: AddRowP
     const maxValue = Number(formValues["max_value"]) || 0;
 
     if (iconName === "Check") {
-      if (measurementName || optionLabel) {
-        if (minValue >= 0) {
-          if (maxValue >= minValue) {
-            const addRowValues: Partial<T> = {};
-            let index = 0;
-            for (const column of props.columns) {
-              addRowValues[column.field as keyof T] = formValues[column.field as string] as T[keyof T];
-              index += 1;
-            }
-
-            dataContext.addRowContextData(addRowValues, props.tableType, props.subTableID);
-
-            setOpen(false);
-            setFormValues({});
-            setFormValues((prevValues) => ({
-              ...prevValues,
-              taxon_id: helperGetTaxonParentIDArray(contextTaxon).slice(-1)[0],
-              unit: Object.values(quantativeUnits)[0],
-            }));
-          } else {
-            alert("Min value must be less than or equal to Max value");
-          }
-        } else {
-          alert("Min value must be greater than or equal to 0.");
-        }
-      } else {
-        alert("Cannot add row with missing fields.");
+      const addRowValues: Partial<T> = {};
+      let index = 0;
+      for (const column of props.columns) {
+        addRowValues[column.field as keyof T] = formValues[column.field as string] as T[keyof T];
+        index += 1;
       }
+
+      dataContext.addRowContextData(addRowValues, props.tableType, props.subTableID);
+
+      setOpen(false);
+      setFormValues({});
+      setFormValues((prevValues) => ({
+        ...prevValues,
+        taxon_id: helperGetTaxonParentIDArray(contextTaxon).slice(-1)[0],
+        unit: Object.values(quantativeUnits)[0],
+      }));
     }
   };
 
