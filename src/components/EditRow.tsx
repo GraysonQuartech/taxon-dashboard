@@ -16,7 +16,11 @@ import { DataContext } from "../contexts/dataContext";
 /*
  * STYLE definitions for useStyles hook
  */
-const useStyles = makeStyles((globalTheme: Theme) => ({}));
+const useStyles = makeStyles((globalTheme: Theme) => ({
+  selectBoxClass: {
+    width: "350px",
+  },
+}));
 
 /*
  *Generic props. table rows and columns
@@ -111,6 +115,7 @@ const EditRow = <T extends Record<string, string | number | null>>(props: EditRo
               </Select>
             ) : (
               <TextField
+                className={column.field === "measurement_desc" ? classes.selectBoxClass : ""}
                 size="small"
                 placeholder={column.headerName !== null ? column.headerName.toString() : ""}
                 value={

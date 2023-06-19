@@ -21,6 +21,9 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
   tableCellClass: {
     fontWeight: globalTheme.typography.fontWeightMedium + "!important",
   },
+  selectBoxClass: {
+    width: "350px",
+  },
 }));
 
 /*
@@ -127,6 +130,7 @@ const AddRow = <T extends Record<string, string | number | null>>(props: AddRowP
               </Select>
             ) : (
               <TextField
+                className={column.field === "measurement_desc" ? classes.selectBoxClass : ""}
                 size="small"
                 placeholder={column.headerName.toString()}
                 value={formValues[column.field as string] || ""}
