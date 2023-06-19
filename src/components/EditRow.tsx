@@ -9,14 +9,18 @@ import { MenuItem, Select, TextField, Theme } from "@mui/material";
 import { TableCell, TableRow } from "@mui/material";
 //IMPORT Datasets+Constants+Helpers
 import { IColumn, IconName, quantativeUnits } from "../utils/constants";
-import { helperGetTaxonParentIDArray } from "../utils/helper_functions";
+import { helperGetTaxonParentIDArray, helperVerifyTextField } from "../utils/helper_functions";
 import { useTaxon } from "../contexts/taxonContext";
 import { DataContext } from "../contexts/dataContext";
 
 /*
  * STYLE definitions for useStyles hook
  */
-const useStyles = makeStyles((globalTheme: Theme) => ({}));
+const useStyles = makeStyles((globalTheme: Theme) => ({
+  selectBoxClass: {
+    width: "300px",
+  },
+}));
 
 /*
  *Generic props. table rows and columns
@@ -54,6 +58,15 @@ const EditRow = <T extends Record<string, string | number | null>>(props: EditRo
     console.log("Icon clicked:", iconName);
     if (iconName === "Check") {
       const updatedRow = { ...props.row, ...inputValues };
+
+      const errorExists = props.columns.some((column) => {
+        return helperVerifyTextField(String(updatedRow[column.field as string]), column.field) !== "";
+      });
+      if (errorExists) {
+        alert("Cannot save row with errors!");
+        return; // Return early if there is an error
+      }
+
       dataContext.editRowContextData(props.rowID, updatedRow);
       props.setOpen(false);
     }
@@ -102,6 +115,7 @@ const EditRow = <T extends Record<string, string | number | null>>(props: EditRo
               </Select>
             ) : (
               <TextField
+                className={column.field === "measurement_desc" ? classes.selectBoxClass : ""}
                 size="small"
                 placeholder={column.headerName !== null ? column.headerName.toString() : ""}
                 value={
@@ -110,6 +124,8 @@ const EditRow = <T extends Record<string, string | number | null>>(props: EditRo
                     : ""
                 }
                 onChange={(e) => handleTextFieldChange(column.field as string, e.target.value)}
+                error={helperVerifyTextField(String(inputValues[column.field as string]), column.field) !== ""}
+                helperText={helperVerifyTextField(String(inputValues[column.field as string]), column.field)}
               />
             )}
           </TableCell>

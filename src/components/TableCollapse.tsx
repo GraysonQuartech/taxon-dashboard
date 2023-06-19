@@ -47,6 +47,8 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
     justifyContent: "space-between",
     alignItems: "center",
     padding: globalTheme.spacing(1),
+    paddingRight: globalTheme.spacing(2),
+    paddingLeft: globalTheme.spacing(2),
   },
 }));
 

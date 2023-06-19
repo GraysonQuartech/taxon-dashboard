@@ -20,13 +20,17 @@ import EditRow from "./EditRow";
  * STYLE definitions for useStyles hook
  */
 const useStyles = makeStyles((globalTheme: Theme) => ({
+  cellContainerClass: {
+    //width: "100%",
+  },
   tableCellClass: {
     display: "flex",
     alignItems: "center",
-    minHeight: "34px",
+    // width: "100%",
   },
   tableCellClassDense: {
     fontWeight: globalTheme.typography.fontWeightMedium + "!important",
+    // width: "100%",
   },
 }));
 
@@ -77,13 +81,26 @@ const TableRowRegular = <T extends Record<string, string | number | null>>(props
     <>
       <TableRow key={props.rowID}>
         {props.columns.map((column, index) => (
-          <TableCell key={column.field as string}>
+          <TableCell key={column.field as string} className={classes.cellContainerClass}>
             {column.field === "taxon_id" ? (
               <TaxonBubble taxonID={props.row[column.field as keyof T] as string} />
             ) : (
-              <div className={`${props.dense ? classes.tableCellClassDense : classes.tableCellClass}`}>
-                {props.row[column.field as keyof T]}
-              </div>
+              <TextField
+                size="small"
+                value={props.row[column.field as keyof T]}
+                multiline
+                maxRows={1}
+                className={`${props.dense ? classes.tableCellClassDense : classes.tableCellClass}`}
+                variant="standard"
+                InputProps={{
+                  disableUnderline: true,
+                  style: {
+                    fontSize: 14,
+                    width: column.field === "measurement_desc" || column.field === "option_desc" ? "300px" : "100%",
+                  },
+                }}
+                inputProps={{ readOnly: true, disableUnderline: true }}
+              ></TextField>
             )}
           </TableCell>
         ))}

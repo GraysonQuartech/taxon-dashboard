@@ -10,7 +10,7 @@ import { TableCell, TableRow } from "@mui/material";
 //IMPORT Datasets+Constants
 import { IColumn, IconName, TableType, quantativeUnits } from "../utils/constants";
 import { useTaxon } from "../contexts/taxonContext";
-import { helperGetTaxonParentIDArray } from "../utils/helper_functions";
+import { helperGetTaxonParentIDArray, helperVerifyTextField } from "../utils/helper_functions";
 import { DataContext } from "../contexts/dataContext";
 
 /*
@@ -20,6 +20,9 @@ import { DataContext } from "../contexts/dataContext";
 const useStyles = makeStyles((globalTheme: Theme) => ({
   tableCellClass: {
     fontWeight: globalTheme.typography.fontWeightMedium + "!important",
+  },
+  selectBoxClass: {
+    width: "300px",
   },
 }));
 
@@ -36,25 +39,21 @@ interface AddRowProps<T> {
 
 const AddRow = <T extends Record<string, string | number | null>>(props: AddRowProps<T>) => {
   const { open, setOpen } = props;
-
   //Hooks here
   const classes = useStyles();
   const { contextTaxon } = useTaxon();
   const [formValues, setFormValues] = useState<Record<string, string>>({});
   const dataContext = useContext(DataContext);
 
+  //closes the add row popup when a new taxon is selected
   useEffect(() => {
+    setOpen(false);
     setFormValues((prevValues) => ({
       ...prevValues,
       taxon_id: helperGetTaxonParentIDArray(contextTaxon).slice(-1)[0],
       unit: Object.values(quantativeUnits)[0],
     }));
   }, [contextTaxon, quantativeUnits]);
-
-  //closes the add row popup when a new taxon is selected
-  useEffect(() => {
-    setOpen(false);
-  }, [contextTaxon]);
 
   //Event handlers here
   const handleIconClick = (iconName: IconName) => {
@@ -63,7 +62,16 @@ const AddRow = <T extends Record<string, string | number | null>>(props: AddRowP
       setFormValues({});
       setOpen(false);
     }
+
     if (iconName === "Check") {
+      const errorExists = props.columns.some((column) => {
+        return helperVerifyTextField(formValues[column.field as string], column.field) !== "";
+      });
+      if (errorExists) {
+        alert("Cannot add row with errors!");
+        return; // Return early if there is an error
+      }
+
       const addRowValues: Partial<T> = {};
       let index = 0;
       for (const column of props.columns) {
@@ -74,7 +82,6 @@ const AddRow = <T extends Record<string, string | number | null>>(props: AddRowP
       dataContext.addRowContextData(addRowValues, props.tableType, props.subTableID);
 
       setOpen(false);
-      //reset state variables values
       setFormValues({});
       setFormValues((prevValues) => ({
         ...prevValues,
@@ -123,10 +130,13 @@ const AddRow = <T extends Record<string, string | number | null>>(props: AddRowP
               </Select>
             ) : (
               <TextField
+                className={column.field === "measurement_desc" ? classes.selectBoxClass : ""}
                 size="small"
                 placeholder={column.headerName.toString()}
                 value={formValues[column.field as string] || ""}
                 onChange={(e) => handleChange(column.field as string, e.target.value)}
+                error={helperVerifyTextField(formValues[column.field as string], column.field) !== ""}
+                helperText={helperVerifyTextField(formValues[column.field as string], column.field)}
               />
             )}
           </TableCell>
