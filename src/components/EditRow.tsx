@@ -18,7 +18,7 @@ import { DataContext } from "../contexts/dataContext";
  */
 const useStyles = makeStyles((globalTheme: Theme) => ({
   selectBoxClass: {
-    width: "350px",
+    width: "300px",
   },
 }));
 

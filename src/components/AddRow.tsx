@@ -22,7 +22,7 @@ const useStyles = makeStyles((globalTheme: Theme) => ({
     fontWeight: globalTheme.typography.fontWeightMedium + "!important",
   },
   selectBoxClass: {
-    width: "350px",
+    width: "300px",
   },
 }));
 

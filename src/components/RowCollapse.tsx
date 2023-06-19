@@ -72,19 +72,17 @@ const TableRowCollapse = <T extends Record<string, string | number | null>>(prop
               <TaxonBubble taxonID={props.row[column.field as keyof T] as string} />
             ) : (
               <TextField
-                //InputProps={{ readOnly: true }}
                 size="small"
                 value={props.row[column.field as keyof T]}
                 multiline
                 maxRows={1}
-                //variant="outlined"
                 className={classes.tableCellClass}
                 variant="standard"
                 InputProps={{
                   disableUnderline: true,
                   style: {
                     fontSize: 14,
-                    width: column.field === "measurement_desc" ? "350px" : "100%", // Set width to 200px for measurement_desc
+                    width: column.field === "measurement_desc" ? "300px" : "100%", // Set width to 200px for measurement_desc
                   },
                 }}
                 inputProps={{ style: { fontSize: 14 }, readOnly: true }}

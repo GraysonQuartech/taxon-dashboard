@@ -96,7 +96,7 @@ const TableRowRegular = <T extends Record<string, string | number | null>>(props
                   disableUnderline: true,
                   style: {
                     fontSize: 14,
-                    width: column.field === "measurement_desc" || column.field === "option_desc" ? "350px" : "100%",
+                    width: column.field === "measurement_desc" || column.field === "option_desc" ? "300px" : "100%",
                   },
                 }}
                 inputProps={{ readOnly: true, disableUnderline: true }}
