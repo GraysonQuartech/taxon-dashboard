@@ -40,7 +40,7 @@ export interface EditRowProps<T> {
 const EditRow = <T extends Record<string, string | number | null>>(props: EditRowProps<T>) => {
   //HOOKS
   const classes = useStyles();
-  const [inputValues, setInputValues] = useState<Record<string, (string | null)[]>>({});
+  const [fieldValues, setFieldValues] = useState<Record<string, (string | null)[]>>({});
   const { contextTaxon } = useTaxon();
   const dataContext = useContext(DataContext);
 
@@ -50,14 +50,14 @@ const EditRow = <T extends Record<string, string | number | null>>(props: EditRo
     props.columns.forEach((column) => {
       initialValues[column.field as string] = [props.row[column.field as keyof T] as string | null];
     });
-    setInputValues(initialValues);
+    setFieldValues(initialValues);
   }, [props.row, props.columns]);
 
   // Perform any desired action based on the iconName
   const handleIconClick = (iconName: IconName) => {
     console.log("Icon clicked:", iconName);
     if (iconName === "Check") {
-      const updatedRow = { ...props.row, ...inputValues };
+      const updatedRow = { ...props.row, ...fieldValues };
 
       const errorExists = props.columns.some((column) => {
         return helperVerifyTextField(String(updatedRow[column.field as string]), column.field) !== "";
@@ -77,7 +77,7 @@ const EditRow = <T extends Record<string, string | number | null>>(props: EditRo
   };
 
   const handleTextFieldChange = (field: string, value: string) => {
-    setInputValues((prevValues) => ({
+    setFieldValues((prevValues) => ({
       ...prevValues,
       [field]: [value],
     }));
@@ -119,13 +119,13 @@ const EditRow = <T extends Record<string, string | number | null>>(props: EditRo
                 size="small"
                 placeholder={column.headerName !== null ? column.headerName.toString() : ""}
                 value={
-                  inputValues[column.field as string] !== undefined && inputValues[column.field as string] !== null
-                    ? inputValues[column.field as string][0]?.toString() || ""
+                  fieldValues[column.field as string] !== undefined && fieldValues[column.field as string] !== null
+                    ? fieldValues[column.field as string][0]?.toString() || ""
                     : ""
                 }
                 onChange={(e) => handleTextFieldChange(column.field as string, e.target.value)}
-                error={helperVerifyTextField(String(inputValues[column.field as string]), column.field) !== ""}
-                helperText={helperVerifyTextField(String(inputValues[column.field as string]), column.field)}
+                error={helperVerifyTextField(String(fieldValues[column.field as string]), column.field) !== ""}
+                helperText={helperVerifyTextField(String(fieldValues[column.field as string]), column.field)}
               />
             )}
           </TableCell>

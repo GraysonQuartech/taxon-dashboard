@@ -42,13 +42,13 @@ const AddRow = <T extends Record<string, string | number | null>>(props: AddRowP
   //Hooks here
   const classes = useStyles();
   const { contextTaxon } = useTaxon();
-  const [formValues, setFormValues] = useState<Record<string, string>>({});
+  const [fieldValues, setFieldValues] = useState<Record<string, string>>({});
   const dataContext = useContext(DataContext);
 
   //closes the add row popup when a new taxon is selected
   useEffect(() => {
     setOpen(false);
-    setFormValues((prevValues) => ({
+    setFieldValues((prevValues) => ({
       ...prevValues,
       taxon_id: helperGetTaxonParentIDArray(contextTaxon).slice(-1)[0],
       unit: Object.values(quantativeUnits)[0],
@@ -59,13 +59,13 @@ const AddRow = <T extends Record<string, string | number | null>>(props: AddRowP
   const handleIconClick = (iconName: IconName) => {
     console.log("Icon clicked:", iconName);
     if (iconName === "Cancel") {
-      setFormValues({});
+      setFieldValues({});
       setOpen(false);
     }
 
     if (iconName === "Check") {
       const errorExists = props.columns.some((column) => {
-        return helperVerifyTextField(formValues[column.field as string], column.field) !== "";
+        return helperVerifyTextField(fieldValues[column.field as string], column.field) !== "";
       });
       if (errorExists) {
         alert("Cannot add row with errors!");
@@ -75,18 +75,18 @@ const AddRow = <T extends Record<string, string | number | null>>(props: AddRowP
       const addRowValues: Partial<T> = {};
       for (const column of props.columns) {
         //if min value left blank when adding a row, just set its value to 0
-        if (column.field === "min_value" && formValues[column.field as string] === undefined) {
+        if (column.field === "min_value" && fieldValues[column.field as string] === undefined) {
           addRowValues[column.field as keyof T] = "0" as T[keyof T];
         } else {
-          addRowValues[column.field as keyof T] = formValues[column.field as string] as T[keyof T];
+          addRowValues[column.field as keyof T] = fieldValues[column.field as string] as T[keyof T];
         }
       }
 
       dataContext.addRowContextData(addRowValues, props.tableType, props.subTableID);
 
       setOpen(false);
-      setFormValues({});
-      setFormValues((prevValues) => ({
+      setFieldValues({});
+      setFieldValues((prevValues) => ({
         ...prevValues,
         taxon_id: helperGetTaxonParentIDArray(contextTaxon).slice(-1)[0],
         unit: Object.values(quantativeUnits)[0],
@@ -95,7 +95,7 @@ const AddRow = <T extends Record<string, string | number | null>>(props: AddRowP
   };
 
   const handleChange = (fieldName: string, value: string) => {
-    setFormValues((prevValues) => ({
+    setFieldValues((prevValues) => ({
       ...prevValues,
       [fieldName]: value,
     }));
@@ -110,7 +110,7 @@ const AddRow = <T extends Record<string, string | number | null>>(props: AddRowP
             {column.field === "taxon_id" ? (
               <Select
                 size="small"
-                value={formValues[column.field as string] || helperGetTaxonParentIDArray(contextTaxon).slice(-1)[0]}
+                value={fieldValues[column.field as string] || helperGetTaxonParentIDArray(contextTaxon).slice(-1)[0]}
                 onChange={(e) => handleChange(column.field as string, e.target.value)}
               >
                 {helperGetTaxonParentIDArray(contextTaxon).map((taxonID) => (
@@ -122,7 +122,7 @@ const AddRow = <T extends Record<string, string | number | null>>(props: AddRowP
             ) : column.field === "unit" ? (
               <Select
                 size="small"
-                value={formValues[column.field as string] || Object.values(quantativeUnits)[0]}
+                value={fieldValues[column.field as string] || Object.values(quantativeUnits)[0]}
                 onChange={(e) => handleChange(column.field as string, e.target.value)}
               >
                 {Object.values(quantativeUnits).map((unit) => (
@@ -136,10 +136,10 @@ const AddRow = <T extends Record<string, string | number | null>>(props: AddRowP
                 className={column.field === "measurement_desc" ? classes.selectBoxClass : ""}
                 size="small"
                 placeholder={column.headerName.toString()}
-                value={formValues[column.field as string] || ""}
+                value={fieldValues[column.field as string] || ""}
                 onChange={(e) => handleChange(column.field as string, e.target.value)}
-                error={helperVerifyTextField(formValues[column.field as string], column.field) !== ""}
-                helperText={helperVerifyTextField(formValues[column.field as string], column.field)}
+                error={helperVerifyTextField(fieldValues[column.field as string], column.field) !== ""}
+                helperText={helperVerifyTextField(fieldValues[column.field as string], column.field)}
               />
             )}
           </TableCell>
