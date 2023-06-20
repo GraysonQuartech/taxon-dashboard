@@ -302,13 +302,13 @@ export const helperVerifyTextField = (fieldVal: string, columnType: string | num
     return "Cannot be empty";
   } else if (columnType === "min_value") {
     if (fieldVal !== "" && (fieldVal as unknown as number) < 0) {
-      return "Must be greater than 0";
+      return "Must be positive";
     } else if (fieldVal !== "" && fieldVal !== undefined && isNaN(Number(fieldVal))) {
       return "Must be a number";
     }
   } else if (columnType === "max_value") {
     if (fieldVal !== "" && (fieldVal as unknown as number) < 0) {
-      return "Must be greater than 0";
+      return "Must be positive";
     } else if (fieldVal !== "" && fieldVal !== undefined && isNaN(Number(fieldVal))) {
       return "Must be a number";
     }
@@ -316,7 +316,7 @@ export const helperVerifyTextField = (fieldVal: string, columnType: string | num
     return "Cannot be empty";
   } else if (columnType === "option_value") {
     if (fieldVal !== "" && (fieldVal as unknown as number) < 0) {
-      return "Must be greater than 0";
+      return "Must be positive";
     } else if (fieldVal !== "" && fieldVal !== undefined && isNaN(Number(fieldVal))) {
       return "Must be a number";
     }
