@@ -104,7 +104,7 @@ const EditRow = <T extends Record<string, string | number | null>>(props: EditRo
             ) : column.field === "unit" ? (
               <Select
                 size="small"
-                defaultValue={Object.values(quantativeUnits)[0]}
+                defaultValue={props.row[column.field as keyof T] as string}
                 onChange={(e) => handleTextFieldChange(column.field as string, e.target.value as string)}
               >
                 {Object.values(quantativeUnits).map((unit) => (
