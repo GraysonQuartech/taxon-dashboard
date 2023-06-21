@@ -40,15 +40,15 @@ export interface EditRowProps<T> {
 const EditRow = <T extends Record<string, string | number | null>>(props: EditRowProps<T>) => {
   //HOOKS
   const classes = useStyles();
-  const [fieldValues, setFieldValues] = useState<Record<string, (string | null)[]>>({});
+  const [fieldValues, setFieldValues] = useState<Record<string, string>>({});
   const { contextTaxon } = useTaxon();
   const dataContext = useContext(DataContext);
 
   useEffect(() => {
     // Set initial text field values based on props.row
-    const initialValues: Record<string, (string | null)[]> = {};
+    const initialValues: Record<string, string> = {};
     props.columns.forEach((column) => {
-      initialValues[column.field as string] = [props.row[column.field as keyof T] as string | null];
+      initialValues[column.field as string] = props.row[column.field as keyof T] as string;
     });
     setFieldValues(initialValues);
   }, [props.row, props.columns]);
@@ -79,7 +79,7 @@ const EditRow = <T extends Record<string, string | number | null>>(props: EditRo
   const handleTextFieldChange = (field: string, value: string) => {
     setFieldValues((prevValues) => ({
       ...prevValues,
-      [field]: [value],
+      [field]: value,
     }));
   };
 
@@ -118,11 +118,7 @@ const EditRow = <T extends Record<string, string | number | null>>(props: EditRo
                 className={column.field === "measurement_desc" ? classes.selectBoxClass : ""}
                 size="small"
                 placeholder={column.headerName !== null ? column.headerName.toString() : ""}
-                value={
-                  fieldValues[column.field as string] !== undefined && fieldValues[column.field as string] !== null
-                    ? fieldValues[column.field as string][0]?.toString() || ""
-                    : ""
-                }
+                value={fieldValues[column.field as string]}
                 onChange={(e) => handleTextFieldChange(column.field as string, e.target.value)}
                 error={helperVerifyTextField(String(fieldValues[column.field as string]), column.field) !== ""}
                 helperText={helperVerifyTextField(String(fieldValues[column.field as string]), column.field)}
