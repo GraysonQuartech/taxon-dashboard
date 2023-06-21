@@ -9,7 +9,11 @@ import { MenuItem, Select, TextField, Theme } from "@mui/material";
 import { TableCell, TableRow } from "@mui/material";
 //IMPORT Datasets+Constants+Helpers
 import { IColumn, IconName, quantativeUnits } from "../utils/constants";
-import { helperGetTaxonParentIDArray, helperVerifyTextField } from "../utils/helper_functions";
+import {
+  helperGetCompareFieldValue,
+  helperGetTaxonParentIDArray,
+  helperVerifyTextField,
+} from "../utils/helper_functions";
 import { useTaxon } from "../contexts/taxonContext";
 import { DataContext } from "../contexts/dataContext";
 
@@ -60,7 +64,13 @@ const EditRow = <T extends Record<string, string | number | null>>(props: EditRo
       const updatedRow = { ...props.row, ...fieldValues };
 
       const errorExists = props.columns.some((column) => {
-        return helperVerifyTextField(String(updatedRow[column.field as string]), column.field) !== "";
+        return (
+          helperVerifyTextField(
+            String(updatedRow[column.field as string]),
+            column.field,
+            helperGetCompareFieldValue(column.field, updatedRow)
+          ) !== ""
+        );
       });
       if (errorExists) {
         alert("Cannot save row with errors!");
@@ -120,8 +130,18 @@ const EditRow = <T extends Record<string, string | number | null>>(props: EditRo
                 placeholder={column.headerName !== null ? column.headerName.toString() : ""}
                 value={fieldValues[column.field as string]}
                 onChange={(e) => handleTextFieldChange(column.field as string, e.target.value)}
-                error={helperVerifyTextField(String(fieldValues[column.field as string]), column.field) !== ""}
-                helperText={helperVerifyTextField(String(fieldValues[column.field as string]), column.field)}
+                error={
+                  helperVerifyTextField(
+                    String(fieldValues[column.field as string]),
+                    column.field,
+                    helperGetCompareFieldValue(column.field, fieldValues)
+                  ) !== ""
+                }
+                helperText={helperVerifyTextField(
+                  String(fieldValues[column.field as string]),
+                  column.field,
+                  helperGetCompareFieldValue(column.field, fieldValues)
+                )}
               />
             )}
           </TableCell>

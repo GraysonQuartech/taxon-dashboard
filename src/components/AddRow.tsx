@@ -10,7 +10,11 @@ import { TableCell, TableRow } from "@mui/material";
 //IMPORT Datasets+Constants
 import { IColumn, IconName, TableType, quantativeUnits } from "../utils/constants";
 import { useTaxon } from "../contexts/taxonContext";
-import { helperGetTaxonParentIDArray, helperVerifyTextField } from "../utils/helper_functions";
+import {
+  helperGetCompareFieldValue,
+  helperGetTaxonParentIDArray,
+  helperVerifyTextField,
+} from "../utils/helper_functions";
 import { DataContext } from "../contexts/dataContext";
 
 /*
@@ -65,7 +69,13 @@ const AddRow = <T extends Record<string, string | number | null>>(props: AddRowP
 
     if (iconName === "Check") {
       const errorExists = props.columns.some((column) => {
-        return helperVerifyTextField(fieldValues[column.field as string], column.field) !== "";
+        return (
+          helperVerifyTextField(
+            fieldValues[column.field as string],
+            column.field,
+            helperGetCompareFieldValue(column.field, fieldValues)
+          ) !== ""
+        );
       });
       if (errorExists) {
         alert("Cannot add row with errors!");
@@ -138,8 +148,18 @@ const AddRow = <T extends Record<string, string | number | null>>(props: AddRowP
                 placeholder={column.headerName.toString()}
                 value={fieldValues[column.field as string] || ""}
                 onChange={(e) => handleChange(column.field as string, e.target.value)}
-                error={helperVerifyTextField(fieldValues[column.field as string], column.field) !== ""}
-                helperText={helperVerifyTextField(fieldValues[column.field as string], column.field)}
+                error={
+                  helperVerifyTextField(
+                    fieldValues[column.field as string],
+                    column.field,
+                    helperGetCompareFieldValue(column.field, fieldValues)
+                  ) !== ""
+                }
+                helperText={helperVerifyTextField(
+                  fieldValues[column.field as string],
+                  column.field,
+                  helperGetCompareFieldValue(column.field, fieldValues)
+                )}
               />
             )}
           </TableCell>

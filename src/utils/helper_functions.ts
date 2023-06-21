@@ -297,7 +297,11 @@ export const helperGetTaxonParentIDArray = (taxonData: taxonInterface | null): s
  * This function is called by the input text fields and handles whether
  * or not they throw an error based on the input
  */
-export const helperVerifyTextField = (fieldVal: string, columnType: string | number | symbol): string => {
+export const helperVerifyTextField = (
+  fieldVal: string,
+  columnType: string | number | symbol,
+  fieldVal2: string | null
+): string => {
   if (columnType === "measurement_name" && (fieldVal === "" || fieldVal === undefined)) {
     return "Cannot be empty";
   } else if (columnType === "min_value") {
@@ -305,12 +309,16 @@ export const helperVerifyTextField = (fieldVal: string, columnType: string | num
       return "Must be positive";
     } else if (fieldVal !== "" && fieldVal !== undefined && isNaN(Number(fieldVal))) {
       return "Must be a number";
+    } else if (fieldVal2 && parseFloat(fieldVal2) < parseFloat(fieldVal)) {
+      return "Must be less than Max Value";
     }
   } else if (columnType === "max_value") {
     if (fieldVal !== "" && (fieldVal as unknown as number) < 0) {
       return "Must be positive";
     } else if (fieldVal !== "" && fieldVal !== undefined && isNaN(Number(fieldVal))) {
       return "Must be a number";
+    } else if (fieldVal2 && parseFloat(fieldVal2) > parseFloat(fieldVal)) {
+      return "Must be greater than Min Value";
     }
   } else if (columnType === "option_label" && (fieldVal === "" || fieldVal === undefined)) {
     return "Cannot be empty";
@@ -322,4 +330,21 @@ export const helperVerifyTextField = (fieldVal: string, columnType: string | num
     }
   }
   return "";
+};
+
+/*
+ * This function is called when attempting to edit or rows. for fields that
+ * require some comparison to another field
+ */
+export const helperGetCompareFieldValue = (
+  field: string | number | symbol,
+  row: Record<string, string>
+): string | null => {
+  if (field === "min_value") {
+    return row["max_value"];
+  } else if (field === "max_value") {
+    return row["min_value"];
+  } else {
+    return null;
+  }
 };
