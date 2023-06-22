@@ -49,22 +49,26 @@ const AddRow = <T extends Record<string, string | number | null>>(props: AddRowP
   const [fieldValues, setFieldValues] = useState<Record<string, string>>({});
   const dataContext = useContext(DataContext);
 
-  //closes the add row popup when a new taxon is selected
-  useEffect(() => {
+  //Called when canceling or adding a row
+  const resetAddRow = (): void => {
     setOpen(false);
-    setFieldValues((prevValues) => ({
-      ...prevValues,
+    setFieldValues(() => ({
       taxon_id: helperGetTaxonParentIDArray(contextTaxon).slice(-1)[0],
       unit: Object.values(quantativeUnits)[0],
     }));
-  }, [contextTaxon, quantativeUnits]);
+  };
+
+  //closes the add row popup when a new taxon is selected
+  //also  reset the taxon ID and unit
+  useEffect(() => {
+    resetAddRow();
+  }, [contextTaxon]);
 
   //Event handlers here
   const handleIconClick = (iconName: IconName) => {
     console.log("Icon clicked:", iconName);
     if (iconName === "Cancel") {
-      setFieldValues({});
-      setOpen(false);
+      resetAddRow();
     }
 
     if (iconName === "Check") {
@@ -93,18 +97,13 @@ const AddRow = <T extends Record<string, string | number | null>>(props: AddRowP
       }
 
       dataContext.addRowContextData(addRowValues, props.tableType, props.subTableID);
-
-      setOpen(false);
-      setFieldValues({});
-      setFieldValues((prevValues) => ({
-        ...prevValues,
-        taxon_id: helperGetTaxonParentIDArray(contextTaxon).slice(-1)[0],
-        unit: Object.values(quantativeUnits)[0],
-      }));
+      resetAddRow();
     }
   };
 
-  const handleChange = (fieldName: string, value: string) => {
+  //Called when a text field is changed
+  //Updates the field values array with those values
+  const handleTextFieldChange = (fieldName: string, value: string) => {
     setFieldValues((prevValues) => ({
       ...prevValues,
       [fieldName]: value,
@@ -121,7 +120,7 @@ const AddRow = <T extends Record<string, string | number | null>>(props: AddRowP
               <Select
                 size="small"
                 value={fieldValues[column.field as string] || helperGetTaxonParentIDArray(contextTaxon).slice(-1)[0]}
-                onChange={(e) => handleChange(column.field as string, e.target.value)}
+                onChange={(e) => handleTextFieldChange(column.field as string, e.target.value)}
               >
                 {helperGetTaxonParentIDArray(contextTaxon).map((taxonID) => (
                   <MenuItem key={taxonID} value={taxonID}>
@@ -133,7 +132,7 @@ const AddRow = <T extends Record<string, string | number | null>>(props: AddRowP
               <Select
                 size="small"
                 value={fieldValues[column.field as string] || Object.values(quantativeUnits)[0]}
-                onChange={(e) => handleChange(column.field as string, e.target.value)}
+                onChange={(e) => handleTextFieldChange(column.field as string, e.target.value)}
               >
                 {Object.values(quantativeUnits).map((unit) => (
                   <MenuItem key={unit} value={unit}>
@@ -147,7 +146,7 @@ const AddRow = <T extends Record<string, string | number | null>>(props: AddRowP
                 size="small"
                 placeholder={column.headerName.toString()}
                 value={fieldValues[column.field as string] || ""}
-                onChange={(e) => handleChange(column.field as string, e.target.value)}
+                onChange={(e) => handleTextFieldChange(column.field as string, e.target.value)}
                 error={
                   helperVerifyTextField(
                     fieldValues[column.field as string],
