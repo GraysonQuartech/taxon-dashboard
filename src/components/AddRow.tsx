@@ -10,7 +10,11 @@ import { TableCell, TableRow } from "@mui/material";
 //IMPORT Datasets+Constants
 import { IColumn, IconName, TableType, quantativeUnits } from "../utils/constants";
 import { useTaxon } from "../contexts/taxonContext";
-import { helperGetTaxonParentIDArray, helperVerifyTextField } from "../utils/helper_functions";
+import {
+  helperGetCompareFieldValue,
+  helperGetTaxonParentIDArray,
+  helperVerifyTextField,
+} from "../utils/helper_functions";
 import { DataContext } from "../contexts/dataContext";
 
 /*
@@ -42,57 +46,61 @@ const AddRow = <T extends Record<string, string | number | null>>(props: AddRowP
   //Hooks here
   const classes = useStyles();
   const { contextTaxon } = useTaxon();
-  const [formValues, setFormValues] = useState<Record<string, string>>({});
+  const [fieldValues, setFieldValues] = useState<Record<string, string>>({});
   const dataContext = useContext(DataContext);
 
-  //closes the add row popup when a new taxon is selected
-  useEffect(() => {
+  //Called when canceling or adding a row
+  const resetAddRow = (): void => {
     setOpen(false);
-    setFormValues((prevValues) => ({
-      ...prevValues,
+    setFieldValues(() => ({
       taxon_id: helperGetTaxonParentIDArray(contextTaxon).slice(-1)[0],
       unit: Object.values(quantativeUnits)[0],
     }));
-  }, [contextTaxon, quantativeUnits]);
+  };
+
+  //closes the add row popup when a new taxon is selected
+  //also  reset the taxon ID and unit
+  useEffect(() => {
+    resetAddRow();
+  }, [contextTaxon]);
 
   //Event handlers here
   const handleIconClick = (iconName: IconName) => {
     console.log("Icon clicked:", iconName);
     if (iconName === "Cancel") {
-      setFormValues({});
-      setOpen(false);
+      resetAddRow();
     }
 
     if (iconName === "Check") {
       const errorExists = props.columns.some((column) => {
-        return helperVerifyTextField(formValues[column.field as string], column.field) !== "";
+        return (
+          helperVerifyTextField(
+            fieldValues[column.field as string],
+            column.field,
+            helperGetCompareFieldValue(column.field, fieldValues)
+          ) !== ""
+        );
       });
       if (errorExists) {
         alert("Cannot add row with errors!");
         return; // Return early if there is an error
       }
 
-      const addRowValues: Partial<T> = {};
-      let index = 0;
-      for (const column of props.columns) {
-        addRowValues[column.field as keyof T] = formValues[column.field as string] as T[keyof T];
-        index += 1;
-      }
+      //if min value left blank when adding a row, just set its value to 0
+      const addRowValues = {
+        min_value: fieldValues["min_value"] ?? "0",
+        ...fieldValues,
+      };
 
       dataContext.addRowContextData(addRowValues, props.tableType, props.subTableID);
-
-      setOpen(false);
-      setFormValues({});
-      setFormValues((prevValues) => ({
-        ...prevValues,
-        taxon_id: helperGetTaxonParentIDArray(contextTaxon).slice(-1)[0],
-        unit: Object.values(quantativeUnits)[0],
-      }));
+      resetAddRow();
     }
   };
 
-  const handleChange = (fieldName: string, value: string) => {
-    setFormValues((prevValues) => ({
+  //Called when a text field is changed
+  //Updates the field values array with those values
+  const handleTextFieldChange = (fieldName: string, value: string) => {
+    setFieldValues((prevValues) => ({
       ...prevValues,
       [fieldName]: value,
     }));
@@ -107,8 +115,8 @@ const AddRow = <T extends Record<string, string | number | null>>(props: AddRowP
             {column.field === "taxon_id" ? (
               <Select
                 size="small"
-                value={formValues[column.field as string] || helperGetTaxonParentIDArray(contextTaxon).slice(-1)[0]}
-                onChange={(e) => handleChange(column.field as string, e.target.value)}
+                value={fieldValues[column.field as string] || helperGetTaxonParentIDArray(contextTaxon).slice(-1)[0]}
+                onChange={(e) => handleTextFieldChange(column.field as string, e.target.value)}
               >
                 {helperGetTaxonParentIDArray(contextTaxon).map((taxonID) => (
                   <MenuItem key={taxonID} value={taxonID}>
@@ -119,8 +127,8 @@ const AddRow = <T extends Record<string, string | number | null>>(props: AddRowP
             ) : column.field === "unit" ? (
               <Select
                 size="small"
-                value={formValues[column.field as string] || Object.values(quantativeUnits)[0]}
-                onChange={(e) => handleChange(column.field as string, e.target.value)}
+                value={fieldValues[column.field as string] || Object.values(quantativeUnits)[0]}
+                onChange={(e) => handleTextFieldChange(column.field as string, e.target.value)}
               >
                 {Object.values(quantativeUnits).map((unit) => (
                   <MenuItem key={unit} value={unit}>
@@ -133,10 +141,20 @@ const AddRow = <T extends Record<string, string | number | null>>(props: AddRowP
                 className={column.field === "measurement_desc" ? classes.selectBoxClass : ""}
                 size="small"
                 placeholder={column.headerName.toString()}
-                value={formValues[column.field as string] || ""}
-                onChange={(e) => handleChange(column.field as string, e.target.value)}
-                error={helperVerifyTextField(formValues[column.field as string], column.field) !== ""}
-                helperText={helperVerifyTextField(formValues[column.field as string], column.field)}
+                value={fieldValues[column.field as string] || ""}
+                onChange={(e) => handleTextFieldChange(column.field as string, e.target.value)}
+                error={
+                  helperVerifyTextField(
+                    fieldValues[column.field as string],
+                    column.field,
+                    helperGetCompareFieldValue(column.field, fieldValues)
+                  ) !== ""
+                }
+                helperText={helperVerifyTextField(
+                  fieldValues[column.field as string],
+                  column.field,
+                  helperGetCompareFieldValue(column.field, fieldValues)
+                )}
               />
             )}
           </TableCell>

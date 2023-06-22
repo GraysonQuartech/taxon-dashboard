@@ -9,7 +9,11 @@ import { MenuItem, Select, TextField, Theme } from "@mui/material";
 import { TableCell, TableRow } from "@mui/material";
 //IMPORT Datasets+Constants+Helpers
 import { IColumn, IconName, quantativeUnits } from "../utils/constants";
-import { helperGetTaxonParentIDArray, helperVerifyTextField } from "../utils/helper_functions";
+import {
+  helperGetCompareFieldValue,
+  helperGetTaxonParentIDArray,
+  helperVerifyTextField,
+} from "../utils/helper_functions";
 import { useTaxon } from "../contexts/taxonContext";
 import { DataContext } from "../contexts/dataContext";
 
@@ -40,46 +44,53 @@ export interface EditRowProps<T> {
 const EditRow = <T extends Record<string, string | number | null>>(props: EditRowProps<T>) => {
   //HOOKS
   const classes = useStyles();
-  const [inputValues, setInputValues] = useState<Record<string, (string | null)[]>>({});
+  const [fieldValues, setFieldValues] = useState<Record<string, string>>({});
   const { contextTaxon } = useTaxon();
   const dataContext = useContext(DataContext);
 
   useEffect(() => {
     // Set initial text field values based on props.row
-    const initialValues: Record<string, (string | null)[]> = {};
+    const initialValues: Record<string, string> = {};
     props.columns.forEach((column) => {
-      initialValues[column.field as string] = [props.row[column.field as keyof T] as string | null];
+      initialValues[column.field as string] = props.row[column.field as keyof T] as string;
     });
-    setInputValues(initialValues);
+    setFieldValues(initialValues);
   }, [props.row, props.columns]);
 
   // Perform any desired action based on the iconName
   const handleIconClick = (iconName: IconName) => {
     console.log("Icon clicked:", iconName);
+    if (iconName === "Cancel") {
+      console.log("Cancel Edit Row");
+      props.setOpen(false);
+    }
+
     if (iconName === "Check") {
-      const updatedRow = { ...props.row, ...inputValues };
+      const editRowValues = { ...props.row, ...fieldValues };
 
       const errorExists = props.columns.some((column) => {
-        return helperVerifyTextField(String(updatedRow[column.field as string]), column.field) !== "";
+        return (
+          helperVerifyTextField(
+            String(editRowValues[column.field as string]),
+            column.field,
+            helperGetCompareFieldValue(column.field, editRowValues)
+          ) !== ""
+        );
       });
       if (errorExists) {
         alert("Cannot save row with errors!");
         return; // Return early if there is an error
       }
 
-      dataContext.editRowContextData(props.rowID, updatedRow);
-      props.setOpen(false);
-    }
-    if (iconName === "Cancel") {
-      console.log("Cancel Edit Row");
+      dataContext.editRowContextData(props.rowID, editRowValues);
       props.setOpen(false);
     }
   };
 
   const handleTextFieldChange = (field: string, value: string) => {
-    setInputValues((prevValues) => ({
+    setFieldValues((prevValues) => ({
       ...prevValues,
-      [field]: [value],
+      [field]: value,
     }));
   };
 
@@ -104,8 +115,8 @@ const EditRow = <T extends Record<string, string | number | null>>(props: EditRo
             ) : column.field === "unit" ? (
               <Select
                 size="small"
-                defaultValue={Object.values(quantativeUnits)[0]}
-                onChange={(e) => handleTextFieldChange(column.field as string, e.target.value as string)}
+                defaultValue={String(props.row[column.field as keyof T])}
+                onChange={(e) => handleTextFieldChange(column.field as string, String(e.target.value))}
               >
                 {Object.values(quantativeUnits).map((unit) => (
                   <MenuItem key={unit} value={unit}>
@@ -118,14 +129,20 @@ const EditRow = <T extends Record<string, string | number | null>>(props: EditRo
                 className={column.field === "measurement_desc" ? classes.selectBoxClass : ""}
                 size="small"
                 placeholder={column.headerName !== null ? column.headerName.toString() : ""}
-                value={
-                  inputValues[column.field as string] !== undefined && inputValues[column.field as string] !== null
-                    ? inputValues[column.field as string][0]?.toString() || ""
-                    : ""
-                }
+                value={fieldValues[column.field as string]}
                 onChange={(e) => handleTextFieldChange(column.field as string, e.target.value)}
-                error={helperVerifyTextField(String(inputValues[column.field as string]), column.field) !== ""}
-                helperText={helperVerifyTextField(String(inputValues[column.field as string]), column.field)}
+                error={
+                  helperVerifyTextField(
+                    String(fieldValues[column.field as string]),
+                    column.field,
+                    helperGetCompareFieldValue(column.field, fieldValues)
+                  ) !== ""
+                }
+                helperText={helperVerifyTextField(
+                  String(fieldValues[column.field as string]),
+                  column.field,
+                  helperGetCompareFieldValue(column.field, fieldValues)
+                )}
               />
             )}
           </TableCell>

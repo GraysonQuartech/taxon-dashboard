@@ -297,29 +297,57 @@ export const helperGetTaxonParentIDArray = (taxonData: taxonInterface | null): s
  * This function is called by the input text fields and handles whether
  * or not they throw an error based on the input
  */
-export const helperVerifyTextField = (fieldVal: string, columnType: string | number | symbol): string => {
-  if (columnType === "measurement_name" && (fieldVal === "" || fieldVal === undefined)) {
-    return "Cannot be empty";
-  } else if (columnType === "min_value") {
-    if (fieldVal !== "" && (fieldVal as unknown as number) < 0) {
-      return "Must be greater than 0";
-    } else if (fieldVal !== "" && fieldVal !== undefined && isNaN(Number(fieldVal))) {
-      return "Must be a number";
-    }
-  } else if (columnType === "max_value") {
-    if (fieldVal !== "" && (fieldVal as unknown as number) < 0) {
-      return "Must be greater than 0";
-    } else if (fieldVal !== "" && fieldVal !== undefined && isNaN(Number(fieldVal))) {
-      return "Must be a number";
-    }
-  } else if (columnType === "option_label" && (fieldVal === "" || fieldVal === undefined)) {
-    return "Cannot be empty";
-  } else if (columnType === "option_value") {
-    if (fieldVal !== "" && (fieldVal as unknown as number) < 0) {
-      return "Must be greater than 0";
-    } else if (fieldVal !== "" && fieldVal !== undefined && isNaN(Number(fieldVal))) {
-      return "Must be a number";
+export const helperVerifyTextField = (
+  fieldVal: string,
+  fieldValType: string | number | symbol,
+  fieldVal2: string | null
+): string => {
+  //Must be filled text fields
+  if (fieldValType === "measurement_name" || fieldValType === "option_label") {
+    if (fieldVal === "" || fieldVal === undefined) {
+      return "Cannot be empty";
     }
   }
+
+  //Positive Number enforcing fields
+  else if (fieldValType === "option_value" || fieldValType === "min_value" || fieldValType === "max_value") {
+    if (fieldVal !== "") {
+      if ((fieldVal as unknown as number) < 0) {
+        return "Must be positive";
+      } else if (fieldVal !== undefined && isNaN(Number(fieldVal))) {
+        return "Must be a number";
+      }
+    }
+  }
+
+  //Comparative fields
+  if (fieldValType === "min_value") {
+    if (fieldVal2 && parseFloat(fieldVal2) < parseFloat(fieldVal)) {
+      return "Must be less than Max Value";
+    }
+  }
+  if (fieldValType === "max_value") {
+    if (fieldVal2 && parseFloat(fieldVal2) > parseFloat(fieldVal)) {
+      return "Must be greater than Min Value";
+    }
+  }
+
   return "";
+};
+
+/*
+ * This function is called when attempting to edit or rows. for fields that
+ * require some comparison to another field
+ */
+export const helperGetCompareFieldValue = (
+  field: string | number | symbol,
+  row: Record<string, string>
+): string | null => {
+  if (field === "min_value") {
+    return row["max_value"];
+  } else if (field === "max_value") {
+    return row["min_value"];
+  } else {
+    return null;
+  }
 };

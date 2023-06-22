@@ -59,14 +59,14 @@ export const DataContextProvider = (props: PropsWithChildren<{}>) => {
    * Call this when editing the dataset
    * Receives the row data and the IDs. made generic to handle any row type
    */
-  const editRowContextData = (rowID: string | number | null, row: any) => {
+  const editRowContextData = (rowID: string | number | null, row: Record<string, string>) => {
     const updatedDataSet = { ...contextData };
 
     let index = 0;
     for (const measurement of updatedDataSet.xref_taxon_measurement_quantitative) {
       const rowTyped = row as IquantitativeData;
       if (measurement.taxon_measurement_id === rowID) {
-        rowTyped.taxon_id = rowTyped.taxon_id[0];
+        rowTyped.taxon_id = rowTyped.taxon_id;
         updatedDataSet.xref_taxon_measurement_quantitative[index] = rowTyped;
       }
       index += 1;
@@ -76,7 +76,7 @@ export const DataContextProvider = (props: PropsWithChildren<{}>) => {
     for (const measurement of updatedDataSet.xref_taxon_measurement_qualitative) {
       const rowTyped = row as IqualitativeData;
       if (measurement.taxon_measurement_id === rowID) {
-        rowTyped.taxon_id = rowTyped.taxon_id[0];
+        rowTyped.taxon_id = rowTyped.taxon_id;
         updatedDataSet.xref_taxon_measurement_qualitative[index] = rowTyped;
       }
       index += 1;
