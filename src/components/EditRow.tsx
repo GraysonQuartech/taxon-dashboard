@@ -60,15 +60,20 @@ const EditRow = <T extends Record<string, string | number | null>>(props: EditRo
   // Perform any desired action based on the iconName
   const handleIconClick = (iconName: IconName) => {
     console.log("Icon clicked:", iconName);
+    if (iconName === "Cancel") {
+      console.log("Cancel Edit Row");
+      props.setOpen(false);
+    }
+
     if (iconName === "Check") {
-      const updatedRow = { ...props.row, ...fieldValues };
+      const editRowValues = { ...props.row, ...fieldValues };
 
       const errorExists = props.columns.some((column) => {
         return (
           helperVerifyTextField(
-            String(updatedRow[column.field as string]),
+            String(editRowValues[column.field as string]),
             column.field,
-            helperGetCompareFieldValue(column.field, updatedRow)
+            helperGetCompareFieldValue(column.field, editRowValues)
           ) !== ""
         );
       });
@@ -77,11 +82,7 @@ const EditRow = <T extends Record<string, string | number | null>>(props: EditRo
         return; // Return early if there is an error
       }
 
-      dataContext.editRowContextData(props.rowID, updatedRow);
-      props.setOpen(false);
-    }
-    if (iconName === "Cancel") {
-      console.log("Cancel Edit Row");
+      dataContext.editRowContextData(props.rowID, editRowValues);
       props.setOpen(false);
     }
   };

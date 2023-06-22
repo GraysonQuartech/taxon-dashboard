@@ -86,15 +86,11 @@ const AddRow = <T extends Record<string, string | number | null>>(props: AddRowP
         return; // Return early if there is an error
       }
 
-      const addRowValues: Partial<T> = {};
-      for (const column of props.columns) {
-        //if min value left blank when adding a row, just set its value to 0
-        if (column.field === "min_value" && fieldValues[column.field as string] === undefined) {
-          addRowValues[column.field as keyof T] = "0" as T[keyof T];
-        } else {
-          addRowValues[column.field as keyof T] = fieldValues[column.field as string] as T[keyof T];
-        }
-      }
+      //if min value left blank when adding a row, just set its value to 0
+      const addRowValues = {
+        min_value: fieldValues["min_value"] ?? "0",
+        ...fieldValues,
+      };
 
       dataContext.addRowContextData(addRowValues, props.tableType, props.subTableID);
       resetAddRow();
