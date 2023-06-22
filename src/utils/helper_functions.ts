@@ -299,18 +299,18 @@ export const helperGetTaxonParentIDArray = (taxonData: taxonInterface | null): s
  */
 export const helperVerifyTextField = (
   fieldVal: string,
-  columnType: string | number | symbol,
+  fieldValType: string | number | symbol,
   fieldVal2: string | null
 ): string => {
   //Must be filled text fields
-  if (columnType === "measurement_name" || columnType === "option_label") {
+  if (fieldValType === "measurement_name" || fieldValType === "option_label") {
     if (fieldVal === "" || fieldVal === undefined) {
       return "Cannot be empty";
     }
   }
 
   //Positive Number enforcing fields
-  else if (columnType === "option_value" || columnType === "min_value" || columnType === "max_value") {
+  else if (fieldValType === "option_value" || fieldValType === "min_value" || fieldValType === "max_value") {
     if (fieldVal !== "") {
       if ((fieldVal as unknown as number) < 0) {
         return "Must be positive";
@@ -321,12 +321,12 @@ export const helperVerifyTextField = (
   }
 
   //Comparative fields
-  if (columnType === "min_value") {
+  if (fieldValType === "min_value") {
     if (fieldVal2 && parseFloat(fieldVal2) < parseFloat(fieldVal)) {
       return "Must be less than Max Value";
     }
   }
-  if (columnType === "max_value") {
+  if (fieldValType === "max_value") {
     if (fieldVal2 && parseFloat(fieldVal2) > parseFloat(fieldVal)) {
       return "Must be greater than Min Value";
     }
